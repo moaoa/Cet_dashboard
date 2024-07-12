@@ -1,0 +1,147 @@
+models:
+  ClassRoom:
+    id: id
+    name: string
+
+  Admin:
+    id: id
+    name: string
+    ref_number: integer
+    password: string
+
+  Subject:
+    id: id
+    name: string
+    semester_id: integer
+    relationships:
+      belongsTo: Semester
+
+  Group:
+    id: id
+    name: string
+
+  StudentAttendance:
+    lecture_id: integer
+    student_id: integer
+    status: integer
+    note: string
+    date: date
+    relationships:
+      belongsTo: Lecture , Student
+
+  Lecture:
+    start_time: timestamp
+    end_time: timestamp
+    day_of_week: int
+    relationships:
+      belongsTo: Subject, ClassRoom, Group, Teacher
+
+  Semester:
+    id: id
+    order: integer
+    name: string
+    major: integer
+
+  Student:
+    id: id
+    name: string
+    ref_number: integer
+    password: string
+    email: string
+    phone_number: string
+    relationships:
+      belongsTo:  Group
+
+  StudentSubject:
+    subject_id: integer
+    student_id: integer
+    passed: boolean
+    note: string:255 nullable
+    relationships:
+      belongsTo: Subject, Student
+
+  SubjectTeacher:
+    subject_id: integer
+    teacher_id: integer
+    relationships:
+      belongsTo: Subject, Teacher
+
+  Teacher:
+    id: id
+    name: string
+    ref_number: integer
+    password: string
+    email: string
+    phone_number: string
+
+  Quiz:
+    id: id
+    teacher_id: integer
+    subject_id: integer
+    relationships:
+      belongsTo: Teacher, Subject
+
+  QuizGroup:
+    group_id: integer
+    quiz_id: integer
+    end_time: timestamp
+    start_time: timestamp
+    relationships:
+      belongsTo: Group, Quiz
+
+  QuizQuestion:
+    id: id
+    quiz_id: integer
+    question: string
+    answer: string
+    type: integer
+    relationships:
+      belongsTo: Quiz
+
+  StudentAnswer:
+    id: id
+    question_id: integer
+    student_id: integer
+    answer: string
+    relationships:
+      belongsTo: QuizQuestion, Student
+
+  Homework:
+    id: id
+    name: string
+    teacher_id: integer
+    subject_id: integer
+    url: string
+    relationships:
+      belongsTo: Teacher, Subject
+
+  HomeworkGroup:
+    id: id
+    homework_id: integer
+    group_id: integer
+    due_time: timestamp
+    relationships:
+      belongsTo: Homework, Group
+
+  HomeworkStudentAnswer:
+    id: id
+    student_id: integer
+    homework_id: integer
+    url: string
+    relationships:
+      belongsTo: Student, Homework
+
+  Comment:
+    id: id
+    content: string
+    homework_id: integer
+    student_id: integer nullable
+    teacher_id: integer nullable
+    commentable_id: integer
+    commentable_type: string
+    relationships:
+      belongsTo: Homework
+
+  SemesterTime:
+    semester_start_date: date
+    semester_end_date: date

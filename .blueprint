@@ -1,0 +1,84 @@
+created:
+    - database/factories/ClassRoomFactory.php
+    - database/factories/AdminFactory.php
+    - database/factories/SubjectFactory.php
+    - database/factories/GroupFactory.php
+    - database/factories/StudentAttendanceFactory.php
+    - database/factories/LectureFactory.php
+    - database/factories/SemesterFactory.php
+    - database/factories/StudentFactory.php
+    - database/factories/StudentSubjectFactory.php
+    - database/factories/SubjectTeacherFactory.php
+    - database/factories/TeacherFactory.php
+    - database/factories/QuizFactory.php
+    - database/factories/QuizGroupFactory.php
+    - database/factories/QuizQuestionFactory.php
+    - database/factories/StudentAnswerFactory.php
+    - database/factories/HomeworkFactory.php
+    - database/factories/HomeworkGroupFactory.php
+    - database/factories/HomeworkStudentAnswerFactory.php
+    - database/factories/CommentFactory.php
+    - database/factories/SemesterTimeFactory.php
+    - database/migrations/2024_07_11_231802_create_class_rooms_table.php
+    - database/migrations/2024_07_11_231803_create_admins_table.php
+    - database/migrations/2024_07_11_231804_create_subjects_table.php
+    - database/migrations/2024_07_11_231805_create_groups_table.php
+    - database/migrations/2024_07_11_231806_create_student_attendances_table.php
+    - database/migrations/2024_07_11_231807_create_lectures_table.php
+    - database/migrations/2024_07_11_231808_create_semesters_table.php
+    - database/migrations/2024_07_11_231809_create_students_table.php
+    - database/migrations/2024_07_11_231810_create_student_subjects_table.php
+    - database/migrations/2024_07_11_231811_create_subject_teachers_table.php
+    - database/migrations/2024_07_11_231812_create_teachers_table.php
+    - database/migrations/2024_07_11_231813_create_quizzes_table.php
+    - database/migrations/2024_07_11_231814_create_quiz_groups_table.php
+    - database/migrations/2024_07_11_231815_create_quiz_questions_table.php
+    - database/migrations/2024_07_11_231816_create_student_answers_table.php
+    - database/migrations/2024_07_11_231817_create_homework_table.php
+    - database/migrations/2024_07_11_231818_create_homework_groups_table.php
+    - database/migrations/2024_07_11_231819_create_homework_student_answers_table.php
+    - database/migrations/2024_07_11_231820_create_comments_table.php
+    - database/migrations/2024_07_11_231821_create_semester_times_table.php
+    - app/Models/ClassRoom.php
+    - app/Models/Admin.php
+    - app/Models/Subject.php
+    - app/Models/Group.php
+    - app/Models/StudentAttendance.php
+    - app/Models/Lecture.php
+    - app/Models/Semester.php
+    - app/Models/Student.php
+    - app/Models/StudentSubject.php
+    - app/Models/SubjectTeacher.php
+    - app/Models/Teacher.php
+    - app/Models/Quiz.php
+    - app/Models/QuizGroup.php
+    - app/Models/QuizQuestion.php
+    - app/Models/StudentAnswer.php
+    - app/Models/Homework.php
+    - app/Models/HomeworkGroup.php
+    - app/Models/HomeworkStudentAnswer.php
+    - app/Models/Comment.php
+    - app/Models/SemesterTime.php
+models:
+    GroupHomework: { homework_id: integer, group_id: integer, due_time: timestamp, homework_group_id: 'biginteger unsigned' }
+    GroupQuiz: { group_id: integer, quiz_id: integer, end_time: timestamp, start_time: timestamp, group_quiz_id: 'biginteger unsigned' }
+    ClassRoom: { id: id, name: string }
+    Admin: { id: id, name: string, ref_number: integer, password: string }
+    Subject: { id: id, name: string, semester_id: integer, relationships: { belongsTo: Semester } }
+    Group: { id: id, name: string }
+    StudentAttendance: { lecture_id: integer, student_id: integer, status: integer, note: string, date: date, relationships: { belongsTo: 'Lecture , Student' } }
+    Lecture: { start_time: timestamp, end_time: timestamp, day_of_week: int, relationships: { belongsTo: 'Subject, ClassRoom Group Teacher' } }
+    Semester: { id: id, order: integer, name: string, major: integer }
+    Student: { id: id, name: string, ref_number: integer, password: string, email: string, phone_number: string, relationships: { belongsTo: Group } }
+    StudentSubject: { subject_id: integer, student_id: integer, passed: boolean, note: 'string:255 nullable', relationships: { belongsTo: 'Subject, Student' } }
+    SubjectTeacher: { subject_id: integer, teacher_id: integer, relationships: { belongsTo: 'Subject, Teacher' } }
+    Teacher: { id: id, name: string, ref_number: integer, password: string, email: string, phone_number: string }
+    Quiz: { id: id, teacher_id: integer, subject_id: integer, relationships: { belongsTo: 'Teacher, Subject' } }
+    QuizGroup: { group_id: integer, quiz_id: integer, end_time: timestamp, start_time: timestamp, relationships: { belongsTo: 'Group, Quiz' } }
+    QuizQuestion: { id: id, quiz_id: integer, question: string, answer: string, type: integer, relationships: { belongsTo: Quiz } }
+    StudentAnswer: { id: id, question_id: integer, student_id: integer, answer: string, relationships: { belongsTo: 'QuizQuestion, Student' } }
+    Homework: { id: id, name: string, teacher_id: integer, subject_id: integer, url: string, relationships: { belongsTo: 'Teacher, Subject' } }
+    HomeworkGroup: { id: id, homework_id: integer, group_id: integer, due_time: timestamp, relationships: { belongsTo: 'Homework, Group' } }
+    HomeworkStudentAnswer: { id: id, student_id: integer, homework_id: integer, url: string, relationships: { belongsTo: 'Student, Homework' } }
+    Comment: { id: id, content: string, homework_id: integer, student_id: 'integer nullable', teacher_id: 'integer nullable', commentable_id: integer, commentable_type: string, relationships: { belongsTo: Homework } }
+    SemesterTime: { semester_start_date: date, semester_end_date: date }
