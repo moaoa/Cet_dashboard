@@ -21,9 +21,9 @@ class SemesterFactory extends Factory
     public function definition(): array
     {
         return [
-            'order' => $this->faker->numberBetween(-10000, 10000),
+            'order' => $this->faker->randomNumber(),
             'name' => $this->faker->name(),
-            'major' => $this->faker->numberBetween(-10000, 10000),
+            'major' => $this->faker->randomNumber(),
         ];
     }
 }

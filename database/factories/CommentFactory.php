@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Comment;
 use App\Models\Homework;
+use App\Models\User;
 
 class CommentFactory extends Factory
 {
@@ -24,10 +25,7 @@ class CommentFactory extends Factory
         return [
             'content' => $this->faker->paragraphs(3, true),
             'homework_id' => Homework::factory(),
-            'student_id' => $this->faker->numberBetween(-10000, 10000),
-            'teacher_id' => $this->faker->numberBetween(-10000, 10000),
-            'commentable_id' => $this->faker->numberBetween(-10000, 10000),
-            'commentable_type' => $this->faker->word(),
+            'user_id' => User::factory(),
         ];
     }
 }

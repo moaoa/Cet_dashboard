@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\;
 use App\Models\Homework;
-use App\Models\Teacher;
+use App\Models\Subject;
+use App\Models\User;
 
 class HomeworkFactory extends Factory
 {
@@ -24,9 +24,9 @@ class HomeworkFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'teacher_id' => Teacher::factory(),
-            'subject_id' => ::factory(),
             'url' => $this->faker->url(),
+            'user_id' => User::factory(),
+            'subject_id' => Subject::factory(),
         ];
     }
 }

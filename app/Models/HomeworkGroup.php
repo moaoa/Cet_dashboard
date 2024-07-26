@@ -16,9 +16,9 @@ class HomeworkGroup extends Model
      * @var array
      */
     protected $fillable = [
+        'due_time',
         'homework_id',
         'group_id',
-        'due_time',
     ];
 
     /**
@@ -28,9 +28,9 @@ class HomeworkGroup extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'due_time' => 'timestamp',
         'homework_id' => 'integer',
         'group_id' => 'integer',
-        'due_time' => 'timestamp',
     ];
 
     public function homework(): BelongsTo

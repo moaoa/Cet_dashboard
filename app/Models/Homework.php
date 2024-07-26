@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Homework extends Model
 {
@@ -17,9 +18,9 @@ class Homework extends Model
      */
     protected $fillable = [
         'name',
-        'teacher_id',
-        'subject_id',
         'url',
+        'user_id',
+        'subject_id',
     ];
 
     /**
@@ -29,17 +30,22 @@ class Homework extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'teacher_id' => 'integer',
+        'user_id' => 'integer',
         'subject_id' => 'integer',
     ];
 
-    public function teacher(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 
     public function subject(): BelongsTo
     {
         return $this->belongsTo(Subject::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

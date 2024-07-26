@@ -16,7 +16,7 @@ class Quiz extends Model
      * @var array
      */
     protected $fillable = [
-        'teacher_id',
+        'user_id',
         'subject_id',
     ];
 
@@ -27,13 +27,13 @@ class Quiz extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'teacher_id' => 'integer',
+        'user_id' => 'integer',
         'subject_id' => 'integer',
     ];
 
-    public function teacher(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsTo(User::class);
     }
 
     public function subject(): BelongsTo

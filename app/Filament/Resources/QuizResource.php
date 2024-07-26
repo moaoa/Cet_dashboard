@@ -23,15 +23,12 @@ class QuizResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('teacher_id')
-                    ->relationship('teacher', 'name')
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
                     ->required(),
                 Forms\Components\Select::make('subject_id')
                     ->relationship('subject', 'name')
                     ->required(),
-                Forms\Components\TextInput::make('teacher_subject_id')
-                    ->required()
-                    ->numeric(),
             ]);
     }
 
@@ -39,13 +36,10 @@ class QuizResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('teacher.name')
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('teacher_subject_id')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

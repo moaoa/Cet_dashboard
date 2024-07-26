@@ -20,7 +20,9 @@ class Lecture extends Model
         'end_time',
         'day_of_week',
         'subject_id',
-        'class_room_group_teacher_id',
+        'class_room_id',
+        'group_id',
+        'user_id',
     ];
 
     /**
@@ -32,8 +34,11 @@ class Lecture extends Model
         'id' => 'integer',
         'start_time' => 'timestamp',
         'end_time' => 'timestamp',
+        'day_of_week' => 'integer',
         'subject_id' => 'integer',
-        'class_room_group_teacher_id' => 'integer',
+        'class_room_id' => 'integer',
+        'group_id' => 'integer',
+        'user_id' => 'integer',
     ];
 
     public function subject(): BelongsTo
@@ -41,8 +46,18 @@ class Lecture extends Model
         return $this->belongsTo(Subject::class);
     }
 
-    public function classRoomGroupTeacher(): BelongsTo
+    public function classRoom(): BelongsTo
     {
-        return $this->belongsTo(ClassRoomGroupTeacher::class);
+        return $this->belongsTo(ClassRoom::class);
+    }
+
+    public function group(): BelongsTo
+    {
+        return $this->belongsTo(Group::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

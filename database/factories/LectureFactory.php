@@ -4,9 +4,11 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\ClassRoomGroupTeacher;
+use App\Models\ClassRoom;
+use App\Models\Group;
 use App\Models\Lecture;
 use App\Models\Subject;
+use App\Models\User;
 
 class LectureFactory extends Factory
 {
@@ -25,9 +27,11 @@ class LectureFactory extends Factory
         return [
             'start_time' => $this->faker->dateTime(),
             'end_time' => $this->faker->dateTime(),
-            'day_of_week' => $this->faker->word(),
+            'day_of_week' => $this->faker->randomNumber(),
             'subject_id' => Subject::factory(),
-            'class_room_group_teacher_id' => ClassRoomGroupTeacher::factory(),
+            'class_room_id' => ClassRoom::factory(),
+            'group_id' => Group::factory(),
+            'user_id' => User::factory(),
         ];
     }
 }

@@ -4,9 +4,9 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\;
 use App\Models\Quiz;
-use App\Models\Teacher;
+use App\Models\Subject;
+use App\Models\User;
 
 class QuizFactory extends Factory
 {
@@ -23,8 +23,8 @@ class QuizFactory extends Factory
     public function definition(): array
     {
         return [
-            'teacher_id' => Teacher::factory(),
-            'subject_id' => ::factory(),
+            'user_id' => User::factory(),
+            'subject_id' => Subject::factory(),
         ];
     }
 }

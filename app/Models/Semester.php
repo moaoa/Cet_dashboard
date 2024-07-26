@@ -27,5 +27,7 @@ class Semester extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'order' => 'integer',
+        'major' => 'integer',
     ];
 }

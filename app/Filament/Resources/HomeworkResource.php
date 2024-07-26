@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\HomeworkResource\RelationManagers\HomeworkGroupsRelationManager;
 
 class HomeworkResource extends Resource
 {
@@ -26,18 +27,12 @@ class HomeworkResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('teacher_id')
-                    ->relationship('teacher', 'name')
-                    ->required(),
-                Forms\Components\Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('url')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('teacher_subject_id')
-                    ->required()
-                    ->numeric(),
+                Forms\Components\Select::make('subject_id')
+                    ->relationship('subject', 'name')
+                    ->required(),
             ]);
     }
 
@@ -47,15 +42,12 @@ class HomeworkResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('teacher.name')
+                Tables\Columns\TextColumn::make('url')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('url')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('teacher_subject_id')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -83,7 +75,7 @@ class HomeworkResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+           HomeworkGroupsRelationManager::class
         ];
     }
 

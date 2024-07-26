@@ -1,146 +1,94 @@
 models:
-  ClassRoom:
-    id: id
+  User:
     name: string
-
-  Admin:
-    id: id
-    name: string
-    ref_number: integer
+    ref_number: bigInteger unsigned
+    type: integer unsigned
     password: string
+    email: string unique
+    phone_number: string
+
+  ClassRoom:
+    name: string
 
   Subject:
-    id: id
     name: string
-    semester_id: integer
     relationships:
       belongsTo: Semester
 
   Group:
-    id: id
     name: string
+    relationships:
+      hasMany: User
 
-  StudentAttendance:
-    lecture_id: integer
-    student_id: integer
-    status: integer
+
+  Attendance:
+    status: bigInteger unsigned
     note: string
     date: date
     relationships:
-      belongsTo: Lecture , Student
+      belongsTo: Lecture , User
 
   Lecture:
     start_time: timestamp
     end_time: timestamp
-    day_of_week: int
+    day_of_week: bigInteger unsigned
     relationships:
-      belongsTo: Subject, ClassRoom, Group, Teacher
+      belongsTo: Subject, ClassRoom, Group, User
 
   Semester:
-    id: id
-    order: integer
+    order: bigInteger unsigned
     name: string
-    major: integer
+    major: bigInteger unsigned
 
-  Student:
-    id: id
-    name: string
-    ref_number: integer
-    password: string
-    email: string
-    phone_number: string
-    relationships:
-      belongsTo:  Group
-
-  StudentSubject:
-    subject_id: integer
-    student_id: integer
+  UserSubject:
     passed: boolean
-    note: string:255 nullable
+    note: string:255
     relationships:
-      belongsTo: Subject, Student
-
-  SubjectTeacher:
-    subject_id: integer
-    teacher_id: integer
-    relationships:
-      belongsTo: Subject, Teacher
-
-  Teacher:
-    id: id
-    name: string
-    ref_number: integer
-    password: string
-    email: string
-    phone_number: string
+      belongsTo: Subject, User
 
   Quiz:
-    id: id
-    teacher_id: integer
-    subject_id: integer
     relationships:
-      belongsTo: Teacher, Subject
+      belongsTo: User, Subject
 
   QuizGroup:
-    group_id: integer
-    quiz_id: integer
     end_time: timestamp
     start_time: timestamp
     relationships:
       belongsTo: Group, Quiz
 
   QuizQuestion:
-    id: id
-    quiz_id: integer
     question: string
     answer: string
-    type: integer
+    type: bigInteger unsigned
     relationships:
       belongsTo: Quiz
 
-  StudentAnswer:
-    id: id
-    question_id: integer
-    student_id: integer
+  UserAnswer:
     answer: string
     relationships:
-      belongsTo: QuizQuestion, Student
+      belongsTo: QuizQuestion, User
 
   Homework:
-    id: id
     name: string
-    teacher_id: integer
-    subject_id: integer
     url: string
     relationships:
-      belongsTo: Teacher, Subject
+      belongsTo: User, Subject
+      hasMany: Comment
 
   HomeworkGroup:
-    id: id
-    homework_id: integer
-    group_id: integer
     due_time: timestamp
     relationships:
       belongsTo: Homework, Group
 
-  HomeworkStudentAnswer:
-    id: id
-    student_id: integer
-    homework_id: integer
+  HomeworkUserAnswer:
     url: string
     relationships:
-      belongsTo: Student, Homework
+      belongsTo: User, Homework
 
   Comment:
-    id: id
     content: string
-    homework_id: integer
-    student_id: integer nullable
-    teacher_id: integer nullable
-    commentable_id: integer
-    commentable_type: string
     relationships:
-      belongsTo: Homework
+      belongsTo: Homework, User
 
   SemesterTime:
     semester_start_date: date

@@ -22,10 +22,10 @@ class QuizQuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'quiz_id' => Quiz::factory(),
             'question' => $this->faker->word(),
             'answer' => $this->faker->word(),
-            'type' => $this->faker->numberBetween(-10000, 10000),
+            'type' => $this->faker->randomNumber(),
+            'quiz_id' => Quiz::factory(),
         ];
     }
 }

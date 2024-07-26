@@ -16,10 +16,10 @@ class QuizQuestion extends Model
      * @var array
      */
     protected $fillable = [
-        'quiz_id',
         'question',
         'answer',
         'type',
+        'quiz_id',
     ];
 
     /**
@@ -29,6 +29,7 @@ class QuizQuestion extends Model
      */
     protected $casts = [
         'id' => 'integer',
+        'type' => 'integer',
         'quiz_id' => 'integer',
     ];
 

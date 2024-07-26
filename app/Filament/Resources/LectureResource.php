@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\UserType;
+use App\Enums\WeekDays;
 use App\Filament\Resources\LectureResource\Pages;
 use App\Filament\Resources\LectureResource\RelationManagers;
 use App\Models\Lecture;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -23,16 +26,26 @@ class LectureResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DateTimePicker::make('start_time')
+                Forms\Components\TimePicker::make('start_time')
                     ->required(),
-                Forms\Components\DateTimePicker::make('end_time')
+                Forms\Components\TimePicker::make('end_time')
                     ->required(),
-                Forms\Components\TextInput::make('day_of_week')
+                Forms\Components\Select::make('day_of_week')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('subject_class_room_group_teacher_id')
-                    ->required()
-                    ->numeric(),
+                    ->options(WeekDays::class),
+                Forms\Components\Select::make('subject_id')
+                    ->relationship('subject', 'name')
+                    ->required(),
+                Forms\Components\Select::make('class_room_id')
+                    ->relationship('classRoom', 'name')
+                    ->required(),
+                Forms\Components\Select::make('group_id')
+                    ->relationship('group', 'name')
+                    ->required(),
+                Forms\Components\Select::make('user_id')
+                    ->label('الأستاذ')
+                    ->options(User::query()->where('type', UserType::Teacher)->pluck('name', 'id'))
+                    ->required(),
             ]);
     }
 
@@ -47,8 +60,18 @@ class LectureResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('subject_class_room_group_teacher_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('subject.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('classRoom.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('group.name')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
