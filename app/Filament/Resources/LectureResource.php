@@ -54,10 +54,10 @@ class LectureResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('start_time')
-                    ->dateTime()
+                    ->time()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('end_time')
-                    ->dateTime()
+                    ->time()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
                     ->numeric()
