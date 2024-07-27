@@ -62,11 +62,11 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ref_number')
-                    ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('type'),
+                    // ->formatStateUsing(function ($type){
+                    //     return $type->label();
+                    // }),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
@@ -74,9 +74,7 @@ class UserResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('phone_number')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('group.name')
-                    ->numeric()
-                    ->sortable(),
+                Tables\Columns\TextColumn::make('group.name'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
