@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HomeworkResource\Pages;
 
+use App\Enums\UserType;
 use App\Filament\Resources\HomeworkResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -13,7 +14,7 @@ class ListHomework extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()->visible(condition: auth()->user()->type === 1),//TODO: use an enum for types of the users
+            Actions\CreateAction::make()->visible(condition: auth()->user()->type === UserType::Admin),
         ];
     }
 }
