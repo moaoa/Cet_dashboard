@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Quiz;
+use App\Models\GroupQuiz;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
-class QuizController extends Controller
+class GroupQuizController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class QuizController extends Controller
      */
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::all();
-        return response()->json($quizzes);
+        $groupQuizzes = GroupQuiz::all();
+        return response()->json($groupQuizzes);
     }
 
     /**
@@ -29,60 +29,64 @@ class QuizController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
+            'group_id' => 'required|numeric',
+            'quiz_id' => 'required|numeric',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $quiz = Quiz::create($request->all());
-        return response()->json($quiz, 201);
+        $groupQuiz = GroupQuiz::create($request->all());
+        return response()->json($groupQuiz, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Quiz $quiz
+     * @param GroupQuiz $groupQuiz
      * @return JsonResponse
      */
-    public function show(Quiz $quiz): JsonResponse
+    public function show(GroupQuiz $groupQuiz): JsonResponse
     {
-        return response()->json($quiz);
+        return response()->json($groupQuiz);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Quiz $quiz
+     * @param GroupQuiz $groupQuiz
      * @return JsonResponse
      */
-    public function update(Request $request, Quiz $quiz): JsonResponse
+    public function update(Request $request, GroupQuiz $groupQuiz): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
+            'group_id' => 'required|numeric',
+            'quiz_id' => 'required|numeric',
+            'start_time' => 'required|date',
+            'end_time' => 'required|date',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $quiz->update($request->all());
-        return response()->json($quiz);
+        $groupQuiz->update($request->all());
+        return response()->json($groupQuiz);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Quiz $quiz
+     * @param GroupQuiz $groupQuiz
      * @return JsonResponse
      */
-    public function destroy(Quiz $quiz): JsonResponse
+    public function destroy(GroupQuiz $groupQuiz): JsonResponse
     {
-        $quiz->delete();
+        $groupQuiz->delete();
         return response()->json(null, 204);
     }
 }

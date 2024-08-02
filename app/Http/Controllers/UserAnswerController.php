@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Quiz;
+use App\Models\UserAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
-class QuizController extends Controller
+class UserAnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,8 @@ class QuizController extends Controller
      */
     public function index(): JsonResponse
     {
-        $quizzes = Quiz::all();
-        return response()->json($quizzes);
+        $userAnswers = UserAnswer::all();
+        return response()->json($userAnswers);
     }
 
     /**
@@ -29,60 +29,62 @@ class QuizController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
+            'question_id' => 'required|numeric',
             'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
+            'answer' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $quiz = Quiz::create($request->all());
-        return response()->json($quiz, 201);
+        $userAnswer = UserAnswer::create($request->all());
+        return response()->json($userAnswer, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Quiz $quiz
+     * @param UserAnswer $userAnswer
      * @return JsonResponse
      */
-    public function show(Quiz $quiz): JsonResponse
+    public function show(UserAnswer $userAnswer): JsonResponse
     {
-        return response()->json($quiz);
+        return response()->json($userAnswer);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Quiz $quiz
+     * @param UserAnswer $userAnswer
      * @return JsonResponse
      */
-    public function update(Request $request, Quiz $quiz): JsonResponse
+    public function update(Request $request, UserAnswer $userAnswer): JsonResponse
     {
         $validator = Validator::make($request->all(), [
+            'question_id' => 'required|numeric',
             'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
+            'answer' => 'required|string',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $quiz->update($request->all());
-        return response()->json($quiz);
+        $userAnswer->update($request->all());
+        return response()->json($userAnswer);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Quiz $quiz
+     * @param UserAnswer $userAnswer
      * @return JsonResponse
      */
-    public function destroy(Quiz $quiz): JsonResponse
+    public function destroy(UserAnswer $userAnswer): JsonResponse
     {
-        $quiz->delete();
+        $userAnswer->delete();
         return response()->json(null, 204);
     }
 }

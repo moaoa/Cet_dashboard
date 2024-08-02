@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\GroupQuizController;
+use App\Http\Controllers\UserAnswerController;
 
 // API routes for attendance
 Route::post('/lectures/{lecture}/attendance', TakeAttendanceController::class)->name('attendance.take');
@@ -56,4 +58,31 @@ Route::group([], function () {
     Route::get('/groups/{group}', [GroupController::class, 'show'])->name('groups.show');
     Route::put('/groups/{group}', [GroupController::class, 'update'])->name('groups.update');
     Route::delete('/groups/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
+});
+
+// Group Quiz Routes
+Route::group([], function () {
+    Route::get('/group-quizzes', [GroupQuizController::class, 'index'])->name('group-quizzes.index');
+    Route::post('/group-quizzes', [GroupQuizController::class, 'store'])->name('group-quizzes.store');
+    Route::get('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'show'])->name('group-quizzes.show');
+    Route::put('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'update'])->name('group-quizzes.update');
+    Route::delete('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'destroy'])->name('group-quizzes.destroy');
+});
+
+// Quiz Question Routes
+Route::group([], function () {
+    Route::get('/quizzes/{quizId}/questions', [QuizQuestionController::class, 'index'])->name('quiz-questions.index');
+    Route::post('/quiz-questions', [QuizQuestionController::class, 'store'])->name('quiz-questions.store');
+    Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show'])->name('quiz-questions.show');
+    Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update'])->name('quiz-questions.update');
+    Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy'])->name('quiz-questions.destroy');
+});
+
+// User Answer Routes
+Route::group([], function () {
+    Route::get('/user-answers', [UserAnswerController::class, 'index'])->name('user-answers.index');
+    Route::post('/user-answers', [UserAnswerController::class, 'store'])->name('user-answers.store');
+    Route::get('/user-answers/{userAnswer}', [UserAnswerController::class, 'show'])->name('user-answers.show');
+    Route::put('/user-answers/{userAnswer}', [UserAnswerController::class, 'update'])->name('user-answers.update');
+    Route::delete('/user-answers/{userAnswer}', [UserAnswerController::class, 'destroy'])->name('user-answers.destroy');
 });
