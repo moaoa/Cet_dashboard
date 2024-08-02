@@ -9,9 +9,11 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\View;
 
 class AttendanceResource extends Resource
 {
@@ -23,20 +25,7 @@ class AttendanceResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('status')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('note')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DatePicker::make('date')
-                    ->required(),
-                Forms\Components\Select::make('lecture_id')
-                    ->relationship('lecture', 'id')
-                    ->required(),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
+                //
             ]);
     }
 
@@ -44,28 +33,8 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('status')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('note')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('date')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('lecture.id')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('name'),
+                TextColumn::make('ref_number'),
             ])
             ->filters([
                 //
@@ -80,6 +49,11 @@ class AttendanceResource extends Resource
             ]);
     }
 
+    // public function getTableContent(): ?View
+    // {
+    //     return view('attendance');
+    // }
+
     public static function getRelations(): array
     {
         return [
@@ -92,6 +66,7 @@ class AttendanceResource extends Resource
         return [
             'index' => Pages\ListAttendances::route('/'),
             'create' => Pages\CreateAttendance::route('/create'),
+            'students' => Pages\Attendance::route('/{record}/students'),
             'edit' => Pages\EditAttendance::route('/{record}/edit'),
         ];
     }
