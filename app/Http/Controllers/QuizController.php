@@ -44,11 +44,12 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Quiz $quiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(Quiz $quiz): JsonResponse
+    public function show($id): JsonResponse
     {
+        $quiz = Quiz::findOrFail($id);
         return response()->json($quiz);
     }
 
@@ -56,10 +57,10 @@ class QuizController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Quiz $quiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, Quiz $quiz): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|numeric',
@@ -70,6 +71,7 @@ class QuizController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $quiz = Quiz::findOrFail($id);
         $quiz->update($request->all());
         return response()->json($quiz);
     }
@@ -77,11 +79,12 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Quiz $quiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy(Quiz $quiz): JsonResponse
+    public function destroy($id): JsonResponse
     {
+        $quiz = Quiz::findOrFail($id);
         $quiz->delete();
         return response()->json(null, 204);
     }

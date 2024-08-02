@@ -46,11 +46,12 @@ class GroupQuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param GroupQuiz $groupQuiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(GroupQuiz $groupQuiz): JsonResponse
+    public function show($id): JsonResponse
     {
+        $groupQuiz = GroupQuiz::findOrFail($id);
         return response()->json($groupQuiz);
     }
 
@@ -58,10 +59,10 @@ class GroupQuizController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param GroupQuiz $groupQuiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, GroupQuiz $groupQuiz): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'group_id' => 'required|numeric',
@@ -74,6 +75,7 @@ class GroupQuizController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $groupQuiz = GroupQuiz::findOrFail($id);
         $groupQuiz->update($request->all());
         return response()->json($groupQuiz);
     }
@@ -81,11 +83,12 @@ class GroupQuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param GroupQuiz $groupQuiz
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy(GroupQuiz $groupQuiz): JsonResponse
+    public function destroy($id): JsonResponse
     {
+        $groupQuiz = GroupQuiz::findOrFail($id);
         $groupQuiz->delete();
         return response()->json(null, 204);
     }

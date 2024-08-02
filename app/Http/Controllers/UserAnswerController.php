@@ -45,11 +45,12 @@ class UserAnswerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param UserAnswer $userAnswer
+     * @param int $id
      * @return JsonResponse
      */
-    public function show(UserAnswer $userAnswer): JsonResponse
+    public function show($id): JsonResponse
     {
+        $userAnswer = UserAnswer::query()->findOrFail($id);
         return response()->json($userAnswer);
     }
 
@@ -57,10 +58,10 @@ class UserAnswerController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param UserAnswer $userAnswer
+     * @param int $id
      * @return JsonResponse
      */
-    public function update(Request $request, UserAnswer $userAnswer): JsonResponse
+    public function update(Request $request, $id): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'question_id' => 'required|numeric',
@@ -72,6 +73,7 @@ class UserAnswerController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
+        $userAnswer = UserAnswer::query()->findOrFail($id);
         $userAnswer->update($request->all());
         return response()->json($userAnswer);
     }
@@ -79,11 +81,12 @@ class UserAnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param UserAnswer $userAnswer
+     * @param int $id
      * @return JsonResponse
      */
-    public function destroy(UserAnswer $userAnswer): JsonResponse
+    public function destroy($id): JsonResponse
     {
+        $userAnswer = UserAnswer::query()->findOrFail($id);
         $userAnswer->delete();
         return response()->json(null, 204);
     }
