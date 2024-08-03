@@ -15,7 +15,7 @@ class LectureStudentsController extends Controller
     {
         $lecture = Lecture::query()->where('id', $lecture_id)->first();
 
-        $students = User::query()->where('group_id', $lecture->group_id);
+        $students = User::query()->where('group_id', $lecture->group_id)->get();
 
         return response()->json($students);
     }
