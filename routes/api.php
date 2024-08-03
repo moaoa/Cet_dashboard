@@ -3,7 +3,9 @@
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
+use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\QuizQuestionController;
+use App\Http\Controllers\UserLectures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
@@ -12,7 +14,7 @@ use App\Http\Controllers\GroupQuizController;
 use App\Http\Controllers\UserAnswerController;
 
 // API routes for attendance
-Route::post('/lectures/{lecture}/attendance', TakeAttendanceController::class)->name('attendance.take');
+Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
 
 
 
@@ -30,6 +32,18 @@ Route::group([], function () {
     Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
     Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+});
+
+
+
+// User Lecture Routes
+Route::group([], function () {
+    Route::get('/user-lectures/{userId}', [UserLectures::class, 'index'])->name('user-lectures.index');
+});
+
+// Lecture students Routes
+Route::group([], function () {
+    Route::get('/lecture-students/{lectureId}', LectureStudentsController::class);
 });
 
 // lecture routes
@@ -69,15 +83,6 @@ Route::group([], function () {
     Route::delete('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'destroy'])->name('group-quizzes.destroy');
 });
 
-// Quiz Question Routes
-Route::group([], function () {
-    Route::get('/quizzes/{quizId}/questions', [QuizQuestionController::class, 'index'])->name('quiz-questions.index');
-    Route::post('/quiz-questions', [QuizQuestionController::class, 'store'])->name('quiz-questions.store');
-    Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show'])->name('quiz-questions.show');
-    Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update'])->name('quiz-questions.update');
-    Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy'])->name('quiz-questions.destroy');
-});
-
 // User Answer Routes
 Route::group([], function () {
     Route::get('/user-answers', [UserAnswerController::class, 'index'])->name('user-answers.index');
@@ -86,3 +91,4 @@ Route::group([], function () {
     Route::put('/user-answers/{userAnswer}', [UserAnswerController::class, 'update'])->name('user-answers.update');
     Route::delete('/user-answers/{userAnswer}', [UserAnswerController::class, 'destroy'])->name('user-answers.destroy');
 });
+
