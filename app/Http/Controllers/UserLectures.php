@@ -15,7 +15,7 @@ class UserLectures extends Controller
      */
     public function index(string $user_id): JsonResponse
     {
-        $lectures = Lecture::query()->where('user_id', $user_id);
+        $lectures = Lecture::query()->where('user_id', $user_id)->get();
         return response()->json($lectures);
     }
 
