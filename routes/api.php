@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\AssignHomeworkToGroupController;
+use App\Http\Controllers\AssignQuizToGroupController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\QuizQuestionController;
 use App\Http\Controllers\UserLectures;
+use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
@@ -28,11 +31,14 @@ Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy']
 // Quiz routes
 Route::group([], function () {
     Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+    Route::get('/quizzes/{quizId}/users', [QuizController::class, 'users'])->name('quizzes.index');
     Route::post('/quizzes', [QuizController::class, 'store'])->name('quizzes.store');
     Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
     Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
 });
+
+
 
 
 
@@ -85,10 +91,22 @@ Route::group([], function () {
 
 // User Answer Routes
 Route::group([], function () {
-    Route::get('/user-answers', [UserAnswerController::class, 'index'])->name('user-answers.index');
+    Route::get('/user-answers/{userId}', [UserAnswerController::class, 'index'])->name('user-answers.index');
     Route::post('/user-answers', [UserAnswerController::class, 'store'])->name('user-answers.store');
     Route::get('/user-answers/{userAnswer}', [UserAnswerController::class, 'show'])->name('user-answers.show');
     Route::put('/user-answers/{userAnswer}', [UserAnswerController::class, 'update'])->name('user-answers.update');
     Route::delete('/user-answers/{userAnswer}', [UserAnswerController::class, 'destroy'])->name('user-answers.destroy');
 });
 
+// Teacher Stuff
+Route::group([], function () {
+    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
+});
+
+Route::group([], function () {
+    Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
+});
+
+Route::group([], function () {
+    Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
+});
