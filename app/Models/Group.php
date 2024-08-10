@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Quiz;
+use App\Models\Homework;
 
 class Group extends Model
 {
@@ -31,5 +34,14 @@ class Group extends Model
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
+    }
+
+    public function Quizzes(): BelongsToMany
+    {
+        return $this->belongsToMany(Quiz::class, 'quiz_groups')->withPivot('start_time', 'end_time');
+    }
+    public function homeworks(): BelongsToMany
+    {
+        return $this->BelongsToMany(Homework::class, 'homework_groups');
     }
 }
