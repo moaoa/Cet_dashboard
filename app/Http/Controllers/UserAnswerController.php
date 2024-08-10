@@ -14,9 +14,9 @@ class UserAnswerController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(string $user_id): JsonResponse
     {
-        $userAnswers = UserAnswer::all();
+        $userAnswers = UserAnswer::query()->where('user_id', $user_id)->get();
         return response()->json($userAnswers);
     }
 
