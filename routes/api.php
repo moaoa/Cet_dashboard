@@ -15,6 +15,7 @@ use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\GroupQuizController;
 use App\Http\Controllers\UserAnswerController;
+use App\Http\Controllers\StudentLecturesController;
 
 // API routes for attendance
 Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
@@ -102,3 +103,8 @@ Route::group([], function () {
 Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
 Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
 Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
+
+// Student Stuff
+Route::prefix('student')->group(function () {
+    Route::get('/lectures', [StudentLecturesController::class, 'index'])->name('student-lectures.index');
+});
