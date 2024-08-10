@@ -40,19 +40,6 @@ class Lecture extends Model
         'group_id' => 'integer',
         'user_id' => 'integer',
     ];
-    protected function start_time(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ? $value->format('H:i') : null,
-        );
-    }
-
-    protected function end_time(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value ? $value->format('H:i') : null,
-        );
-    }
 
     public function subject(): BelongsTo
     {
