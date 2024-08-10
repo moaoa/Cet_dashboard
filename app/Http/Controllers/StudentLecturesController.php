@@ -13,7 +13,7 @@ class StudentLecturesController extends Controller
     {
         // TODO: fix groups to group
         $group = User::query()->find(1)->groups()->first();
-        $lectures = Lecture::query()->where('group_id', $group->id)->get();
+        $lectures = Lecture::query()->with('subject')->where('group_id', $group->id)->get();
         return response()->json($lectures);
     }
 }
