@@ -99,14 +99,6 @@ Route::group([], function () {
 });
 
 // Teacher Stuff
-Route::group([], function () {
-    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
-});
-
-Route::group([], function () {
-    Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
-});
-
-Route::group([], function () {
-    Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
-});
+Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
+Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
+Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
