@@ -43,7 +43,8 @@ class User extends Authenticatable
     protected $casts = [
         'id' => 'integer',
         'ref_number' => 'integer',
-        'type' => UserType::class
+        // 'type' => UserType::class
+        'type' => 'integer'
     ];
 
     public function groups(): BelongsTo
