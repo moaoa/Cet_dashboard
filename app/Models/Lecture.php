@@ -32,14 +32,27 @@ class Lecture extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'start_time' => 'timestamp',
-        'end_time' => 'timestamp',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
         'day_of_week' => 'integer',
         'subject_id' => 'integer',
         'class_room_id' => 'integer',
         'group_id' => 'integer',
         'user_id' => 'integer',
     ];
+    protected function start_time(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? $value->format('H:i') : null,
+        );
+    }
+
+    protected function end_time(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? $value->format('H:i') : null,
+        );
+    }
 
     public function subject(): BelongsTo
     {
