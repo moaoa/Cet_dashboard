@@ -4,11 +4,10 @@ namespace App\Enums;
 
 enum WeekDays: int
 {
-    case SUNDAY = 0;
-    case MONDAY = 1;
-    case TUESDAY = 2;
-    case WEDNESDAY = 3;
-    case THURSDAY = 4;
-    case FRIDAY = 5;
-    case SATURDAY = 6;
+    case SATURDAY = 1;
+    case SUNDAY = 2;
+    case MONDAY = 3;
+    case TUESDAY = 4;
+    case WEDNESDAY = 5;
+    case THURSDAY = 6;
 }
