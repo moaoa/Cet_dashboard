@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('answer');
             $table->unsignedBigInteger('type');
             $table->foreignId('quiz_id');
+            $table->json('options');
             $table->timestamps();
         });
     }
