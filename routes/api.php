@@ -7,7 +7,7 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\QuizQuestionController;
-use App\Http\Controllers\UserLectures;
+use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,10 +15,7 @@ use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\GroupQuizController;
 use App\Http\Controllers\UserAnswerController;
-use App\Http\Controllers\StudentLecturesController;
 
-// API routes for attendance
-Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
 
 
 
@@ -43,10 +40,6 @@ Route::group([], function () {
 
 
 
-// User Lecture Routes
-Route::group([], function () {
-    Route::get('/user-lectures/{userId}', [UserLectures::class, 'index'])->name('user-lectures.index');
-});
 
 // Lecture students Routes
 Route::group([], function () {
@@ -100,11 +93,14 @@ Route::group([], function () {
 });
 
 // Teacher Stuff
-Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
-Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
-Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
+Route::name('teacher')->group(function () {
+    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
+    Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
+    Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
+    Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
+});
 
 // Student Stuff
 Route::prefix('student')->group(function () {
-    Route::get('/lectures', [StudentLecturesController::class, 'index'])->name('student-lectures.index');
+    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
 });

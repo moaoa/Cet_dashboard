@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "andreaselia/laravel-api-to-postman": "^2.0",
+        "dedoc/scramble": "^0.11.11",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",

@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Enums\AttendanceStatus;
+use App\Enums\UserType;
+use App\Models\Attendance;
 use App\Models\ClassRoom;
 use App\Models\Group;
 use App\Models\Homework;
@@ -50,7 +53,7 @@ class DatabaseSeeder extends Seeder
         $semester = Semester::first();
 
         // Create a new Lecture instance and associate it with the first instances of the related models
-        Lecture::create([
+        $lecture = Lecture::create([
             'start_time' => '2023-08-01 10:00:00',
             'end_time' => '2023-08-01 12:00:00',
             'day_of_week' => 1,
@@ -74,5 +77,39 @@ class DatabaseSeeder extends Seeder
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
         // Associate the Homework with the first Group
         $homework->groups()->attach($group->id, ['due_time' => $tomorrow]);
+
+
+        $student = User::create([
+            'name' => 'ahmad',
+            'ref_number' => 2222,
+            'type' => UserType::Student,
+            'password' => Hash::make('password'),
+            'email' => 'ahmad@gmail.com',
+            'email_verified_at' => now(),
+            'phone_number' => '1222223',
+            'group_id' => $group->id
+        ]);
+
+        // Get the first day of the previous month
+        $firstDayOfPreviousMonth = Carbon::now()->subMonth()->startOfMonth();
+
+        // Get the last day of the previous month
+        $lastDayOfPreviousMonth = Carbon::now()->subMonth()->endOfMonth();
+
+        // Generate 5 random dates in the previous month
+        for ($i = 0; $i < 3; $i++) {
+            $randomDateInPreviousMonth = Carbon::createFromTimestamp(
+                mt_rand($firstDayOfPreviousMonth->timestamp, $lastDayOfPreviousMonth->timestamp)
+            );
+
+            Attendance::create([
+               'status' => AttendanceStatus::Absent,
+               'note' => '',
+               'date' => $randomDateInPreviousMonth->format('Y-m-d'),
+               'lecture_id' => $lecture->id,
+               'user_id' => $student->id
+            ]);
+        }
+
     }
 }
