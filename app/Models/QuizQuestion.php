@@ -31,6 +31,7 @@ class QuizQuestion extends Model
         'id' => 'integer',
         'type' => 'integer',
         'quiz_id' => 'integer',
+        'options' => 'array',
     ];
 
     public function quiz(): BelongsTo
