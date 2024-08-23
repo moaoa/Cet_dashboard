@@ -15,7 +15,7 @@ class LectureController extends Controller
      */
     public function index(): JsonResponse
     {
-        $lectures = Lecture::with('subject')->get();
+        $lectures = Lecture::query()->with('subject')->get();
         return response()->json($lectures);
     }
 
