@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('homework', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('url');
+            $table->json('attachments');
             $table->foreignId('user_id');
             $table->foreignId('subject_id');
             $table->timestamps();

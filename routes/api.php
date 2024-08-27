@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\QuizQuestionController;
+use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Http\Request;
@@ -103,4 +104,5 @@ Route::name('teacher')->group(function () {
 // Student Stuff
 Route::prefix('student')->group(function () {
     Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
+    Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks.index');
 });

@@ -19,7 +19,7 @@ class Homework extends Model
      */
     protected $fillable = [
         'name',
-        'url',
+        'attachments',
         'user_id',
         'subject_id',
     ];

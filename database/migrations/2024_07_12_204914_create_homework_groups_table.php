@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('homework_groups', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('due_time');
+            $table->dateTime('due_time')->nullable();
             $table->foreignId('homework_id');
             $table->foreignId('group_id');
             $table->timestamps();

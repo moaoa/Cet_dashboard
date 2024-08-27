@@ -7,6 +7,7 @@ use App\Enums\AttendanceStatus;
 use App\Enums\UserType;
 use App\Models\Attendance;
 use App\Models\ClassRoom;
+use App\Models\Comment;
 use App\Models\Group;
 use App\Models\Homework;
 use App\Models\Lecture;
@@ -16,6 +17,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DatabaseSeeder extends Seeder
 {
@@ -69,7 +71,10 @@ class DatabaseSeeder extends Seeder
         // Create a new Homework instance and associate it with the first instances of the related models
         $homework = Homework::create([
             'name' => 'Sample Homework',
-            'url' => 'https://example.com/homework',
+            'attachments' => json_encode([
+                'name' => 'Homework II.png',
+                'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
+            ]),
             'user_id' => $user->id,
             'subject_id' => $subject->id,
         ]);
@@ -77,6 +82,8 @@ class DatabaseSeeder extends Seeder
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
         // Associate the Homework with the first Group
         $homework->groups()->attach($group->id, ['due_time' => $tomorrow]);
+
+        $pivot = $homework->groups()->where('group_id', $group->id)->first()->pivot;
 
 
         $student = User::create([
@@ -89,6 +96,13 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '1222223',
             'group_id' => $group->id
         ]);
+        // Now create the comment
+        $comments = Comment::create([
+            'content' => '>_<',
+            'user_id' => $student->id,
+            'homework_id' => $homework->id
+        ]);
+
 
         // Get the first day of the previous month
         $firstDayOfPreviousMonth = Carbon::now()->subMonth()->startOfMonth();

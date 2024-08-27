@@ -42,6 +42,6 @@ class Group extends Model
     }
     public function homeworks(): BelongsToMany
     {
-        return $this->BelongsToMany(Homework::class, 'homework_groups');
+        return $this->BelongsToMany(Homework::class, 'homework_groups')->withPivot('due_time');
     }
 }
