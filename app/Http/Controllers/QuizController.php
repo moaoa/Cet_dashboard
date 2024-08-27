@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QuizResource;
+use App\Models\Group;
 use App\Models\Quiz;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
@@ -87,5 +90,12 @@ class QuizController extends Controller
         $quiz = Quiz::findOrFail($id);
         $quiz->delete();
         return response()->json(null, 204);
+    }
+    public function studentQuizzes(): JsonResponse
+    {
+        $student = User::query()->where('name', 'ahmad')->first();
+        $quizzes = $student->groups()->first()->quizzes()->with('user')->get();
+
+        return response()->json(QuizResource::collection($quizzes));
     }
 }

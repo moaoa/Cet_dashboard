@@ -36,7 +36,7 @@ class Group extends Model
         return $this->hasMany(User::class);
     }
 
-    public function Quizzes(): BelongsToMany
+    public function quizzes(): BelongsToMany
     {
         return $this->belongsToMany(Quiz::class, 'quiz_groups')->withPivot('start_time', 'end_time');
     }

@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Models\Group;
 use App\Models\Homework;
 use App\Models\Lecture;
+use App\Models\Quiz;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\User;
@@ -102,6 +103,18 @@ class DatabaseSeeder extends Seeder
             'user_id' => $student->id,
             'homework_id' => $homework->id
         ]);
+
+        $quiz = Quiz::create([
+            'user_id' => $user->id,
+            'subject_id' => $subject->id,
+            'note' => 'التسليم يوم 30 تسعة >_<تن'
+        ]);
+
+        $quiz->groups()->attach($group, [
+            'start_time' => now(),
+            'end_time' => '2024-9-30',
+        ]);
+
 
 
         // Get the first day of the previous month
