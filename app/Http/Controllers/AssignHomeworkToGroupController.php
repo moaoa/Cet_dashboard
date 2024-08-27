@@ -18,7 +18,7 @@ class AssignHomeworkToGroupController extends Controller
         $validator = Validator::make($request->all(), [
             'group_id' => 'required|numeric',
             'homework_id' => 'required|numeric',
-            'due_time' => 'required|date|after_or_equal:today',
+            'due_time' => 'nullable|date|after_or_equal:today',
         ]);
 
         if ($validator->fails()) {
