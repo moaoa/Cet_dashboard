@@ -59,7 +59,8 @@ class StudentHomeworksController extends Controller
             });
             return [
                 'id' => $homework->id,
-                'desccription' => $homework->name,
+                'name' => $homework->name,
+                'description' => $homework->description,
                 'attachments' => $homework->attachments,
                 'comments' => $comments,
                 'date' => $pivotTable = DB::table('homework_groups')

@@ -29,6 +29,7 @@ class HomeworkController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'description' => 'required',
             'user_id' => 'required|numeric',
             'subject_id' => 'required|numeric',
             'url' => 'required',
