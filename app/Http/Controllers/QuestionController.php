@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\QuizQuestion;
+use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 
-class QuizQuestionController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class QuizQuestionController extends Controller
      */
     public function index($quizId): JsonResponse
     {
-        $questions = QuizQuestion::where('quiz_id', $quizId)->get();
+        $questions = Question::where('quiz_id', $quizId)->get();
         return response()->json(['questions' => $questions]);
     }
 
@@ -40,7 +40,7 @@ class QuizQuestionController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $question = QuizQuestion::create($request->all());
+        $question = Question::create($request->all());
         return response()->json(['question' => $question], 201);
     }
 
@@ -52,7 +52,7 @@ class QuizQuestionController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $question = QuizQuestion::findOrFail($id);
+        $question = Question::findOrFail($id);
         return response()->json(['question' => $question]);
     }
 
@@ -65,7 +65,7 @@ class QuizQuestionController extends Controller
      */
     public function update(Request $request, $id): JsonResponse
     {
-        $question = QuizQuestion::findOrFail($id);
+        $question = Question::findOrFail($id);
         $validator = Validator::make($request->all(), [
             'quiz_id' => 'required|numeric',
             'question' => 'required|string',
@@ -89,7 +89,7 @@ class QuizQuestionController extends Controller
      */
     public function destroy($id): JsonResponse
     {
-        $question = QuizQuestion::findOrFail($id);
+        $question = Question::findOrFail($id);
         $question->delete();
         return response()->json(['message' => 'Quiz question deleted']);
     }

@@ -5,16 +5,16 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Quiz;
-use App\Models\QuizQuestion;
+use App\Models\Question;
 
-class QuizQuestionFactory extends Factory
+class QuestionFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = QuizQuestion::class;
+    protected $model = Question::class;
 
     /**
      * Define the model's default state.

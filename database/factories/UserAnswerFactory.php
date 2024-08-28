@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
-use App\Models\QuizQuestion;
+use App\Models\Question;
 use App\Models\User;
 use App\Models\UserAnswer;
 
@@ -24,7 +24,7 @@ class UserAnswerFactory extends Factory
     {
         return [
             'answer' => $this->faker->word(),
-            'quiz_question_id' => QuizQuestion::factory(),
+            'question_id' => Question::factory(),
             'user_id' => User::factory(),
         ];
     }

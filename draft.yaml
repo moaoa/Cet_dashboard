@@ -20,7 +20,6 @@ models:
     relationships:
       hasMany: User
 
-
   Attendance:
     status: bigInteger unsigned
     note: string
@@ -56,7 +55,7 @@ models:
     relationships:
       belongsTo: Group, Quiz
 
-  QuizQuestion:
+  Question:
     question: string
     answer: string
     type: bigInteger unsigned
@@ -66,7 +65,7 @@ models:
   UserAnswer:
     answer: string
     relationships:
-      belongsTo: QuizQuestion, User
+      belongsTo: Question, User
 
   Homework:
     name: string

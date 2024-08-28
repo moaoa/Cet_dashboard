@@ -32,9 +32,9 @@ class UserAnswer extends Model
         'user_id' => 'integer',
     ];
 
-    public function quizQuestion(): BelongsTo
+    public function question(): BelongsTo
     {
-        return $this->belongsTo(QuizQuestion::class);
+        return $this->belongsTo(Question::class);
     }
 
     public function user(): BelongsTo

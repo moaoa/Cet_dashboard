@@ -6,7 +6,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
-use App\Http\Controllers\QuizQuestionController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\UsersAttendingQuizController;
@@ -21,10 +21,10 @@ use App\Http\Controllers\UserAnswerController;
 
 
 // QUIZ QUESTIONS
-Route::post('/quizzes/{quiz}/questions', [QuizQuestionController::class, 'store'])->name('quiz-questions.store');
-Route::get('/quiz-questions/{id}', [QuizQuestionController::class, 'show'])->name('quiz-questions.show');
-Route::put('/quiz-questions/{id}', [QuizQuestionController::class, 'update'])->name('quiz-questions.update');
-Route::delete('/quiz-questions/{id}', [QuizQuestionController::class, 'destroy'])->name('quiz-questions.destroy');
+Route::post('/quizzes/{quiz}/questions', [QuestionController::class, 'store'])->name('quiz-questions.store');
+Route::get('/quiz-questions/{id}', [QuestionController::class, 'show'])->name('quiz-questions.show');
+Route::put('/quiz-questions/{id}', [QuestionController::class, 'update'])->name('quiz-questions.update');
+Route::delete('/quiz-questions/{id}', [QuestionController::class, 'destroy'])->name('quiz-questions.destroy');
 
 
 // Quiz routes

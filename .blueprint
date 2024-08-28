@@ -9,7 +9,7 @@ created:
     - database/factories/UserSubjectFactory.php
     - database/factories/QuizFactory.php
     - database/factories/QuizGroupFactory.php
-    - database/factories/QuizQuestionFactory.php
+    - database/factories/QuestionFactory.php
     - database/factories/UserAnswerFactory.php
     - database/factories/HomeworkFactory.php
     - database/factories/HomeworkGroupFactory.php
@@ -43,7 +43,7 @@ created:
     - app/Models/UserSubject.php
     - app/Models/Quiz.php
     - app/Models/QuizGroup.php
-    - app/Models/QuizQuestion.php
+    - app/Models/Question.php
     - app/Models/UserAnswer.php
     - app/Models/Homework.php
     - app/Models/HomeworkGroup.php
@@ -51,22 +51,71 @@ created:
     - app/Models/Comment.php
     - app/Models/SemesterTime.php
 models:
-    User: { name: string, ref_number: 'bigInteger unsigned', type: 'integer unsigned', password: string, email: 'string unique', phone_number: string }
+    User:
+        {
+            name: string,
+            ref_number: "bigInteger unsigned",
+            type: "integer unsigned",
+            password: string,
+            email: "string unique",
+            phone_number: string,
+        }
     ClassRoom: { name: string }
     Admin: { name: string, ref_number: id, password: string }
     Subject: { name: string, relationships: { belongsTo: Semester } }
     Group: { name: string }
-    Attendance: { status: 'bigInteger unsigned', note: string, date: date, relationships: { belongsTo: 'Lecture , User' } }
-    Lecture: { start_time: timestamp, end_time: timestamp, day_of_week: 'bigInteger unsigned', relationships: { belongsTo: 'Subject, ClassRoom, Group, User' } }
-    Semester: { order: 'bigInteger unsigned', name: string, major: 'bigInteger unsigned' }
-    UserSubject: { passed: boolean, note: 'string:255', relationships: { belongsTo: 'Subject, User' } }
-    SubjectUser: { relationships: { belongsTo: 'Subject, User' } }
-    Quiz: { relationships: { belongsTo: 'User, Subject' } }
-    QuizGroup: { end_time: timestamp, start_time: timestamp, relationships: { belongsTo: 'Group, Quiz' } }
-    QuizQuestion: { question: string, answer: string, type: 'bigInteger unsigned', relationships: { belongsTo: Quiz } }
-    UserAnswer: { answer: string, relationships: { belongsTo: 'QuizQuestion, User' } }
-    Homework: { name: string, url: string, relationships: { belongsTo: 'User, Subject', hasMany: Comment } }
-    HomeworkGroup: { due_time: timestamp, relationships: { belongsTo: 'Homework, Group' } }
-    HomeworkUserAnswer: { url: string, relationships: { belongsTo: 'User, Homework' } }
-    Comment: { content: string, relationships: { belongsTo: 'Homework, User' } }
+    Attendance:
+        {
+            status: "bigInteger unsigned",
+            note: string,
+            date: date,
+            relationships: { belongsTo: "Lecture , User" },
+        }
+    Lecture:
+        {
+            start_time: timestamp,
+            end_time: timestamp,
+            day_of_week: "bigInteger unsigned",
+            relationships: { belongsTo: "Subject, ClassRoom, Group, User" },
+        }
+    Semester:
+        {
+            order: "bigInteger unsigned",
+            name: string,
+            major: "bigInteger unsigned",
+        }
+    UserSubject:
+        {
+            passed: boolean,
+            note: "string:255",
+            relationships: { belongsTo: "Subject, User" },
+        }
+    SubjectUser: { relationships: { belongsTo: "Subject, User" } }
+    Quiz: { relationships: { belongsTo: "User, Subject" } }
+    QuizGroup:
+        {
+            end_time: timestamp,
+            start_time: timestamp,
+            relationships: { belongsTo: "Group, Quiz" },
+        }
+    Question:
+        {
+            question: string,
+            answer: string,
+            type: "bigInteger unsigned",
+            relationships: { belongsTo: Quiz },
+        }
+    UserAnswer:
+        { answer: string, relationships: { belongsTo: "Question, User" } }
+    Homework:
+        {
+            name: string,
+            url: string,
+            relationships: { belongsTo: "User, Subject", hasMany: Comment },
+        }
+    HomeworkGroup:
+        { due_time: timestamp, relationships: { belongsTo: "Homework, Group" } }
+    HomeworkUserAnswer:
+        { url: string, relationships: { belongsTo: "User, Homework" } }
+    Comment: { content: string, relationships: { belongsTo: "Homework, User" } }
     SemesterTime: { semester_start_date: date, semester_end_date: date }
