@@ -24,6 +24,7 @@ class HomeworkFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'description' => $this->faker->sentence(),
             'attachments' => json_encode([
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
