@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Group;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Quiz extends Model
 {
@@ -46,5 +47,9 @@ class Quiz extends Model
     public function groups(): BelongsToMany
     {
         return $this->belongsToMany(Group::class, 'quiz_groups')->withPivot('start_time', 'end_time');
+    }
+    public function questions(): HasMany
+    {
+        return $this->hasMany(Questions::class, '');
     }
 }
