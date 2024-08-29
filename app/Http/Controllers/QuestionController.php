@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\QuestionType;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Enum;
 
 class QuestionController extends Controller
 {
@@ -32,8 +34,10 @@ class QuestionController extends Controller
         $validator = Validator::make($request->all(), [
             'quiz_id' => 'required|numeric',
             'question' => 'required|string',
+            'options' => 'required|array',
+            'options.*' => 'string',
             'answer' => 'required|string',
-            'type' => 'required|numeric',
+            'type' => ['required', new Enum(QuestionType::class)],
         ]);
 
         if ($validator->fails()) {
