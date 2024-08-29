@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Group;
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
@@ -50,6 +51,6 @@ class Quiz extends Model
     }
     public function questions(): HasMany
     {
-        return $this->hasMany(Questions::class, '');
+        return $this->hasMany(Question::class);
     }
 }

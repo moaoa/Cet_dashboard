@@ -52,7 +52,7 @@ class QuizController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $quiz = Quiz::findOrFail($id);
+        $quiz = Quiz::with('questions')->findOrFail($id);
         return response()->json($quiz);
     }
 
