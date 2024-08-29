@@ -19,7 +19,6 @@ class Question extends Model
         'question',
         'options',
         'answer',
-        'type',
         'quiz_id',
     ];
 
@@ -30,7 +29,6 @@ class Question extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'type' => 'integer',
         'quiz_id' => 'integer',
         'options' => 'array',
     ];

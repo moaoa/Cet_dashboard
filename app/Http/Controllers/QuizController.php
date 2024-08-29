@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuizResource;
 use App\Models\Group;
 use App\Models\Quiz;
 use App\Models\User;
+use App\Models\UserAnswer;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
@@ -52,8 +55,8 @@ class QuizController extends Controller
      */
     public function show($id): JsonResponse
     {
-        $quiz = Quiz::with('questions')->findOrFail($id);
-        return response()->json($quiz);
+        $quiz = Quiz::with('questions', 'groups')->findOrFail($id);
+        return response()->json(new QuizResource($quiz));
     }
 
     /**
@@ -91,11 +94,31 @@ class QuizController extends Controller
         $quiz->delete();
         return response()->json(null, 204);
     }
-    public function studentQuizzes(): JsonResponse
+    // public function studentQuizzes(): JsonResponse
+    public function studentQuizzes()
     {
         $student = User::query()->where('name', 'ahmad')->first();
-        $quizzes = $student->groups()->first()->quizzes()->with('user')->get();
 
-        return response()->json(QuizResource::collection($quizzes));
+        $quizzes = $student->groups()->first()->quizzes()->with('user', 'questions')->get();
+
+        $user_answers = DB::table('user_answers')
+            ->join('questions', 'questions.id', '=', 'user_answers.question_id')
+            ->where('user_answers.user_id', $student->id)
+            ->whereIn('questions.quiz_id', $quizzes->pluck('id'))->get();
+
+        $data =  $quizzes->map(function ($quiz) use ($user_answers, $student) {
+            $done = $user_answers->contains(function ($item) use ($student) {
+                 return $item->user_id == $student->id;
+            });
+
+             return [
+                'id' => $quiz->id,
+                'note' => $quiz->note,
+                'subject_name' => $quiz->subject->name,
+                'done' => $done,
+                'questions' => QuestionResource::collection($quiz->questions),
+            ];
+        });
+        return response()->json($data);
     }
 }

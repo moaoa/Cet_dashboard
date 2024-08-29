@@ -17,9 +17,8 @@ class QuizResource extends JsonResource
        return [
             'id' => $this->id,
             'note' => $this->note,
-            'start_time' => $this->pivot->start_time,
-            'end_time' => $this->pivot->end_time,
             'teacher_name' => $this->user->name,
+            'questions' => QuestionResource::collection($this->whenLoaded('questions'))
         ];
     }
 }

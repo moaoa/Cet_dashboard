@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\QuestionType;
+use App\Http\Resources\QuestionResource;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +37,6 @@ class QuestionController extends Controller
             'options' => 'required|array',
             'options.*' => 'string',
             'answer' => 'required|string',
-            'type' => ['required', new Enum(QuestionType::class)],
         ]);
 
         if ($validator->fails()) {
@@ -45,7 +44,8 @@ class QuestionController extends Controller
         }
 
         $question = Question::create($request->all());
-        return response()->json(['question' => $question], 201);
+
+        return response()->json(new QuestionResource($question), 201);
     }
 
     /**
