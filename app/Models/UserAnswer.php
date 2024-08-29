@@ -17,7 +17,7 @@ class UserAnswer extends Model
      */
     protected $fillable = [
         'answer',
-        'quiz_question_id',
+        'question_id',
         'user_id',
     ];
 
@@ -28,7 +28,7 @@ class UserAnswer extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'quiz_question_id' => 'integer',
+        'question_id' => 'integer',
         'user_id' => 'integer',
     ];
 
