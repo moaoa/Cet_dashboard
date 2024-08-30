@@ -11,6 +11,7 @@ use App\Models\Comment;
 use App\Models\Group;
 use App\Models\Homework;
 use App\Models\Lecture;
+use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Semester;
 use App\Models\Subject;
@@ -145,6 +146,52 @@ class DatabaseSeeder extends Seeder
             'start_time' => now(),
             'end_time' => '2024-9-30',
         ]);
+
+        $questions = [
+            [
+                'question' => 'ما هي عاصمة المملكة العربية السعودية؟',
+                'answer' => 'الرياض',
+                'quiz_id' => 1,
+                'options' => '["الرياض", "جدة", "مكة", "المدينة المنورة"]',
+                'created_at' => '2024-08-08 00:00:00',
+                'updated_at' => '2024-08-08 00:00:00'
+            ],
+            [
+                'question' => 'هل الشمس تشرق من الشرق؟',
+                'answer' => 'صحيح',
+                'quiz_id' => 1,
+                'options' => '["صحيح", "خطأ"]',
+                'created_at' => '2024-08-08 00:00:00',
+                'updated_at' => '2024-08-08 00:00:00'
+            ],
+            [
+                'question' => 'ما هو أكبر محيط في العالم؟',
+                'answer' => 'المحيط الهادئ',
+                'quiz_id' => 1,
+                'options' => '["المحيط الأطلسي", "المحيط الهادئ", "المحيط الهندي", "المحيط المتجمد الشمالي"]',
+                'created_at' => '2024-08-08 00:00:00',
+                'updated_at' => '2024-08-08 00:00:00'
+            ],
+            [
+                'question' => 'هل القطط تعتبر من الثدييات؟',
+                'answer' => 'صحيح',
+                'quiz_id' => 1,
+                'options' => '["صحيح", "خطأ"]',
+                'created_at' => '2024-08-08 00:00:00',
+                'updated_at' => '2024-08-08 00:00:00'
+            ],
+            [
+                'question' => 'ما هي اللغة الرسمية في البرازيل؟',
+                'answer' => 'البرتغالية',
+                'quiz_id' => 1,
+                'options' => '["الإسبانية", "البرتغالية", "الإنجليزية", "الفرنسية"]',
+                'created_at' => '2024-08-08 00:00:00',
+                'updated_at' => '2024-08-08 00:00:00'
+            ],
+        ];
+
+        // Insert multiple records using the insert method
+        Question::insert($questions);
 
 
 
