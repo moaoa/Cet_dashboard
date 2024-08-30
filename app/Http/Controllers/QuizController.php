@@ -141,8 +141,7 @@ class QuizController extends Controller
         $quiz->delete();
         return response()->json(null, 204);
     }
-    public function studentQuizzes()
-    // public function studentQuizzes(): JsonResponse
+    public function studentQuizzes(): JsonResponse
     {
         $student = User::query()->where('name', 'ahmad')->first();
 
