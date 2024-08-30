@@ -108,12 +108,20 @@ class QuizController extends Controller
            return response()->json(['message'=> 'عذرا لم يتم انجاز الاختبار'], 422);
         }
 
+        $score = 0;
+
+        $user_answers->each(function($item) use (&$score){
+            if($item->model_answer == $item->user_answer){
+                $score++;
+            }
+        });
+
         $data = $user_answers->map(function($answer){
             $answer->options = json_decode($answer->options);
             return $answer;
         });
 
-        return response()->json($user_answers);
+        return response()->json(['score' => $score, 'answers' => $data]);
     }
 
     /**
