@@ -88,6 +88,28 @@ class QuizController extends Controller
         UserAnswer::insert($answers);
         return response()->json(['message' => 'done'], 201);
     }
+    public function quizResult(Request $request, String $quiz_id): JsonResponse
+    {
+        $student = User::query()->where('name', 'ahmad')->first();
+
+        $quiz = Quiz::findOrFail($quiz_id);
+
+
+        $user_answers = DB::table('user_answers')
+            ->join('questions', 'questions.id', '=', 'user_answers.question_id')
+            ->where('user_answers.user_id', $student->id)
+            ->where('questions.quiz_id', $quiz->id)
+            ->select('questions.question', 'questions.answer as model_answer', 'options','user_answers.answer as user_answer')
+            ->get();
+
+        $done = sizeof($user_answers) > 0;
+
+        if(!$done){
+           return response()->json(['message'=> 'عذرا لم يتم انجاز الاتمحان'], 422);
+        }
+
+        return $user_answers;
+    }
 
     /**
      * Display the specified resource.
