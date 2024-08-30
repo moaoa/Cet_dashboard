@@ -108,6 +108,11 @@ class QuizController extends Controller
            return response()->json(['message'=> 'عذرا لم يتم انجاز الاتمحان'], 422);
         }
 
+        $data = $user_answers->map(function($answer){
+            $answer->options = json_decode($answer->options);
+            return $answer;
+        });
+
         return response()->json($user_answers);
     }
 
