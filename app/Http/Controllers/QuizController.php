@@ -108,7 +108,7 @@ class QuizController extends Controller
            return response()->json(['message'=> 'عذرا لم يتم انجاز الاتمحان'], 422);
         }
 
-        return $user_answers;
+        return response()->json($user_answers);
     }
 
     /**
