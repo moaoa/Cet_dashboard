@@ -106,4 +106,6 @@ Route::prefix('student')->group(function () {
     Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
     Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks.index');
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
+    Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
+    Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
 });
