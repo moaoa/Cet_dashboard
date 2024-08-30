@@ -190,9 +190,28 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
-        // Insert multiple records using the insert method
-        Question::insert($questions);
+        $quiz2 = Quiz::create([
+            'user_id' => $user->id,
+            'subject_id' => $subject->id,
+            'note' => 'الاختبار رقم 2'
+        ]);
 
+        $yesterday = Carbon::yesterday();
+
+        // Generate the date one hour after "yesterday"
+        $oneHourLater = $yesterday->copy()->addHour();
+
+
+        // Insert multiple records using the insert method
+        Question::insert(array_map(function($item) {
+            $item['quiz_id'] = 2;
+            return $item;
+        }, $questions));
+
+        $quiz2->groups()->attach($group, [
+            'start_time' => $yesterday,
+            'end_time' => $oneHourLater,
+        ]);
 
 
         // Get the first day of the previous month
