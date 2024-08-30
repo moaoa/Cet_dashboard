@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('subject_id');
+            $table->string('name', 255);
             $table->string('note', 255);
             $table->timestamps();
         });

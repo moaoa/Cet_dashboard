@@ -20,6 +20,7 @@ class Quiz extends Model
      * @var array
      */
     protected $fillable = [
+        'name',
         'user_id',
         'subject_id',
     ];

@@ -168,6 +168,8 @@ class QuizController extends Controller
         $data =  $quizzes->map(function ($item) use ($done, $group, $pivot) {
             $pivot_record = $pivot->where('quiz_id', $item->id)->where('group_id', $group->id)->first();
              return [
+                'id' => $item->id,
+                'name' => $item->name,
                 'note' => $item->note,
                 'subject_name' => $item->subject->name,
                 'start_time' => $pivot_record->start_time,
