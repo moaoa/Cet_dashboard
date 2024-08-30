@@ -105,7 +105,7 @@ class QuizController extends Controller
         $done = sizeof($user_answers) > 0;
 
         if(!$done){
-           return response()->json(['message'=> 'عذرا لم يتم انجاز الاتمحان'], 422);
+           return response()->json(['message'=> 'عذرا لم يتم انجاز الاختبار'], 422);
         }
 
         $data = $user_answers->map(function($answer){
