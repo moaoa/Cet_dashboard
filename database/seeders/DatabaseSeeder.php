@@ -202,10 +202,10 @@ class DatabaseSeeder extends Seeder
         $oneHourLater = $yesterday->copy()->addHour();
 
 
+        Question::insert($questions);
         // Insert multiple records using the insert method
         Question::insert(array_map(function($item) {
-            $item['quiz_id'] = 2;
-            return $item;
+            return [...$item, 'quiz_id' => 2];
         }, $questions));
 
         $quiz2->groups()->attach($group, [
