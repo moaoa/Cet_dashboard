@@ -50,14 +50,28 @@ class QuizController extends Controller
 
     public function answerQuiz(Request $request, String $quiz_id): JsonResponse
     {
+        $validator = Validator::make($request->all(), [
+            'answers' => 'required|array',
+            'answers.*.question_id' => 'required|integer|min:1|exists:questions,id',
+            'answers.*.answer' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         $student = User::query()->where('name', 'ahmad')->first();
 
         $quiz = Quiz::findOrFail($quiz_id);
 
+
         $user_answers = DB::table('user_answers')
             ->join('questions', 'questions.id', '=', 'user_answers.question_id')
             ->where('user_answers.user_id', $student->id)
-            ->where('questions.quiz_id', $quiz->id)->get();
+            ->where('questions.quiz_id', $quiz->id)
+            ->get();
 
         $done = $user_answers->contains(function ($item) use ($student) {
              return $item->user_id == $student->id;
@@ -67,31 +81,12 @@ class QuizController extends Controller
            return response()->json(['message'=> 'عذرا تم اجتياز هذا الاختبار من قبل'], 422);
         }
 
-        $validator = Validator::make($request->all(), [
-            '*' => 'array',
-            '*.question_id' => 'required|integer|min:1|exists:questions',
-            '*.answer' => 'required|string'
-        ]);
+        $answers =  array_map(function($item) use ($student) {
+            return [...$item, 'user_id' => $student->id];
+        }, $request->input('answers'));
 
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 422);
-        }
-
-        $allQuestionsOptions = [];
-
-        $questions = $quiz->questions()->forEach(function ($question) {
-            array_push(...json_encode($question->options));
-        });
-
-        $answers = $request->all();
-
-        if(in_array($answers)){
-
-        }
-
-        UserAnswer::create([]);
+        UserAnswer::insert($answers);
+        return response()->json(['message' => 'done'], 201);
     }
 
     /**
