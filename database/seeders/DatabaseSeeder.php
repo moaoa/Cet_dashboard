@@ -66,6 +66,36 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1, // Assuming there's a user with ID 1
         ]);
 
+        Lecture::create([
+            'start_time' => '2023-08-01 12:00:00',
+            'end_time' => '2023-08-01 15:00:00',
+            'day_of_week' => 2,
+            'subject_id' => $subject->id,
+            'class_room_id' => $classRoom->id,
+            'group_id' => $group->id,
+            'user_id' => 1, // Assuming there's a user with ID 1
+        ]);
+
+        Lecture::create([
+            'start_time' => '2023-08-01 15:00:00',
+            'end_time' => '2023-08-01 18:00:00',
+            'day_of_week' => 2,
+            'subject_id' => $subject->id,
+            'class_room_id' => $classRoom->id,
+            'group_id' => $group->id,
+            'user_id' => 1, // Assuming there's a user with ID 1
+        ]);
+
+        Lecture::create([
+            'start_time' => '2023-08-01 5:00:00',
+            'end_time' => '2023-08-01 14:00:00',
+            'day_of_week' => 3,
+            'subject_id' => $subject->id,
+            'class_room_id' => $classRoom->id,
+            'group_id' => $group->id,
+            'user_id' => 1, // Assuming there's a user with ID 1
+        ]);
+
         $user = User::first();
         $group = Group::first();
 
