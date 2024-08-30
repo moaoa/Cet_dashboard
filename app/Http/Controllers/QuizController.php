@@ -146,12 +146,12 @@ class QuizController extends Controller
     {
         $student = User::query()->where('name', 'ahmad')->first();
 
-        $items = DB::table('quiz_groups')
+        $group = $student->groups()->first();
+
+        $pivot = DB::table('quiz_groups')
             ->join('quizzes', 'quizzes.id', '=', 'quiz_groups.quiz_id')
             ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
-            ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->join('questions', 'questions.quiz_id', '=', 'quizzes.id')
-            ->select('subjects.name as subject_name', 'start_time', 'end_time', 'note', 'questions.options')
+            ->select('*')
             ->get();
 
         $quizzes = $student->groups()->first()->quizzes()->get();
@@ -165,13 +165,15 @@ class QuizController extends Controller
              return $item->user_id == $student->id;
         });
 
-        $data =  $quizzes->map(function ($quiz) use ($done) {
+        $data =  $quizzes->map(function ($item) use ($done, $group, $pivot) {
+            $pivot_record = $pivot->where('quiz_id', $item->id)->where('group_id', $group->id)->first();
              return [
-                'id' => $quiz->id,
-                'note' => $quiz->note,
-                'subject_name' => $quiz->subject->name,
+                'note' => $item->note,
+                'subject_name' => $item->subject->name,
+                'start_time' => $pivot_record->start_time,
+                'end_time' => $pivot_record->end_time,
                 'done' => $done,
-                'questions' => QuestionResource::collection($quiz->questions),
+                'questions' => QuestionResource::collection($item->questions),
             ];
         });
         return response()->json($data);
