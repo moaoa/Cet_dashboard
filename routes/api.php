@@ -116,4 +116,5 @@ Route::prefix('student')->group(function () {
 
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
-Route::get('/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
+
+Route::get('/student/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
