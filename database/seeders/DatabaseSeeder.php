@@ -129,6 +129,10 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '1222223',
             'group_id' => $group->id
         ]);
+
+        $subjects = Subject::factory()->count(4)->create();
+        $student->subjects()->attach($subjects->pluck('id'), ['passed' => false]);
+
         // Now create the comment
         $comments = Comment::create([
             'content' => '>_<',

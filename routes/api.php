@@ -9,6 +9,7 @@ use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
+use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -108,4 +109,5 @@ Route::prefix('student')->group(function () {
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
+    Route::get('/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
 });
