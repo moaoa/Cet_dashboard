@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('user_subjects', function (Blueprint $table) {
             $table->id();
             $table->boolean('passed');
-            $table->string('note', 255);
             $table->foreignId('subject_id');
             $table->foreignId('user_id');
             $table->timestamps();
