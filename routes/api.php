@@ -6,11 +6,13 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
+use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
+use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
@@ -62,6 +64,7 @@ Route::group([], function () {
 Route::group([], function () {
     Route::get('/homeworks', [HomeworkController::class, 'index'])->name('homeworks.index');
     Route::post('/homeworks', [HomeworkController::class, 'store'])->name('homeworks.store');
+    Route::post('/homeworks/{homework}/answer', [HomeworkController::class, 'uploadHomeworkAnswer'])->name('uploadHomeworkAnswer');
     Route::get('/homeworks/{homework}', [HomeworkController::class, 'show'])->name('homeworks.show');
     Route::put('/homeworks/{homework}', [HomeworkController::class, 'update'])->name('homeworks.update');
     Route::delete('/homeworks/{homework}', [HomeworkController::class, 'destroy'])->name('homeworks.destroy');
@@ -111,3 +114,6 @@ Route::prefix('student')->group(function () {
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
     Route::get('/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
 });
+
+
+Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
