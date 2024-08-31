@@ -127,7 +127,7 @@ class QuizController extends Controller
             return [
                 'question' => $question->question,
                 'model_answer' => $question->answer,
-                'user_answer' => $user_answers->where('id', $question->id)->first()->user_answer,
+                'user_answer' => $user_answers->where('id', $question->id)->first()?->user_answer,
                 'options' => $question->options
             ];
         });
