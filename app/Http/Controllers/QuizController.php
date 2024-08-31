@@ -190,21 +190,23 @@ class QuizController extends Controller
             ->where('user_answers.user_id', $student->id)
             ->whereIn('questions.quiz_id', $quizzes->pluck('id'))->get();
 
-        $done = $user_answers->contains(function ($item) use ($student) {
-             return $item->user_id == $student->id;
-        });
 
-        $data =  $quizzes->map(function ($item) use ($done, $group, $pivot) {
-            $pivot_record = $pivot->where('quiz_id', $item->id)->where('group_id', $group->id)->first();
+        $data =  $quizzes->map(function ($quiz) use ($group, $pivot, $user_answers) {
+            $pivot_record = $pivot->where('quiz_id', $quiz->id)->where('group_id', $group->id)->first();
+
+            $done = $user_answers->contains(function ($answer) use ($quiz) {
+                 return $answer->quiz_id == $quiz->id;
+            });
+
              return [
-                'id' => $item->id,
-                'name' => $item->name,
-                'note' => $item->note,
-                'subject_name' => $item->subject->name,
+                'id' => $quiz->id,
+                'name' => $quiz->name,
+                'note' => $quiz->note,
+                'subject_name' => $quiz->subject->name,
                 'start_time' => $pivot_record->start_time,
                 'end_time' => $pivot_record->end_time,
                 'done' => $done,
-                'questions' => QuestionResource::collection($item->questions),
+                'questions' => QuestionResource::collection($quiz->questions),
             ];
         });
         return response()->json($data);
