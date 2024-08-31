@@ -16,7 +16,7 @@ class HomeworkUserAnswer extends Model
      * @var array
      */
     protected $fillable = [
-        'url',
+        'attachments',
         'user_id',
         'homework_id',
     ];

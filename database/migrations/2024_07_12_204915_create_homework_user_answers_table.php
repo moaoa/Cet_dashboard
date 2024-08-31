@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('homework_user_answers', function (Blueprint $table) {
             $table->id();
-            $table->string('url');
+            $table->json('attachments');
             $table->foreignId('user_id');
             $table->foreignId('homework_id');
             $table->timestamps();
