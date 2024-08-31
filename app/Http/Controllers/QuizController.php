@@ -8,6 +8,7 @@ use App\Models\Group;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserAnswer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -64,9 +65,21 @@ class QuizController extends Controller
 
         $student = User::query()->where('name', 'ahmad')->first();
 
+        $studentGroup = $student->groups()->first();
+
         $quiz = Quiz::findOrFail($quiz_id);
 
+        $end_time = DB::table('quiz_groups')
+            ->where('group_id', $studentGroup->id)
+            ->where('quiz_id', $quiz_id)
+            ->select('end_time')
+            ->first()->end_time;
 
+        if(Carbon::parse($end_time)->isPast()) {
+            return response()->json([
+                'message' => 'لقد إنتهى وقت الاختبار'
+            ], 422);
+        }
         $user_answers = DB::table('user_answers')
             ->join('questions', 'questions.id', '=', 'user_answers.question_id')
             ->where('user_answers.user_id', $student->id)
