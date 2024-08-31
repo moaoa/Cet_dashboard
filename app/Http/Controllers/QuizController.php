@@ -112,14 +112,8 @@ class QuizController extends Controller
             ->join('questions', 'questions.id', '=', 'user_answers.question_id')
             ->where('user_answers.user_id', $student->id)
             ->where('questions.quiz_id', $quiz->id)
-            ->select('questions.question', 'questions.answer as model_answer', 'options','user_answers.answer as user_answer')
+            ->select('questions.id as id', 'questions.question', 'questions.answer as model_answer', 'options','user_answers.answer as user_answer')
             ->get();
-
-        $done = sizeof($user_answers) > 0;
-
-        if(!$done){
-           return response()->json(['message'=> 'عذرا لم يتم انجاز الاختبار'], 422);
-        }
 
         $score = 0;
 
@@ -129,9 +123,13 @@ class QuizController extends Controller
             }
         });
 
-        $data = $user_answers->map(function($answer){
-            $answer->options = json_decode($answer->options);
-            return $answer;
+        $data = $quiz->questions()->get()->map(function($question) use ($user_answers){
+            return [
+                'question' => $question->question,
+                'model_answer' => $question->answer,
+                'user_answer' => $user_answers->where('id', $question->id)->first()->user_answer,
+                'options' => $question->options
+            ];
         });
 
         return response()->json(['score' => $score, 'answers' => $data]);
