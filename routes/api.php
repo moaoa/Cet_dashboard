@@ -112,8 +112,8 @@ Route::prefix('student')->group(function () {
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
-    Route::get('/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
 });
 
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
+Route::get('/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
