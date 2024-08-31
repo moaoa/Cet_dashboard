@@ -198,10 +198,10 @@ class DatabaseSeeder extends Seeder
             'note' => 'الاختبار رقم 2'
         ]);
 
-        $yesterday = Carbon::yesterday();
+        $beforeFourDays = Carbon::now()->subDays(4);
 
         // Generate the date one hour after "yesterday"
-        $oneHourLater = $yesterday->copy()->addHour();
+        $oneHourLater = $beforeFourDays->copy()->addHour();
 
 
         Question::insert($questions);
@@ -211,7 +211,7 @@ class DatabaseSeeder extends Seeder
         }, $questions));
 
         $quiz2->groups()->attach($group, [
-            'start_time' => $yesterday,
+            'start_time' => $beforeFourDays,
             'end_time' => $oneHourLater,
         ]);
 
