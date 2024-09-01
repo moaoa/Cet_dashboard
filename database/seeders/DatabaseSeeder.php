@@ -87,11 +87,15 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1, // Assuming there's a user with ID 1
         ]);
 
+        $subject2 = Subject::create([
+            'name' => 'كهربائية 1',
+            'semester_id' => 2,
+        ]);
         Lecture::create([
             'start_time' => '2023-08-01 5:00:00',
             'end_time' => '2023-08-01 14:00:00',
             'day_of_week' => 3,
-            'subject_id' => $subject->id,
+            'subject_id' => $subject2->id,
             'class_room_id' => $classRoom->id,
             'group_id' => $group->id,
             'user_id' => 1, // Assuming there's a user with ID 1
