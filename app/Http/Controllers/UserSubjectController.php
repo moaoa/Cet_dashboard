@@ -15,7 +15,7 @@ class UserSubjectController extends Controller
         $group = $student->groups()->first();
 
 
-       $lectures = Lecture::with('user', 'group', 'subject', )->where('group_id', $group->id)->get();
+       $lectures = Lecture::with('user', 'group', 'subject')->where('group_id', $group->id)->get();
 
        $data =  $lectures->map(function($lecture) use ($group){
             return [
