@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lecture;
 use App\Models\User;
-use App\Models\UserSubject;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserSubjectController extends Controller
 {
@@ -13,9 +12,18 @@ class UserSubjectController extends Controller
     {
         $student = User::query()->where('name', 'ahmad')->first();
 
-        $subjects = UserSubject::with('subject')->where('user_id', $student->id)->where('passed', false)->get();
-        $data = $subjects->map(function ($subject){
-            return $subject->subject;
+        $group = $student->groups()->first();
+
+
+       $lectures = Lecture::with('user', 'group', 'subject', )->where('group_id', $group->id)->get();
+
+       $data =  $lectures->map(function($lecture) use ($group){
+            return [
+                'id' => $lecture->subject->id,
+                'name' => $lecture->subject->name,
+                'teacher_name' => $lecture->user->name,
+                'group_name' => $group->name,
+            ];
         });
 
         return response()->json($data);
