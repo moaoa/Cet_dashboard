@@ -112,7 +112,7 @@ Route::prefix('student')->group(function () {
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
-    Route::get('/homeworks/{id}', [StudentHomeworksController::class, 'addComment'])->name('student-add-comment');
+    Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment'])->name('student-add-comment');
 });
 
 
