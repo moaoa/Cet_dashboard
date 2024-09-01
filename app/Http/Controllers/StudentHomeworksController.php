@@ -47,7 +47,7 @@ class StudentHomeworksController extends Controller
         $data = $homeworks->map(function ($homework) use ($group, $group_users){
             $comments = $homework->comments->map(function ($comment) use ($group_users) {
                 return [
-                    'conent' => $comment->content,
+                    'content' => $comment->content,
                     'user_name' => $group_users->firstWhere('id', $comment->user_id)->name,
                     'created_at' => $comment->created_at
                 ];
