@@ -45,7 +45,7 @@ class StudentHomeworksController extends Controller
                     $query->where('groups.id', $group->id)
                         ->withPivot('due_time');
                 }
-            ])->get();
+            ])->where('subject_id', $subject_id)->get();
 
         $group_users = $group->users()->get();
 
