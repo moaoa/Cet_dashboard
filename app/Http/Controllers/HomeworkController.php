@@ -52,9 +52,8 @@ class HomeworkController extends Controller
         $uploadedFiles = [];
 
         foreach ($request->file('attachments') as $file) {
-            dd($file);
             // Get the original file name
-            $file = $request->file('files');
+            $file = $request->file('attachments');
             $fileName = $file->getClientOriginalName();
             $fileName = str_replace(' ', '_', $fileName);
 
@@ -69,11 +68,11 @@ class HomeworkController extends Controller
             $uploadedFiles[] = asset(Storage::url($path));
         }
 
-            // Return a response with the paths of the uploaded files
-            return response()->json([
-                'message' => 'Files uploaded successfully',
-                'file_paths' => $uploadedFiles
-            ]);
+        // Return a response with the paths of the uploaded files
+        return response()->json([
+            'message' => 'Files uploaded successfully',
+            'file_paths' => $uploadedFiles
+        ]);
 
     }
 
