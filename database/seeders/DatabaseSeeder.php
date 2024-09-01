@@ -106,8 +106,30 @@ class DatabaseSeeder extends Seeder
 
         // Create a new Homework instance and associate it with the first instances of the related models
         $homework = Homework::create([
-            'name' => 'Sample Homework',
-            'description' => 'some description',
+            'name' => 'واجب رياضيات',
+            'description' => 'حل مسائل الجبر من الصفحة 25 إلى 30',
+            'attachments' => json_encode([
+                'name' => 'Homework II.png',
+                'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
+            ]),
+            'user_id' => $user->id,
+            'subject_id' => $subject->id,
+        ]);
+
+        $homework = Homework::create([
+            'name' => 'واجب رياضيات',
+            'description' => 'حل مسائل الجبر من الصفحة 25 إلى 30',
+            'attachments' => json_encode([
+                'name' => 'Homework II.png',
+                'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
+            ]),
+            'user_id' => $user->id,
+            'subject_id' => $subject->id,
+        ]);
+
+        $homework = Homework::create([
+            'name' => 'بحث عن النباتات',
+            'description' => 'كتابة تقرير عن أنواع النباتات وفوائدها.',
             'attachments' => json_encode([
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
