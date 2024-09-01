@@ -31,11 +31,6 @@ class StudentHomeworksController extends Controller
             ], 422);
         }
 
-
-        // $homeworks = $group->homeworks()->where('subject_id', $subject_id)->get();
-        //how only the group commnts for the student
-        //
-        // $group_users =
         $homeworks = Homework::query()
             ->with([
                 'comments' => function ($query) use ($group) {
@@ -61,7 +56,7 @@ class StudentHomeworksController extends Controller
                 'id' => $homework->id,
                 'name' => $homework->name,
                 'description' => $homework->description,
-                'attachments' => $homework->attachments,
+                'attachments' => json_decode($homework->attachments),
                 'comments' => $comments,
                 'date' => $pivotTable = DB::table('homework_groups')
                     ->select('due_time')
