@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AttendanceStatus;
+use App\Models\Comment;
 use App\Models\Homework;
 use App\Models\Lecture;
 use App\Models\User;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class StudentHomeworksController extends Controller
 {
@@ -67,5 +69,32 @@ class StudentHomeworksController extends Controller
         });
 
         return response()->json($data);
+    }
+    public function addComment(String $homework_id, Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:255', // Adjust validation rules as needed
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        // Check if the homework_id exists in the database
+        $homework = Homework::find($homework_id);
+
+        if (!$homework) {
+            return response()->json(['error' => 'Homework not found'], 404);
+        }
+
+        $student = User::query()->where('name', 'ahmad')->first();
+
+        Comment::create([
+            'content' => $request->input('content'),
+            'homework_id' => $homework_id,
+            'user_id' => $student->id
+        ]);
+
+        return response()->json([], 201);
     }
 }
