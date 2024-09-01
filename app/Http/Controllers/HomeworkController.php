@@ -39,19 +39,20 @@ class HomeworkController extends Controller
         return response()->json($homework, 201);
     }
 
-    public function uploadHomeworkAnswer(Request $request): JsonResponse
+    // public function uploadHomeworkAnswer(Request $request): JsonResponse
+    public function uploadHomeworkAnswer(Request $request)
     {
         // Validate the file inputs
         $request->validate([
-            'files.*' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048', // Example validation rules
+            'attachments.*' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048', // Example validation rules
         ]);
 
-        if(!$request->hasFile('files')) return response()->json(['message' => 'No files uploaded'], 400);
+        if(!$request->hasFile('attachments')) return response()->json(['message' => 'No files uploaded'], 400);
 
         $uploadedFiles = [];
 
-
-        // foreach ($request->file('files') as $file) {
+        foreach ($request->file('attachments') as $file) {
+            dd($file);
             // Get the original file name
             $file = $request->file('files');
             $fileName = $file->getClientOriginalName();
@@ -64,8 +65,9 @@ class HomeworkController extends Controller
             $path = $file->storeAs($destinationPath, $fileName, 'public');
 
             // Add the path to the array of uploaded files
-            $uploadedFiles[] = url(asset($path));
-        // }
+
+            $uploadedFiles[] = asset(Storage::url($path));
+        }
 
             // Return a response with the paths of the uploaded files
             return response()->json([
