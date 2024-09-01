@@ -119,10 +119,10 @@ class DatabaseSeeder extends Seeder
         $homework = Homework::create([
             'name' => 'واجب رياضيات',
             'description' => 'حل مسائل الجبر من الصفحة 25 إلى 30',
-            'attachments' => json_encode([
+            'attachments' => json_encode([[
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
-            ]),
+            ]]),
             'user_id' => $user->id,
             'subject_id' => $subject->id,
         ]);
@@ -130,10 +130,10 @@ class DatabaseSeeder extends Seeder
         $homework = Homework::create([
             'name' => 'بحث عن النباتات',
             'description' => 'كتابة تقرير عن أنواع النباتات وفوائدها.',
-            'attachments' => json_encode([
+            'attachments' => json_encode([[
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
-            ]),
+            ]]),
             'user_id' => $user->id,
             'subject_id' => $subject->id,
         ]);
