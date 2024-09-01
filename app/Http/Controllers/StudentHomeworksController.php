@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\AttendanceStatus;
 use App\Models\Comment;
 use App\Models\Homework;
+use App\Models\HomeworkUserAnswer;
 use App\Models\Lecture;
 use App\Models\User;
 use Carbon\Carbon;
@@ -46,7 +47,12 @@ class StudentHomeworksController extends Controller
 
         $group_users = $group->users()->get();
 
-        $data = $homeworks->map(function ($homework) use ($group, $group_users){
+        $answers = HomeworkUserAnswer::where('user_id', $student->id)
+            ->whereIn('homework_id', $homeworks->pluck('id'))
+            ->get();
+
+        $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers){
+            $done = $answers->where('homework', $homework->id)->count() > 0;
             $comments = $homework->comments->map(function ($comment) use ($group_users) {
                 return [
                     'content' => $comment->content,
@@ -64,7 +70,8 @@ class StudentHomeworksController extends Controller
                     ->select('due_time')
                     ->where('group_id', $group->id)
                     ->where('homework_id', $homework->id)
-                    ->first()?->due_time
+                    ->first()?->due_time,
+                'done' => $done
             ];
         });
 
