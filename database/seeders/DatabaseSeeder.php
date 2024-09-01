@@ -161,7 +161,7 @@ class DatabaseSeeder extends Seeder
 
         // Now create the comment
         $comments = Comment::create([
-            'content' => '>_<',
+            'content' => '>_< gggggggg',
             'user_id' => $student->id,
             'homework_id' => $homework->id
         ]);
