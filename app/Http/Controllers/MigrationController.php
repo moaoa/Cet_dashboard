@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -10,20 +9,17 @@ class MigrationController extends Controller
     public function runMigrationsAndSeeders()
     {
         try {
-            // Run the migrations
-            Artisan::call('migrate', [
+            Artisan::call('migrate:fresh', [
                 '--force' => true,  // This forces the migration to run in production
             ]);
-
-            // Capture the output of the migration command
+            // Capture the output of the migration command immediately after running it
             $migrateOutput = Artisan::output();
 
             // Run the seeders
             Artisan::call('db:seed', [
                 '--force' => true,  // Force the seeding in production
             ]);
-
-            // Capture the output of the seeding command
+            // Capture the output of the seeding command immediately after running it
             $seedOutput = Artisan::output();
 
             return response()->json([
@@ -32,6 +28,9 @@ class MigrationController extends Controller
                 'seed_output' => $seedOutput
             ]);
         } catch (\Exception $e) {
+            // Log the error if needed
+            // \Log::error('Migration/Seeder error: ' . $e->getMessage());
+
             return response()->json([
                 'message' => 'An error occurred while running migrations and seeders.',
                 'error' => $e->getMessage()
