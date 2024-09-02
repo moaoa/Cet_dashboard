@@ -175,7 +175,7 @@ class DatabaseSeeder extends Seeder
 
         $quiz->groups()->attach($group, [
             'start_time' => now(),
-            'end_time' => Carbon::now()->addSecond(20),
+            'end_time' => Carbon::now()->addMinute(5),
         ]);
 
         $questions = [
