@@ -59,9 +59,10 @@ class HomeworkController extends Controller
 
         $attachments = [];
 
-        foreach ($request->file('attachments') as $file) {
+        $files = $request->file('attachments');
+
+        foreach ($files as $file) {
             // Get the original file name
-            $file = $request->file('attachments');
             $fileName = $file->getClientOriginalName();
             $fileName = str_replace(' ', '_', $fileName);
 
@@ -81,7 +82,7 @@ class HomeworkController extends Controller
           HomeworkUserAnswer::create([
               'user_id' => $student->id,
               'homework_id' => $homework_id,
-              'attachments' => json_encode()
+              'attachments' => json_encode($attachments)
           ]);
         }
 
