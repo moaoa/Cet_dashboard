@@ -70,7 +70,7 @@ class HomeworkController extends Controller
             $destinationPath = '/uploads/files'; // You can change this path
 
             // Store the file
-            $path = $file->storeAs($destinationPath, $fileName, 'public');
+            $path = $file->storeAs($destinationPath, $student->id . '-' . $fileName, 'public');
 
             // Add the path to the array of uploaded files
 
