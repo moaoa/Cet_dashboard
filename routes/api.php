@@ -11,6 +11,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\Student\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
 use App\Models\UserSubject;
@@ -40,10 +41,6 @@ Route::group([], function () {
     Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
     Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
 });
-
-
-
-
 
 
 // Lecture students Routes
@@ -108,12 +105,13 @@ Route::name('teacher')->group(function () {
 
 // Student Stuff
 Route::middleware('auth:sanctum')->prefix('student')->group(function () {
-    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
-    Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks.index');
+    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures');
+    Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks');
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
     Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment'])->name('student-add-comment');
+    Route::put('/update', [UserController::class, 'update']);
 });
 
 
