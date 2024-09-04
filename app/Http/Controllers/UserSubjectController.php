@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Lecture;
 use App\Models\User;
+use Illuminate\Http\Client\Request;
 use Illuminate\Http\JsonResponse;
 
 class UserSubjectController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
 
         $group = $student->groups()->first();
 
 
-       $lectures = Lecture::with('user', 'group', 'subject')->where('group_id', $group->id)->get();
+        $lectures = Lecture::with('user', 'group', 'subject')->where('group_id', $group->id)->get();
 
-       $data =  $lectures->map(function($lecture) use ($group){
+        $data =  $lectures->map(function ($lecture) use ($group) {
             return [
                 'id' => $lecture->subject->id,
                 'name' => $lecture->subject->name,

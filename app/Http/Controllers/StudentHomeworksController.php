@@ -22,13 +22,13 @@ class StudentHomeworksController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(String $subject_id): JsonResponse
+    public function index(String $subject_id, Request $request): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
         // TODO: fix groups to group
         $group = $student->groups()->first();
 
-        if(!$group){
+        if (!$group) {
             return response()->json([
                 'message' => 'لا يوجد مجموعات لهذا الطالب',
             ], 422);
@@ -37,7 +37,7 @@ class StudentHomeworksController extends Controller
         $homeworks = Homework::query()
             ->with([
                 'comments' => function ($query) use ($group) {
-                  $query->whereIn('user_id', $group->users()->get('id'));
+                    $query->whereIn('user_id', $group->users()->get('id'));
                 },
                 'groups' => function ($query) use ($group) {
                     $query->where('groups.id', $group->id)
@@ -51,7 +51,7 @@ class StudentHomeworksController extends Controller
             ->whereIn('homework_id', $homeworks->pluck('id'))
             ->get();
 
-        $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers){
+        $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers) {
             $done = $answers->where('homework', $homework->id)->count() > 0;
             $comments = $homework->comments->map(function ($comment) use ($group_users) {
                 return [
@@ -94,7 +94,7 @@ class StudentHomeworksController extends Controller
             return response()->json(['error' => 'Homework not found'], 404);
         }
 
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
 
         Comment::create([
             'content' => $request->input('content'),

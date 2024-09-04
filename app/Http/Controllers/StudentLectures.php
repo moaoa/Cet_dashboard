@@ -16,9 +16,9 @@ class StudentLectures extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
         // TODO: fix groups to group
         $group = $student->groups()->first();
 

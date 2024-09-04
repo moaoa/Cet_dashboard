@@ -43,7 +43,7 @@ class HomeworkController extends Controller
 
     public function uploadHomeworkAnswer(String $homework_id, Request $request): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
         // Validate the file inputs
         $request->validate([
             'attachments.*' => 'required|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048', // Example validation rules
@@ -51,11 +51,11 @@ class HomeworkController extends Controller
 
         $homework = Homework::find($homework_id);
 
-        if($homework == null) {
+        if ($homework == null) {
             return response()->json(['message' => 'لا يوجد واجب بهذا المعرف'], 422);
         }
 
-        if(!$request->hasFile('attachments')) return response()->json(['message' => 'No files uploaded'], 400);
+        if (!$request->hasFile('attachments')) return response()->json(['message' => 'No files uploaded'], 400);
 
         $attachments = [];
 
@@ -74,16 +74,15 @@ class HomeworkController extends Controller
 
             // Add the path to the array of uploaded files
 
-            $attachments[] = ['name' => $fileName, 'url' =>asset(Storage::url($path))];
+            $attachments[] = ['name' => $fileName, 'url' => asset(Storage::url($path))];
         }
 
-        if(count($attachments) > 0)
-        {
-          HomeworkUserAnswer::create([
-              'user_id' => $student->id,
-              'homework_id' => $homework_id,
-              'attachments' => json_encode($attachments)
-          ]);
+        if (count($attachments) > 0) {
+            HomeworkUserAnswer::create([
+                'user_id' => $student->id,
+                'homework_id' => $homework_id,
+                'attachments' => json_encode($attachments)
+            ]);
         }
 
         // Return a response with the paths of the uploaded files

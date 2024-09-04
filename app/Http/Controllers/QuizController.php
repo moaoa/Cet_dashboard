@@ -63,7 +63,7 @@ class QuizController extends Controller
             ], 422);
         }
 
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
 
         $studentGroup = $student->groups()->first();
 
@@ -75,7 +75,7 @@ class QuizController extends Controller
             ->select('end_time')
             ->first()->end_time;
 
-        if(Carbon::parse($end_time)->isPast()) {
+        if (Carbon::parse($end_time)->isPast()) {
             return response()->json([
                 'message' => 'لقد إنتهى وقت الاختبار'
             ], 422);
@@ -87,14 +87,14 @@ class QuizController extends Controller
             ->get();
 
         $done = $user_answers->contains(function ($item) use ($student) {
-             return $item->user_id == $student->id;
+            return $item->user_id == $student->id;
         });
 
-        if($done){
-           return response()->json(['message'=> 'عذرا تم اجتياز هذا الاختبار من قبل'], 422);
+        if ($done) {
+            return response()->json(['message' => 'عذرا تم اجتياز هذا الاختبار من قبل'], 422);
         }
 
-        $answers =  array_map(function($item) use ($student) {
+        $answers =  array_map(function ($item) use ($student) {
             return [...$item, 'user_id' => $student->id];
         }, $request->input('answers'));
 
@@ -103,7 +103,7 @@ class QuizController extends Controller
     }
     public function quizResult(Request $request, String $quiz_id): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
 
         $quiz = Quiz::findOrFail($quiz_id);
 
@@ -112,18 +112,18 @@ class QuizController extends Controller
             ->join('questions', 'questions.id', '=', 'user_answers.question_id')
             ->where('user_answers.user_id', $student->id)
             ->where('questions.quiz_id', $quiz->id)
-            ->select('questions.id as id', 'questions.question', 'questions.answer as model_answer', 'options','user_answers.answer as user_answer')
+            ->select('questions.id as id', 'questions.question', 'questions.answer as model_answer', 'options', 'user_answers.answer as user_answer')
             ->get();
 
         $score = 0;
 
-        $user_answers->each(function($item) use (&$score){
-            if($item->model_answer == $item->user_answer){
+        $user_answers->each(function ($item) use (&$score) {
+            if ($item->model_answer == $item->user_answer) {
                 $score++;
             }
         });
 
-        $data = $quiz->questions()->get()->map(function($question) use ($user_answers){
+        $data = $quiz->questions()->get()->map(function ($question) use ($user_answers) {
             return [
                 'question' => $question->question,
                 'model_answer' => $question->answer,
@@ -182,9 +182,9 @@ class QuizController extends Controller
         $quiz->delete();
         return response()->json(null, 204);
     }
-    public function studentQuizzes(): JsonResponse
+    public function studentQuizzes(Request $request): JsonResponse
     {
-        $student = User::query()->where('name', 'ahmad')->first();
+        $student = $request->user();
 
         $group = $student->groups()->first();
 
@@ -206,10 +206,10 @@ class QuizController extends Controller
             $pivot_record = $pivot->where('quiz_id', $quiz->id)->where('group_id', $group->id)->first();
 
             $done = $user_answers->contains(function ($answer) use ($quiz) {
-                 return $answer->quiz_id == $quiz->id;
+                return $answer->quiz_id == $quiz->id;
             });
 
-             return [
+            return [
                 'id' => $quiz->id,
                 'name' => $quiz->name,
                 'note' => $quiz->note,

@@ -9,10 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\UserType;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -46,7 +48,8 @@ class User extends Authenticatable
         'id' => 'integer',
         'ref_number' => 'integer',
         // 'type' => UserType::class
-        'type' => 'integer'
+        'type' => 'integer',
+        'password' => 'hashed'
     ];
 
     public function groups(): BelongsTo

@@ -10,6 +10,7 @@ use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\StudentHomeworksController;
 use App\Http\Controllers\StudentLectures;
+use App\Http\Controllers\Student\AuthController;
 use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
 use App\Models\UserSubject;
@@ -107,7 +108,7 @@ Route::name('teacher')->group(function () {
 
 // Student Stuff
 Route::prefix('student')->group(function () {
-    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
+    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index')->middleware('auth:sanctum');
     Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks.index');
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
@@ -119,3 +120,6 @@ Route::prefix('student')->group(function () {
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
 
 Route::get('/student/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
+
+Route::post('/register', [AuthController::class, 'register'])->name('student-register');
+Route::post('/login', [AuthController::class, 'login'])->name('student-login');
