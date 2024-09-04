@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Student;
 
 use App\Enums\UserType;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Register a new user
+    // jegister a new user
     public function register(Request $request)
     {
         $request->validate([
@@ -33,9 +34,9 @@ class AuthController extends Controller
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        Auth::login($user);
+        //Auth::login($user);
 
-        return response()->json(['message' => 'User registered successfully', 'token' => $token, 'user' => $user], 201);
+        return response()->json(['message' => 'User registered successfully', 'token' => $token, 'user' => new UserResource($user)], 201);
     }
 
     // User login
@@ -49,7 +50,7 @@ class AuthController extends Controller
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = User::where('email', $request->input('email'))->first();
             $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['message' => 'Login successful', 'user' => $user, 'token' => $token]);
+            return response()->json(['message' => 'Login successful', 'user' => new UserResource($user), 'token' => $token]);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
