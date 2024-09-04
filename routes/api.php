@@ -111,13 +111,14 @@ Route::middleware('auth:sanctum')->prefix('student')->group(function () {
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
     Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
     Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment'])->name('student-add-comment');
-    Route::put('/update', [UserController::class, 'update']);
 });
 
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
 
 Route::get('/student/subject', [UserSubjectController::class, 'index'])->middleware('auth:sanctum')->name('student-subjects');
+
+Route::put('/users/update', [UserController::class, 'update'])->middleware('auth:sanctum');
 
 Route::post('/register', [AuthController::class, 'register'])->name('student-register');
 Route::post('/login', [AuthController::class, 'login'])->name('student-login');
