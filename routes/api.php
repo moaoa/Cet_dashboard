@@ -119,7 +119,7 @@ Route::middleware('auth:sanctum')->prefix('student')->group(function () {
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
 
-Route::get('/student/subject', [UserSubjectController::class, 'index'])->name('student-subjects');
+Route::get('/student/subject', [UserSubjectController::class, 'index'])->middleware('auth:sanctum')->name('student-subjects');
 
 Route::post('/register', [AuthController::class, 'register'])->name('student-register');
 Route::post('/login', [AuthController::class, 'login'])->name('student-login');

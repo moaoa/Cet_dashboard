@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lecture;
-use App\Models\User;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class UserSubjectController extends Controller
