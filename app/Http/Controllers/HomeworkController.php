@@ -78,11 +78,10 @@ class HomeworkController extends Controller
         }
 
         if (count($attachments) > 0) {
-            HomeworkUserAnswer::create([
-                'user_id' => $student->id,
-                'homework_id' => $homework_id,
+            HomeworkUserAnswer::updateOrInsert([ 'user_id' => $student->id, 'homework_id' => $homework_id, ], [
                 'attachments' => json_encode($attachments)
             ]);
+
         }
 
         // Return a response with the paths of the uploaded files
