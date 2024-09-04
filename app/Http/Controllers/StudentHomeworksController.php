@@ -55,6 +55,7 @@ class StudentHomeworksController extends Controller
 
         $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers) {
             $done = $answers->where('homework_id', $homework->id)->count() > 0;
+            $user_attachments = $answers->where('homework_id', $homework->id)->first()?->attachments;
             $comments = $homework->comments->map(function ($comment) use ($group_users) {
                 return [
                     'content' => $comment->content,
@@ -74,7 +75,7 @@ class StudentHomeworksController extends Controller
                     ->where('homework_id', $homework->id)
                     ->first()?->due_time,
                 'done' => $done,
-                'student_attachments' => $answers->where('homework_id', $homework->id)->first()?->attachments
+                'student_attachments' => $user_attachments ? json_decode($user_attachments) : null
             ];
         });
 
