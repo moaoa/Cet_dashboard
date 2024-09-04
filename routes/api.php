@@ -107,8 +107,8 @@ Route::name('teacher')->group(function () {
 });
 
 // Student Stuff
-Route::prefix('student')->group(function () {
-    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index')->middleware('auth:sanctum');
+Route::middleware('auth:sanctum')->prefix('student')->group(function () {
+    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures.index');
     Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks.index');
     Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
     Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
