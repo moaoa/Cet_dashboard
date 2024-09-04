@@ -22,7 +22,7 @@ class StudentHomeworksController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(String $subject_id, Request $request): JsonResponse
+    public function index(String $subject_id, Request $request)
     {
         $student = $request->user();
         // TODO: fix groups to group
@@ -51,8 +51,10 @@ class StudentHomeworksController extends Controller
             ->whereIn('homework_id', $homeworks->pluck('id'))
             ->get();
 
+        //return $answers;
+
         $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers) {
-            $done = $answers->where('homework', $homework->id)->count() > 0;
+            $done = $answers->where('homework_id', $homework->id)->count() > 0;
             $comments = $homework->comments->map(function ($comment) use ($group_users) {
                 return [
                     'content' => $comment->content,
@@ -71,7 +73,8 @@ class StudentHomeworksController extends Controller
                     ->where('group_id', $group->id)
                     ->where('homework_id', $homework->id)
                     ->first()?->due_time,
-                'done' => $done
+                'done' => $done,
+                'student_attachments' => $answers->where('homework_id', $homework->id)->first()?->attachments
             ];
         });
 

@@ -59,7 +59,7 @@ Route::group([], function () {
 
 
 //  Homework routes
-Route::group([], function () {
+Route::middleware('auth:sanctum')->group(function () {
     Route::get('/homeworks', [HomeworkController::class, 'index'])->name('homeworks.index');
     Route::post('/homeworks', [HomeworkController::class, 'store'])->name('homeworks.store');
     Route::post('/homeworks/{homework}/answer', [HomeworkController::class, 'uploadHomeworkAnswer'])->name('uploadHomeworkAnswer');
