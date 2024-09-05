@@ -10,6 +10,7 @@
         "dedoc/scramble": "^0.11.11",
         "filament/filament": "^3.2",
         "laravel/framework": "^11.9",
+        "laravel/pulse": "^1.2",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "league/flysystem-sftp-v3": "^3.0"
