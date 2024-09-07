@@ -64,4 +64,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'user_subjects')->withPivot('passed');
     }
+    public function isAdmin(){
+        return $this->type == UserType::Student;
+    }
 }
