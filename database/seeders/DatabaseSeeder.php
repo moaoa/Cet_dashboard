@@ -17,7 +17,6 @@ use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -28,11 +27,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $admin = User::factory()->create([
             'name' => 'moaad',
             'ref_number' => 1111,
-            'type' => 1,
-            'password' => Hash::make('password'),
+            'type' => UserType::Admin,
             'email' => 'moaadbn3@gmail.com',
             'email_verified_at' => now(),
             'phone_number' => '1222223',
@@ -41,14 +39,44 @@ class DatabaseSeeder extends Seeder
         Semester::factory()->count(3)->create();
 
         // Seed Subjects
-        Subject::factory()->count(10)->create();
+        //Subject::factory()->count(10)->create();
+        $subjects = Subject::factory()->createMany([
+            ['name' => 'كهربائية 1'],
+            ['name' => 'كهربائية 2'],
+            ['name' => 'رياضة 1'],
+            ['name' => 'رياضة 2'], // You can add more if needed
+        ]);
 
         // Seed ClassRooms
         ClassRoom::factory()->count(5)->create();
 
-        Group::factory()->count(2)->create();
+        //Group::factory()->count(2)->create();
+        Group::factory()->create([
+            'name' => '1'
+        ]);
 
-        Homework::factory()->count(2)->create();
+        Group::factory()->create([
+            'name' => '2'
+        ]);
+
+        //Homework::factory()->count(2)->create();
+
+        Homework::factory()->create([
+            'name' => 'واجب رقم 1',
+            'description' => 'السلام عليكم جميعا للطلبة المطالَبين بواجبات أو عروض. السبت القادم سيكون آخر فرصة إن شاء الله فالرجاء منكم الالتزام بتقديم واجباتكم. وبالتوفيق',
+            'attachments' => json_encode([
+                'name' => 'Homework II.png',
+                'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
+            ]),
+        ]);
+        Homework::factory()->create([
+            'name' => 'واجب رقم 2',
+            'description' => 'السلام عليكم جميعا للطلبة الذين لم يقوموا بعمل اختبار ثاني أو من يريد اختبار تعويضي سيكون هناك اختبار أخير يوم السبت القادم إن شاء الله في الدرس الماضي (البيانات الضخمة) سيكون توقيت الاختبار قبل الصلاة الظهر وكذلك في بداية المحاضرة سأطلب من بعض الطلبة أن يجيبوا شفويا على أسئلة متعلقة بآخر درس (لدرجات المشاركة) حنستهدف بالتحديد الطلبة الذين لم يشاركوا كثيرا خلال الفصل وسأقوم إن شاء الله بتسليم أوراق الامتحان النصفي لكم في نهاية المحاضرة',
+            'attachments' => json_encode([
+                'name' => 'Homework II.png',
+                'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
+            ]),
+        ]);
 
         // Seed Groups
         $group = Group::first();
@@ -88,7 +116,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $subject2 = Subject::create([
-            'name' => 'كهربائية 1',
+            'name' => 'كهربائية 3',
             'semester_id' => 2,
         ]);
         Lecture::create([
@@ -101,7 +129,10 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1, // Assuming there's a user with ID 1
         ]);
 
-        $user = User::first();
+        $teacher = User::factory()->create([
+            'name' => 'رحيم',
+            'type' => UserType::Teacher->value,
+        ]);
         $group = Group::first();
 
         // Create a new Homework instance and associate it with the first instances of the related models
@@ -112,7 +143,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $user->id,
+            'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
 
@@ -123,7 +154,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $user->id,
+            'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
 
@@ -134,7 +165,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $user->id,
+            'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
 
@@ -145,18 +176,16 @@ class DatabaseSeeder extends Seeder
         $pivot = $homework->groups()->where('group_id', $group->id)->first()->pivot;
 
 
-        $student = User::create([
+        $student = User::factory()->create([
             'name' => 'ahmad',
             'ref_number' => 2222,
             'type' => UserType::Student,
-            'password' => Hash::make('password'),
             'email' => 'ahmad@gmail.com',
             'email_verified_at' => now(),
             'phone_number' => '1222223',
             'group_id' => $group->id
         ]);
 
-        $subjects = Subject::factory()->count(4)->create();
         $student->subjects()->attach($subjects->pluck('id'), ['passed' => false]);
 
         // Now create the comment
@@ -167,7 +196,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $quiz = Quiz::create([
-            'user_id' => $user->id,
+            'user_id' => $teacher->id,
             'name' => 'الاختبار رقم 1',
             'subject_id' => $subject->id,
             'note' => 'التسليم يوم 30 تسعة >_<تن'
@@ -222,7 +251,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         $quiz2 = Quiz::create([
-            'user_id' => $user->id,
+            'user_id' => $teacher->id,
             'name' => 'الاختبار رقم 2',
             'subject_id' => $subject->id,
             'note' => 'الاختبار رقم 2'
