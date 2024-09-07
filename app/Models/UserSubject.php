@@ -17,7 +17,6 @@ class UserSubject extends Model
      */
     protected $fillable = [
         'passed',
-        'note',
         'subject_id',
         'user_id',
     ];
