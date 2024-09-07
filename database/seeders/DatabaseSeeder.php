@@ -135,6 +135,8 @@ class DatabaseSeeder extends Seeder
         ]);
         $group = Group::first();
 
+        $tomorrow = Carbon::tomorrow()->toDateTimeString();
+
         // Create a new Homework instance and associate it with the first instances of the related models
         $homework = Homework::create([
             'name' => 'واجب رياضيات',
@@ -146,6 +148,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
+        // Associate the Homework with the first Group
+        $homework->groups()->attach($group->id, ['due_time' => $tomorrow]);
 
         $homework = Homework::create([
             'name' => 'واجب رياضيات',
@@ -157,6 +161,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
+        // Associate the Homework with the first Group
+        $homework->groups()->attach($group->id, ['due_time' => $tomorrow]);
 
         $homework = Homework::create([
             'name' => 'بحث عن النباتات',
@@ -168,13 +174,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
-
-        $tomorrow = Carbon::tomorrow()->toDateTimeString();
         // Associate the Homework with the first Group
         $homework->groups()->attach($group->id, ['due_time' => $tomorrow]);
-
-        $pivot = $homework->groups()->where('group_id', $group->id)->first()->pivot;
-
 
         $student = User::factory()->create([
             'name' => 'ahmad',
