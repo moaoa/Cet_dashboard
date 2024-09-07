@@ -24,7 +24,6 @@ class UserSubjectFactory extends Factory
     {
         return [
             'passed' => $this->faker->boolean(),
-            'note' => $this->faker->regexify('[A-Za-z0-9]{255}'),
             'subject_id' => Subject::factory(),
             'user_id' => User::factory(),
         ];
