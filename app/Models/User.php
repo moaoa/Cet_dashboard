@@ -52,9 +52,10 @@ class User extends Authenticatable
         'password' => 'hashed'
     ];
 
-    public function groups(): BelongsTo
+    public function groups(): BelongsToMany
     {
-        return $this->belongsTo(Group::class, 'group_id');
+        //return $this->belongsToMany(Group::class, 'group_id');
+        return $this->belongsToMany(Group::class);
     }
     public  function comments(): HasMany
     {

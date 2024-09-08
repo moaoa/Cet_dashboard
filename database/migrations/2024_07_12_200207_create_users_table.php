@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number')->nullable();
-            $table->foreignId('group_id')->nullable()->constrained();
             $table->timestamps();
             $table->rememberToken();
         });

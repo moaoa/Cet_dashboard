@@ -31,9 +31,9 @@ class Group extends Model
         'id' => 'integer',
     ];
 
-    public function users(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function quizzes(): BelongsToMany

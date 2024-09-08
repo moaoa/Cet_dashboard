@@ -40,4 +40,9 @@ class Subject extends Model
     {
         return $this->belongsToMany(User::class, 'user_subjects')->withPivot('passed');
     }
+
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

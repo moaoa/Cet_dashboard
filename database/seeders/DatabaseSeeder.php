@@ -184,8 +184,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'ahmad@gmail.com',
             'email_verified_at' => now(),
             'phone_number' => '1222223',
-            'group_id' => $group->id
         ]);
+
+        $student->groups()->attach($group);
 
         $student->subjects()->attach($subjects->pluck('id'), ['passed' => false]);
 
