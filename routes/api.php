@@ -14,8 +14,6 @@ use App\Http\Controllers\Student\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
-use App\Models\UserSubject;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
