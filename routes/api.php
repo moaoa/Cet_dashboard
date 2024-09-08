@@ -8,11 +8,8 @@ use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\MigrationController;
 use App\Http\Controllers\QuestionController;
-use App\Http\Controllers\StudentHomeworksController;
-use App\Http\Controllers\StudentLectures;
 use App\Http\Controllers\Student\AuthController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserSubjectController;
 use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
@@ -101,20 +98,9 @@ Route::name('teacher')->group(function () {
     Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
 });
 
-// Student Stuff
-Route::middleware('auth:sanctum')->prefix('student')->group(function () {
-    Route::get('/lectures', [StudentLectures::class, 'index'])->name('user-lectures');
-    Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index'])->name('student-homeworks');
-    Route::get('/quizzes', [QuizController::class, 'studentQuizzes'])->name('student-homeworks.index');
-    Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz'])->name('student-quiz-answer');
-    Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult'])->name('student-quiz-result');
-    Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment'])->name('student-add-comment');
-});
-
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
 
-Route::get('/student/subject', [UserSubjectController::class, 'index'])->middleware('auth:sanctum')->name('student-subjects');
 
 Route::put('/users/update', [UserController::class, 'update'])->middleware('auth:sanctum');
 
