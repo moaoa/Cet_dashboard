@@ -63,7 +63,7 @@ return [
     ],
 
     /*
-     * The list of servers of the API. By default, when `null`, server URL will be created from
+     * The list of ervers of the API. By default, when `null`, server URL will be created from
      * `scramble.api_path` and `scramble.api_domain` config variables. When providing an array, you
      * will need to specify the local server URL manually (if needed).
      *
@@ -77,8 +77,8 @@ return [
      * ```
      */
     'servers' => [
-        'Dev' => 'http://localhost:8000/api',
         'Prod' => 'http://moaad.ly/api',
+        'Dev' => 'http://localhost:8000/api',
     ],
 
     'middleware' => [
