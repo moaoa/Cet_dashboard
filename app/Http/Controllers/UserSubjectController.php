@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\SubjectResource;
+//use App\Http\Resources\SubjectResource;
+use App\Models\Lecture;
 use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -15,8 +16,17 @@ class UserSubjectController extends Controller
 
         $group = $student->groups()->first();
 
-        $subjects = UserSubject::with('group', 'user', 'subject')->where('user_id', $student->id)->get();
+        $lectures = Lecture::with('user', 'group', 'subject')->where('group_id', $group->id)->get();
 
-        return response()->json(SubjectResource::collection($subjects));
+        $data =  $lectures->map(function ($lecture) use ($group) {
+            return [
+                'id' => $lecture->subject->id,
+                'name' => $lecture->subject->name,
+                'teacher_name' => $lecture->user->name,
+                'group_name' => $group->name,
+            ];
+        });
+
+        return response()->json($data);
     }
 }
