@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('group_subject', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->foreignId('subject_id');
             $table->foreignId('group_id');
         });
     }
