@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AttendanceStatus;
+use App\Models\Attendance;
 use App\Models\Lecture;
+use App\Models\TeacherAbsence;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -19,32 +21,36 @@ class StudentLectures extends Controller
     public function index(Request $request): JsonResponse
     {
         $student = $request->user();
-        // TODO: fix groups to group
-        $group = $student->groups()->first();
+        $groups = $student->groups()->get();
 
-        if(!$group){
+        if(!$groups){
             return response()->json([
                 'message' => 'لا يوجد مجموعات لهذا الطالب',
             ], 422);
         }
 
-        $studentAbsentDaysCount = Lecture::query()->with(['attendances' => function($query) use($student) {
-            $query
-                ->where('status', AttendanceStatus::Absent)
-                ->where('user_id', $student->id);
-        }])->count();
+        $studentAbsentDays = Attendance::where('user_id', $student->id)->get();
 
-        $teacherAbsentDaysCount = Lecture::query()->with(['attendances' => function($query) use($student) {
-            $query
-                ->where('status', AttendanceStatus::Absent)
-                ->where('user_id', 'lecture.user_id');
-        }])->count();
+        $teacherAbsentDays = TeacherAbsence::all();
 
-        $absencePercentage = ($studentAbsentDaysCount / (16 - $teacherAbsentDaysCount));
+        $lectures = Lecture::query()
+            ->with(['subject'])
+            ->whereIn('group_id', $groups->pluck('id'))
+            ->get();
 
-        $lectures = Lecture::query()->with(['subject'])->where('group_id', $group->id)->get();
+        $data = $lectures->map(function ($lecture) use ($teacherAbsentDays, $studentAbsentDays) {
 
-        $data = $lectures->map(function ($lecture) use ($absencePercentage) {
+            $teacherbsentDaysInLectureCount = $teacherAbsentDays
+                ->where('lecture_id', $lecture->id)
+                ->where('teacher_id', $lecture->teacher_id)
+                ->count();
+
+            $studentAbsentDaysInLectureCount = $studentAbsentDays
+                ->where('lecture_id', $lecture->id)
+                ->count();
+
+            $absencePercentage = ($studentAbsentDaysInLectureCount / (16 - $teacherbsentDaysInLectureCount));
+
             return [
                 'id' => $lecture->id,
                 'start_time' => Carbon::parse($lecture->start_time)->format('H:i'),

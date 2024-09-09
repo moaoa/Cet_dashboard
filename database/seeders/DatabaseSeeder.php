@@ -144,7 +144,6 @@ class DatabaseSeeder extends Seeder
 
         $group = Group::first();
 
-
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
 
         // Create a new Homework instance and associate it with the first instances of the related models
