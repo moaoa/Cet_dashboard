@@ -40,7 +40,7 @@ class StudentLectures extends Controller
 
         $data = $lectures->map(function ($lecture) use ($teacherAbsentDays, $studentAbsentDays) {
 
-            $teacherbsentDaysInLectureCount = $teacherAbsentDays
+            $teacherAbsentDaysInLectureCount = $teacherAbsentDays
                 ->where('lecture_id', $lecture->id)
                 ->where('teacher_id', $lecture->teacher_id)
                 ->count();
@@ -49,7 +49,7 @@ class StudentLectures extends Controller
                 ->where('lecture_id', $lecture->id)
                 ->count();
 
-            $absencePercentage = ($studentAbsentDaysInLectureCount / (16 - $teacherbsentDaysInLectureCount));
+            $absencePercentage = ($studentAbsentDaysInLectureCount / (16 - $teacherAbsentDaysInLectureCount));
 
             return [
                 'id' => $lecture->id,
