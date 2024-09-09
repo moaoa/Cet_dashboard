@@ -7,6 +7,7 @@ use App\Models\Lecture;
 use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class UserSubjectController extends Controller
 {
@@ -14,19 +15,19 @@ class UserSubjectController extends Controller
     {
         $student = $request->user();
 
-        $group = $student->groups()->first();
+        $groups = $student->groups();
 
-        $lectures = Lecture::with('user', 'group', 'subject')->where('group_id', $group->id)->get();
+        $subjects = DB::table('user_subjects')
+            ->join('group_subject', 'group_subject.subject_id', '=', 'user_subjects.subject_id')
+            ->join('subjects', 'subjects.id', '=', 'group_subject.subject_id')
+            ->join('groups', 'groups.id', '=', 'group_subject.group_id')
+            ->join('subject_teacher', 'subject_teacher.subject_id', '=', 'subjects.id')
+            ->join('teachers', 'teachers.id', '=', 'subject_teacher.teacher_id')
 
-        $data =  $lectures->map(function ($lecture) use ($group) {
-            return [
-                'id' => $lecture->subject->id,
-                'name' => $lecture->subject->name,
-                'teacher_name' => $lecture->user->name,
-                'group_name' => $group->name,
-            ];
-        });
+            ->where('user_subjects.user_id', $student->id)
+            ->select('subjects.id', 'subjects.name', 'groups.name as group_name', 'teachers.name as teacher_name')
+            ->get();
 
-        return response()->json($data);
+        return response()->json($subjects);
     }
 }

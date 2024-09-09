@@ -15,6 +15,7 @@ use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Semester;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
@@ -83,6 +84,11 @@ class DatabaseSeeder extends Seeder
         $classRoom = ClassRoom::first();
         $subject = Subject::first();
         $semester = Semester::first();
+        $teacher = Teacher::factory()->create([
+            'name' => 'رحيم',
+        ]);
+
+        $subject->groups()->attach($group);
 
         // Create a new Lecture instance and associate it with the first instances of the related models
         $lecture = Lecture::create([
@@ -119,6 +125,9 @@ class DatabaseSeeder extends Seeder
             'name' => 'كهربائية 3',
             'semester_id' => 2,
         ]);
+
+        $subject2->groups()->attach($group);
+
         Lecture::create([
             'start_time' => '2023-08-01 5:00:00',
             'end_time' => '2023-08-01 14:00:00',
@@ -129,11 +138,12 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1, // Assuming there's a user with ID 1
         ]);
 
-        $teacher = User::factory()->create([
-            'name' => 'رحيم',
-            'type' => UserType::Teacher->value,
-        ]);
+
+
+        $subject->teachers()->attach($teacher);
+
         $group = Group::first();
+
 
         $tomorrow = Carbon::tomorrow()->toDateTimeString();
 
