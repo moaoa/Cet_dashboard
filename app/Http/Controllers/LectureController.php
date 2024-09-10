@@ -53,29 +53,6 @@ class LectureController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Lecture $lecture
-     * @return JsonResponse
-     */
-    public function update(Request $request, Lecture $lecture): JsonResponse
-    {
-        $request->validate([
-            'start_time' => 'required',
-            'end_time' => 'required',
-            'day_of_week' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-            'class_room_id' => 'required|numeric',
-            'group_id' => 'required|numeric',
-            'user_id' => 'required|numeric',
-        ]);
-
-        $lecture->update($request->all());
-        return response()->json($lecture);
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param Lecture $lecture

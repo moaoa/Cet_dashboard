@@ -147,28 +147,6 @@ class QuizController extends Controller
         return response()->json(new QuizResource($quiz));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
-    public function update(Request $request, $id): JsonResponse
-    {
-        $validator = Validator::make($request->all(), [
-            'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        $quiz = Quiz::findOrFail($id);
-        $quiz->update($request->all());
-        return response()->json($quiz);
-    }
 
     /**
      * Remove the specified resource from storage.

@@ -102,25 +102,6 @@ class HomeworkController extends Controller
         return response()->json($homework);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param Homework $homework
-     * @return JsonResponse
-     */
-    public function update(Request $request, Homework $homework): JsonResponse
-    {
-        $request->validate([
-            'name' => 'required',
-            'user_id' => 'required|numeric',
-            'subject_id' => 'required|numeric',
-            'url' => 'required',
-        ]);
-
-        $homework->update($request->all());
-        return response()->json($homework);
-    }
 
     /**
      * Remove the specified resource from storage.
