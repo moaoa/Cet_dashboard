@@ -7,7 +7,6 @@ use App\Http\Controllers\HomeworkController;
 use App\Http\Controllers\LectureController;
 use App\Http\Controllers\LectureStudentsController;
 use App\Http\Controllers\MigrationController;
-use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\Student\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersAttendingQuizController;
@@ -20,21 +19,15 @@ use App\Http\Controllers\UserAnswerController;
 
 
 
-// QUIZ QUESTIONS
-Route::post('/quizzes/{quiz}/questions', [QuestionController::class, 'store'])->name('quiz-questions.store');
-Route::get('/quiz-questions/{id}', [QuestionController::class, 'show'])->name('quiz-questions.show');
-Route::put('/quiz-questions/{id}', [QuestionController::class, 'update'])->name('quiz-questions.update');
-Route::delete('/quiz-questions/{id}', [QuestionController::class, 'destroy'])->name('quiz-questions.destroy');
 
 
 // Quiz routes
 Route::group([], function () {
-    Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
-    Route::get('/quizzes/{quizId}/users', [QuizController::class, 'users'])->name('quizzes.index');
-    Route::post('/quizzes', [QuizController::class, 'store'])->name('quizzes.store');
-    Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
-    Route::put('/quizzes/{quiz}', [QuizController::class, 'update'])->name('quizzes.update');
-    Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
+    Route::get('/quizzes', [QuizController::class, 'index']);
+    Route::get('/quizzes/{quizId}/users', [QuizController::class, 'users']);
+    Route::post('/quizzes', [QuizController::class, 'store']);
+    Route::get('/quizzes/{quiz}', [QuizController::class, 'show']);
+    Route::delete('/quizzes/{quiz}', [QuizController::class, 'destroy']);
 });
 
 
@@ -45,64 +38,53 @@ Route::group([], function () {
 
 // lecture routes
 Route::group([], function () {
-    Route::get('/lectures', [LectureController::class, 'index'])->name('lectures.index');
-    Route::post('/lectures', [LectureController::class, 'store'])->name('lectures.store');
-    Route::get('/lectures/{lecture}', [LectureController::class, 'show'])->name('lectures.show');
-    Route::put('/lectures/{lecture}', [LectureController::class, 'update'])->name('lectures.update');
-    Route::delete('/lectures/{lecture}', [LectureController::class, 'destroy'])->name('lectures.destroy');
+    Route::get('/lectures', [LectureController::class, 'index']);
+    Route::post('/lectures', [LectureController::class, 'store']);
+    Route::get('/lectures/{lecture}', [LectureController::class, 'show']);
+    Route::delete('/lectures/{lecture}', [LectureController::class, 'destroy']);
 });
 
 
 //  Homework routes
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/homeworks', [HomeworkController::class, 'index'])->name('homeworks.index');
-    Route::post('/homeworks', [HomeworkController::class, 'store'])->name('homeworks.store');
-    Route::post('/homeworks/{homework}/answer', [HomeworkController::class, 'uploadHomeworkAnswer'])->name('uploadHomeworkAnswer');
-    Route::get('/homeworks/{homework}', [HomeworkController::class, 'show'])->name('homeworks.show');
-    Route::put('/homeworks/{homework}', [HomeworkController::class, 'update'])->name('homeworks.update');
-    Route::delete('/homeworks/{homework}', [HomeworkController::class, 'destroy'])->name('homeworks.destroy');
+    Route::get('/homeworks', [HomeworkController::class, 'index']);
+    Route::post('/homeworks', [HomeworkController::class, 'store']);
+    Route::post('/homeworks/{homework}/answer', [HomeworkController::class, 'uploadHomeworkAnswer']);
+    Route::get('/homeworks/{homework}', [HomeworkController::class, 'show']);
+    Route::delete('/homeworks/{homework}', [HomeworkController::class, 'destroy']);
 });
 
 //  Groups routes
 Route::group([], function () {
-    Route::get('/groups', [GroupController::class, 'index'])->name('groups.index');
-    Route::post('/groups', [GroupController::class, 'store'])->name('groups.store');
-    Route::get('/groups/{group}', [GroupController::class, 'show'])->name('groups.show');
-    Route::put('/groups/{group}', [GroupController::class, 'update'])->name('groups.update');
-    Route::delete('/groups/{group}', [GroupController::class, 'destroy'])->name('groups.destroy');
+    Route::get('/groups', [GroupController::class, 'index']);
+    Route::post('/groups', [GroupController::class, 'store']);
+    Route::get('/groups/{group}', [GroupController::class, 'show']);
+    Route::put('/groups/{group}', [GroupController::class, 'update']);
+    Route::delete('/groups/{group}', [GroupController::class, 'destroy']);
 });
 
 // Group Quiz Routes
 Route::group([], function () {
-    Route::get('/group-quizzes', [GroupQuizController::class, 'index'])->name('group-quizzes.index');
-    Route::post('/group-quizzes', [GroupQuizController::class, 'store'])->name('group-quizzes.store');
-    Route::get('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'show'])->name('group-quizzes.show');
-    Route::put('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'update'])->name('group-quizzes.update');
-    Route::delete('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'destroy'])->name('group-quizzes.destroy');
-});
-
-// User Answer Routes
-Route::group([], function () {
-    Route::get('/user-answers/{userId}', [UserAnswerController::class, 'index'])->name('user-answers.index');
-    Route::post('/user-answers', [UserAnswerController::class, 'store'])->name('user-answers.store');
-    Route::get('/user-answers/{userAnswer}', [UserAnswerController::class, 'show'])->name('user-answers.show');
-    Route::put('/user-answers/{userAnswer}', [UserAnswerController::class, 'update'])->name('user-answers.update');
-    Route::delete('/user-answers/{userAnswer}', [UserAnswerController::class, 'destroy'])->name('user-answers.destroy');
+    Route::get('/group-quizzes', [GroupQuizController::class, 'index']);
+    Route::post('/group-quizzes', [GroupQuizController::class, 'store']);
+    Route::get('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'show']);
+    Route::put('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'update']);
+    Route::delete('/group-quizzes/{groupQuiz}', [GroupQuizController::class, 'destroy']);
 });
 
 // Teacher Stuff
-Route::name('teacher')->group(function () {
-    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class)->name('quiz-users');
-    Route::post('/quiz-assignment', AssignQuizToGroupController::class)->name('assign-quiz');
-    Route::post('/homework-assignment', AssignHomeworkToGroupController::class)->name('assign-homework');
-    Route::post('/attendance/{lecture}', TakeAttendanceController::class)->name('attendance.take');
+Route::prefix('teacher')->group(function () {
+    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class);
+    Route::post('/quiz-assignment', AssignQuizToGroupController::class);
+    Route::post('/homework-assignment', AssignHomeworkToGroupController::class);
+    Route::post('/attendance/{lecture}', TakeAttendanceController::class);
 });
 
 
-Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders'])->name('migration');
+Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders']);
 
 
 Route::put('/users/update', [UserController::class, 'update'])->middleware('auth:sanctum');
 
-Route::post('/register', [AuthController::class, 'register'])->name('student-register');
-Route::post('/login', [AuthController::class, 'login'])->name('student-login');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);

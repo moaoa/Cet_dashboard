@@ -1,0 +1,2196 @@
+{
+    "variable": [
+        {
+            "id": "baseUrl",
+            "key": "baseUrl",
+            "type": "string",
+            "name": "string",
+            "value": "http:\/\/localhost:8000"
+        }
+    ],
+    "info": {
+        "name": "Laravel",
+        "_postman_id": "f289b60c-7921-4dd6-a57d-e0d4f38f1a16",
+        "description": "",
+        "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
+    },
+    "item": [
+        {
+            "name": "Endpoints",
+            "description": "",
+            "item": [
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes\/:quiz\/questions",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes\/:quiz\/questions",
+                            "variable": [
+                                {
+                                    "id": "quiz",
+                                    "key": "quiz",
+                                    "value": "labore",
+                                    "description": "The quiz."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"quiz_id\":6851,\"question\":\"qui\",\"options\":[\"explicabo\"],\"answer\":\"deserunt\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quiz-questions\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quiz-questions\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "esse",
+                                    "description": "The ID of the quiz question."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Question] esse\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quiz-questions\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quiz-questions\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "totam",
+                                    "description": "The ID of the quiz question."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"quiz_id\":0.94618905,\"question\":\"ut\",\"answer\":\"ea\",\"type\":31904.275472026}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quiz-questions\/:id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quiz-questions\/:id",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "consequatur",
+                                    "description": "The ID of the quiz question."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":1,\"user_id\":1,\"subject_id\":1,\"name\":\"\\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u0631\\u0642\\u0645 1\",\"note\":\"\\u0627\\u0644\\u062a\\u0633\\u0644\\u064a\\u0645 \\u064a\\u0648\\u0645 30 \\u062a\\u0633\\u0639\\u0629 >_<\\u062a\\u0646\",\"created_at\":\"2024-09-09T19:46:16.000000Z\",\"updated_at\":\"2024-09-09T19:46:16.000000Z\"},{\"id\":2,\"user_id\":1,\"subject_id\":1,\"name\":\"\\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u0631\\u0642\\u0645 2\",\"note\":\"\\u0627\\u0644\\u0627\\u062e\\u062a\\u0628\\u0627\\u0631 \\u0631\\u0642\\u0645 2\",\"created_at\":\"2024-09-09T19:46:16.000000Z\",\"updated_at\":\"2024-09-09T19:46:16.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":777395.6798781,\"subject_id\":371275497}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes\/:quiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes\/:quiz",
+                            "variable": [
+                                {
+                                    "id": "quiz",
+                                    "key": "quiz",
+                                    "value": "1",
+                                    "description": "The quiz."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"id\":1,\"note\":\"\\u0627\\u0644\\u062a\\u0633\\u0644\\u064a\\u0645 \\u064a\\u0648\\u0645 30 \\u062a\\u0633\\u0639\\u0629 >_<\\u062a\\u0646\",\"teacher_name\":\"moaad\",\"questions\":[{\"id\":1,\"question\":\"\\u0645\\u0627 \\u0647\\u064a \\u0639\\u0627\\u0635\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0645\\u0644\\u0643\\u0629 \\u0627\\u0644\\u0639\\u0631\\u0628\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0639\\u0648\\u062f\\u064a\\u0629\\u061f\",\"options\":[\"\\u0627\\u0644\\u0631\\u064a\\u0627\\u0636\",\"\\u062c\\u062f\\u0629\",\"\\u0645\\u0643\\u0629\",\"\\u0627\\u0644\\u0645\\u062f\\u064a\\u0646\\u0629 \\u0627\\u0644\\u0645\\u0646\\u0648\\u0631\\u0629\"]},{\"id\":2,\"question\":\"\\u0647\\u0644 \\u0627\\u0644\\u0634\\u0645\\u0633 \\u062a\\u0634\\u0631\\u0642 \\u0645\\u0646 \\u0627\\u0644\\u0634\\u0631\\u0642\\u061f\",\"options\":[\"\\u0635\\u062d\\u064a\\u062d\",\"\\u062e\\u0637\\u0623\"]},{\"id\":3,\"question\":\"\\u0645\\u0627 \\u0647\\u0648 \\u0623\\u0643\\u0628\\u0631 \\u0645\\u062d\\u064a\\u0637 \\u0641\\u064a \\u0627\\u0644\\u0639\\u0627\\u0644\\u0645\\u061f\",\"options\":[\"\\u0627\\u0644\\u0645\\u062d\\u064a\\u0637 \\u0627\\u0644\\u0623\\u0637\\u0644\\u0633\\u064a\",\"\\u0627\\u0644\\u0645\\u062d\\u064a\\u0637 \\u0627\\u0644\\u0647\\u0627\\u062f\\u0626\",\"\\u0627\\u0644\\u0645\\u062d\\u064a\\u0637 \\u0627\\u0644\\u0647\\u0646\\u062f\\u064a\",\"\\u0627\\u0644\\u0645\\u062d\\u064a\\u0637 \\u0627\\u0644\\u0645\\u062a\\u062c\\u0645\\u062f \\u0627\\u0644\\u0634\\u0645\\u0627\\u0644\\u064a\"]},{\"id\":4,\"question\":\"\\u0647\\u0644 \\u0627\\u0644\\u0642\\u0637\\u0637 \\u062a\\u0639\\u062a\\u0628\\u0631 \\u0645\\u0646 \\u0627\\u0644\\u062b\\u062f\\u064a\\u064a\\u0627\\u062a\\u061f\",\"options\":[\"\\u0635\\u062d\\u064a\\u062d\",\"\\u062e\\u0637\\u0623\"]},{\"id\":5,\"question\":\"\\u0645\\u0627 \\u0647\\u064a \\u0627\\u0644\\u0644\\u063a\\u0629 \\u0627\\u0644\\u0631\\u0633\\u0645\\u064a\\u0629 \\u0641\\u064a \\u0627\\u0644\\u0628\\u0631\\u0627\\u0632\\u064a\\u0644\\u061f\",\"options\":[\"\\u0627\\u0644\\u0625\\u0633\\u0628\\u0627\\u0646\\u064a\\u0629\",\"\\u0627\\u0644\\u0628\\u0631\\u062a\\u063a\\u0627\\u0644\\u064a\\u0629\",\"\\u0627\\u0644\\u0625\\u0646\\u062c\\u0644\\u064a\\u0632\\u064a\\u0629\",\"\\u0627\\u0644\\u0641\\u0631\\u0646\\u0633\\u064a\\u0629\"]}]}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes\/:quiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes\/:quiz",
+                            "variable": [
+                                {
+                                    "id": "quiz",
+                                    "key": "quiz",
+                                    "value": "1",
+                                    "description": "The quiz."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":72589979.3208121,\"subject_id\":106303157}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/quizzes\/:quiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/quizzes\/:quiz",
+                            "variable": [
+                                {
+                                    "id": "quiz",
+                                    "key": "quiz",
+                                    "value": "1",
+                                    "description": "The quiz."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Handle the incoming request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lecture-students\/:lectureId",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lecture-students\/:lectureId",
+                            "variable": [
+                                {
+                                    "id": "lectureId",
+                                    "key": "lectureId",
+                                    "value": "consequatur",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lectures",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lectures"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":1,\"start_time\":\"2024-09-10T07:00:00.000000Z\",\"end_time\":\"2024-09-10T09:00:00.000000Z\",\"day_of_week\":1,\"subject_id\":1,\"class_room_id\":1,\"group_id\":1,\"user_id\":1,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\",\"subject\":{\"id\":1,\"name\":\"\\u0643\\u0647\\u0631\\u0628\\u0627\\u0626\\u064a\\u0629 1\",\"semester_id\":4,\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"}},{\"id\":2,\"start_time\":\"2024-09-10T09:00:00.000000Z\",\"end_time\":\"2024-09-10T12:00:00.000000Z\",\"day_of_week\":2,\"subject_id\":1,\"class_room_id\":1,\"group_id\":1,\"user_id\":1,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\",\"subject\":{\"id\":1,\"name\":\"\\u0643\\u0647\\u0631\\u0628\\u0627\\u0626\\u064a\\u0629 1\",\"semester_id\":4,\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"}},{\"id\":3,\"start_time\":\"2024-09-10T12:00:00.000000Z\",\"end_time\":\"2024-09-10T15:00:00.000000Z\",\"day_of_week\":2,\"subject_id\":1,\"class_room_id\":1,\"group_id\":1,\"user_id\":1,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\",\"subject\":{\"id\":1,\"name\":\"\\u0643\\u0647\\u0631\\u0628\\u0627\\u0626\\u064a\\u0629 1\",\"semester_id\":4,\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"}},{\"id\":4,\"start_time\":\"2024-09-10T02:00:00.000000Z\",\"end_time\":\"2024-09-10T11:00:00.000000Z\",\"day_of_week\":3,\"subject_id\":7,\"class_room_id\":1,\"group_id\":1,\"user_id\":1,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\",\"subject\":{\"id\":7,\"name\":\"\\u0643\\u0647\\u0631\\u0628\\u0627\\u0626\\u064a\\u0629 3\",\"semester_id\":2,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\"}}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lectures",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lectures"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"start_time\":\"id\",\"end_time\":\"fugiat\",\"day_of_week\":326653,\"subject_id\":3348,\"class_room_id\":143058.6,\"group_id\":1347.13571,\"user_id\":28.86669}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lectures\/:lecture_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lectures\/:lecture_id",
+                            "variable": [
+                                {
+                                    "id": "lecture_id",
+                                    "key": "lecture_id",
+                                    "value": "1",
+                                    "description": "The ID of the lecture."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"id\":1,\"start_time\":\"2024-09-10T07:00:00.000000Z\",\"end_time\":\"2024-09-10T09:00:00.000000Z\",\"day_of_week\":1,\"subject_id\":1,\"class_room_id\":1,\"group_id\":1,\"user_id\":1,\"created_at\":\"2024-09-09T19:46:15.000000Z\",\"updated_at\":\"2024-09-09T19:46:15.000000Z\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lectures\/:lecture_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lectures\/:lecture_id",
+                            "variable": [
+                                {
+                                    "id": "lecture_id",
+                                    "key": "lecture_id",
+                                    "value": "1",
+                                    "description": "The ID of the lecture."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"start_time\":\"pariatur\",\"end_time\":\"quos\",\"day_of_week\":75.003,\"subject_id\":63316,\"class_room_id\":117.514627624,\"group_id\":210,\"user_id\":108627.1237782}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/lectures\/:lecture_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/lectures\/:lecture_id",
+                            "variable": [
+                                {
+                                    "id": "lecture_id",
+                                    "key": "lecture_id",
+                                    "value": "1",
+                                    "description": "The ID of the lecture."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"ipsam\",\"user_id\":0,\"subject_id\":2090413.8088,\"url\":\"non\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/homeworks\/{homework}\/answer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks\/:homework\/answer",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks\/:homework\/answer",
+                            "variable": [
+                                {
+                                    "id": "homework",
+                                    "key": "homework",
+                                    "value": "eligendi",
+                                    "description": "The homework."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "multipart\/form-data"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "attachments[]",
+                                    "src": [],
+                                    "type": "file"
+                                }
+                            ]
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks\/:homework_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks\/:homework_id",
+                            "variable": [
+                                {
+                                    "id": "homework_id",
+                                    "key": "homework_id",
+                                    "value": "1",
+                                    "description": "The ID of the homework."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks\/:homework_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks\/:homework_id",
+                            "variable": [
+                                {
+                                    "id": "homework_id",
+                                    "key": "homework_id",
+                                    "value": "1",
+                                    "description": "The ID of the homework."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"cumque\",\"user_id\":802807.72,\"subject_id\":6748161.3042,\"url\":\"quo\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/homeworks\/:homework_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/homeworks\/:homework_id",
+                            "variable": [
+                                {
+                                    "id": "homework_id",
+                                    "key": "homework_id",
+                                    "value": "1",
+                                    "description": "The ID of the homework."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/groups",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/groups"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[{\"id\":1,\"name\":\"1\",\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"},{\"id\":2,\"name\":\"2\",\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"}]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/groups",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/groups"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"qui\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/groups\/:group_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/groups\/:group_id",
+                            "variable": [
+                                {
+                                    "id": "group_id",
+                                    "key": "group_id",
+                                    "value": "1",
+                                    "description": "The ID of the group."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "{\"id\":1,\"name\":\"1\",\"created_at\":\"2024-09-09T19:46:13.000000Z\",\"updated_at\":\"2024-09-09T19:46:13.000000Z\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/groups\/:group_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/groups\/:group_id",
+                            "variable": [
+                                {
+                                    "id": "group_id",
+                                    "key": "group_id",
+                                    "value": "1",
+                                    "description": "The ID of the group."
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"quisquam\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/groups\/:group_id",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/groups\/:group_id",
+                            "variable": [
+                                {
+                                    "id": "group_id",
+                                    "key": "group_id",
+                                    "value": "1",
+                                    "description": "The ID of the group."
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/group-quizzes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/group-quizzes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/group-quizzes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/group-quizzes"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"group_id\":271130795.1396117,\"quiz_id\":370.93,\"start_time\":\"2024-09-10T20:04:50\",\"end_time\":\"2024-09-10T20:04:50\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/group-quizzes\/:groupQuiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/group-quizzes\/:groupQuiz",
+                            "variable": [
+                                {
+                                    "id": "groupQuiz",
+                                    "key": "groupQuiz",
+                                    "value": "deserunt",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Server Error\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/group-quizzes\/:groupQuiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/group-quizzes\/:groupQuiz",
+                            "variable": [
+                                {
+                                    "id": "groupQuiz",
+                                    "key": "groupQuiz",
+                                    "value": "et",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"group_id\":2494528.783772,\"quiz_id\":98329325.9010906,\"start_time\":\"2024-09-10T20:04:50\",\"end_time\":\"2024-09-10T20:04:50\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/group-quizzes\/:groupQuiz",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/group-quizzes\/:groupQuiz",
+                            "variable": [
+                                {
+                                    "id": "groupQuiz",
+                                    "key": "groupQuiz",
+                                    "value": "fugit",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-answers\/:userId",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-answers\/:userId",
+                            "variable": [
+                                {
+                                    "id": "userId",
+                                    "key": "userId",
+                                    "value": "quidem",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Store a newly created resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-answers",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-answers"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"question_id\":90510.29764,\"user_id\":4.431,\"answer\":\"commodi\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display the specified resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-answers\/:userAnswer",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-answers\/:userAnswer",
+                            "variable": [
+                                {
+                                    "id": "userAnswer",
+                                    "key": "userAnswer",
+                                    "value": "20",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 200,
+                            "body": "[]",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Update the specified resource in storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-answers\/:userAnswer",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-answers\/:userAnswer",
+                            "variable": [
+                                {
+                                    "id": "userAnswer",
+                                    "key": "userAnswer",
+                                    "value": "10",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"question_id\":44904299.32398,\"user_id\":288478178.7340594,\"answer\":\"facilis\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Remove the specified resource from storage.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/user-answers\/:userAnswer",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/user-answers\/:userAnswer",
+                            "variable": [
+                                {
+                                    "id": "userAnswer",
+                                    "key": "userAnswer",
+                                    "value": "20",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Handle the incoming request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/teacher\/quiz-students\/:quizId",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/teacher\/quiz-students\/:quizId",
+                            "variable": [
+                                {
+                                    "id": "quizId",
+                                    "key": "quizId",
+                                    "value": "placeat",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 404,
+                            "body": "{\"error\":\"Quiz not found\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Handle the incoming request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/teacher\/quiz-assignment",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/teacher\/quiz-assignment"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"group_id\":41.53617495,\"quiz_id\":1.528204,\"start_time\":\"2081-03-09\",\"end_time\":\"2052-02-23\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Handle the incoming request.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/teacher\/homework-assignment",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/teacher\/homework-assignment"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"group_id\":86040.986,\"homework_id\":8498440.5688914,\"due_time\":\"2076-07-15\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Take attendance for a specific lecture.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/teacher\/attendance\/:lecture",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/teacher\/attendance\/:lecture",
+                            "variable": [
+                                {
+                                    "id": "lecture",
+                                    "key": "lecture",
+                                    "value": "tempore",
+                                    "description": ""
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/migration",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/migration",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/migration"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 500,
+                            "body": "{\"message\":\"An error occurred while running migrations and seeders.\",\"error\":\"SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'field list' (Connection: mysql, SQL: insert into `comments` (`content`, `user_id`, `homework_id`, `updated_at`, `created_at`) values (>_< gggggggg, 4, 5, 2024-09-10 20:04:55, 2024-09-10 20:04:55))\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "PUT api\/users\/update",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/update",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/update"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"inventore\",\"phone\":\"deleniti\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/register",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"oihyf\",\"email\":\"stracke.glen@example.com\",\"password\":\"'oOu$-\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "POST api\/login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"orland.hill@example.net\",\"password\":\"4GBn%Y.AZV\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/lectures",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/lectures"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Display a listing of the resource.",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/subject\/:subject\/homeworks",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/subject\/:subject\/homeworks",
+                            "variable": [
+                                {
+                                    "id": "subject",
+                                    "key": "subject",
+                                    "value": "1",
+                                    "description": "The subject."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GET api\/student\/quizzes",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/quizzes",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/quizzes"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/student\/quizzes\/{id}\/answer",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/quizzes\/:id\/answer",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/quizzes\/:id\/answer",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "16",
+                                    "description": "The ID of the quiz."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"answers\":[{\"question_id\":7,\"answer\":\"aut\"}]}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/student\/quizzes\/{id}\/result",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/quizzes\/:id\/result",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/quizzes\/:id\/result",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "9",
+                                    "description": "The ID of the quiz."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "POST api\/student\/homeworks\/{id}\/comment",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/homeworks\/:id\/comment",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/homeworks\/:id\/comment",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the homework."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"content\":\"lonhepyybzjq\"}"
+                        },
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "GET api\/student\/subject",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/student\/subject",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/student\/subject"
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [
+                                {
+                                    "key": "cache-control",
+                                    "value": "no-cache, private"
+                                },
+                                {
+                                    "key": "content-type",
+                                    "value": "application\/json"
+                                },
+                                {
+                                    "key": "access-control-allow-origin",
+                                    "value": "*"
+                                }
+                            ],
+                            "code": 401,
+                            "body": "{\"message\":\"Unauthenticated.\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "noauth"
+    }
+}

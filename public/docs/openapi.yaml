@@ -1,0 +1,1675 @@
+openapi: 3.0.3
+info:
+  title: Laravel
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  '/api/quizzes/{quiz}/questions':
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quiz_id:
+                  type: number
+                  description: ''
+                  example: 6851.0
+                question:
+                  type: string
+                  description: ''
+                  example: qui
+                options:
+                  type: array
+                  description: ''
+                  example:
+                    - explicabo
+                  items:
+                    type: string
+                answer:
+                  type: string
+                  description: ''
+                  example: deserunt
+              required:
+                - quiz_id
+                - question
+                - answer
+      security: []
+    parameters:
+      -
+        in: path
+        name: quiz
+        description: 'The quiz.'
+        example: labore
+        required: true
+        schema:
+          type: string
+  '/api/quiz-questions/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'No query results for model [App\Models\Question] esse'
+                properties:
+                  message:
+                    type: string
+                    example: 'No query results for model [App\Models\Question] esse'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quiz_id:
+                  type: number
+                  description: ''
+                  example: 0.94618905
+                question:
+                  type: string
+                  description: ''
+                  example: ut
+                answer:
+                  type: string
+                  description: ''
+                  example: ea
+                type:
+                  type: number
+                  description: ''
+                  example: 31904.275472026
+              required:
+                - quiz_id
+                - question
+                - answer
+                - type
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the quiz question.'
+        example: esse
+        required: true
+        schema:
+          type: string
+  /api/quizzes:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    user_id: 1
+                    subject_id: 1
+                    name: 'الاختبار رقم 1'
+                    note: 'التسليم يوم 30 تسعة >_<تن'
+                    created_at: '2024-09-09T19:46:16.000000Z'
+                    updated_at: '2024-09-09T19:46:16.000000Z'
+                  -
+                    id: 2
+                    user_id: 1
+                    subject_id: 1
+                    name: 'الاختبار رقم 2'
+                    note: 'الاختبار رقم 2'
+                    created_at: '2024-09-09T19:46:16.000000Z'
+                    updated_at: '2024-09-09T19:46:16.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: number
+                  description: ''
+                  example: 777395.6798781
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 371275497.0
+              required:
+                - user_id
+                - subject_id
+      security: []
+  '/api/quizzes/{quiz}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  note: 'التسليم يوم 30 تسعة >_<تن'
+                  teacher_name: moaad
+                  questions:
+                    -
+                      id: 1
+                      question: 'ما هي عاصمة المملكة العربية السعودية؟'
+                      options:
+                        - الرياض
+                        - جدة
+                        - مكة
+                        - 'المدينة المنورة'
+                    -
+                      id: 2
+                      question: 'هل الشمس تشرق من الشرق؟'
+                      options:
+                        - صحيح
+                        - خطأ
+                    -
+                      id: 3
+                      question: 'ما هو أكبر محيط في العالم؟'
+                      options:
+                        - 'المحيط الأطلسي'
+                        - 'المحيط الهادئ'
+                        - 'المحيط الهندي'
+                        - 'المحيط المتجمد الشمالي'
+                    -
+                      id: 4
+                      question: 'هل القطط تعتبر من الثدييات؟'
+                      options:
+                        - صحيح
+                        - خطأ
+                    -
+                      id: 5
+                      question: 'ما هي اللغة الرسمية في البرازيل؟'
+                      options:
+                        - الإسبانية
+                        - البرتغالية
+                        - الإنجليزية
+                        - الفرنسية
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  note:
+                    type: string
+                    example: 'التسليم يوم 30 تسعة >_<تن'
+                  teacher_name:
+                    type: string
+                    example: moaad
+                  questions:
+                    type: array
+                    example:
+                      -
+                        id: 1
+                        question: 'ما هي عاصمة المملكة العربية السعودية؟'
+                        options:
+                          - الرياض
+                          - جدة
+                          - مكة
+                          - 'المدينة المنورة'
+                      -
+                        id: 2
+                        question: 'هل الشمس تشرق من الشرق؟'
+                        options:
+                          - صحيح
+                          - خطأ
+                      -
+                        id: 3
+                        question: 'ما هو أكبر محيط في العالم؟'
+                        options:
+                          - 'المحيط الأطلسي'
+                          - 'المحيط الهادئ'
+                          - 'المحيط الهندي'
+                          - 'المحيط المتجمد الشمالي'
+                      -
+                        id: 4
+                        question: 'هل القطط تعتبر من الثدييات؟'
+                        options:
+                          - صحيح
+                          - خطأ
+                      -
+                        id: 5
+                        question: 'ما هي اللغة الرسمية في البرازيل؟'
+                        options:
+                          - الإسبانية
+                          - البرتغالية
+                          - الإنجليزية
+                          - الفرنسية
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        question:
+                          type: string
+                          example: 'ما هي عاصمة المملكة العربية السعودية؟'
+                        options:
+                          type: array
+                          example:
+                            - الرياض
+                            - جدة
+                            - مكة
+                            - 'المدينة المنورة'
+                          items:
+                            type: string
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: number
+                  description: ''
+                  example: 72589979.320812
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 106303157.0
+              required:
+                - user_id
+                - subject_id
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: quiz
+        description: 'The quiz.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/lecture-students/{lectureId}':
+    get:
+      summary: 'Handle the incoming request.'
+      operationId: handleTheIncomingRequest
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: lectureId
+        description: ''
+        example: consequatur
+        required: true
+        schema:
+          type: string
+  /api/lectures:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    start_time: '2024-09-10T07:00:00.000000Z'
+                    end_time: '2024-09-10T09:00:00.000000Z'
+                    day_of_week: 1
+                    subject_id: 1
+                    class_room_id: 1
+                    group_id: 1
+                    user_id: 1
+                    created_at: '2024-09-09T19:46:15.000000Z'
+                    updated_at: '2024-09-09T19:46:15.000000Z'
+                    subject:
+                      id: 1
+                      name: 'كهربائية 1'
+                      semester_id: 4
+                      created_at: '2024-09-09T19:46:13.000000Z'
+                      updated_at: '2024-09-09T19:46:13.000000Z'
+                  -
+                    id: 2
+                    start_time: '2024-09-10T09:00:00.000000Z'
+                    end_time: '2024-09-10T12:00:00.000000Z'
+                    day_of_week: 2
+                    subject_id: 1
+                    class_room_id: 1
+                    group_id: 1
+                    user_id: 1
+                    created_at: '2024-09-09T19:46:15.000000Z'
+                    updated_at: '2024-09-09T19:46:15.000000Z'
+                    subject:
+                      id: 1
+                      name: 'كهربائية 1'
+                      semester_id: 4
+                      created_at: '2024-09-09T19:46:13.000000Z'
+                      updated_at: '2024-09-09T19:46:13.000000Z'
+                  -
+                    id: 3
+                    start_time: '2024-09-10T12:00:00.000000Z'
+                    end_time: '2024-09-10T15:00:00.000000Z'
+                    day_of_week: 2
+                    subject_id: 1
+                    class_room_id: 1
+                    group_id: 1
+                    user_id: 1
+                    created_at: '2024-09-09T19:46:15.000000Z'
+                    updated_at: '2024-09-09T19:46:15.000000Z'
+                    subject:
+                      id: 1
+                      name: 'كهربائية 1'
+                      semester_id: 4
+                      created_at: '2024-09-09T19:46:13.000000Z'
+                      updated_at: '2024-09-09T19:46:13.000000Z'
+                  -
+                    id: 4
+                    start_time: '2024-09-10T02:00:00.000000Z'
+                    end_time: '2024-09-10T11:00:00.000000Z'
+                    day_of_week: 3
+                    subject_id: 7
+                    class_room_id: 1
+                    group_id: 1
+                    user_id: 1
+                    created_at: '2024-09-09T19:46:15.000000Z'
+                    updated_at: '2024-09-09T19:46:15.000000Z'
+                    subject:
+                      id: 7
+                      name: 'كهربائية 3'
+                      semester_id: 2
+                      created_at: '2024-09-09T19:46:15.000000Z'
+                      updated_at: '2024-09-09T19:46:15.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_time:
+                  type: string
+                  description: ''
+                  example: id
+                end_time:
+                  type: string
+                  description: ''
+                  example: fugiat
+                day_of_week:
+                  type: number
+                  description: ''
+                  example: 326653.0
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 3348.0
+                class_room_id:
+                  type: number
+                  description: ''
+                  example: 143058.6
+                group_id:
+                  type: number
+                  description: ''
+                  example: 1347.13571
+                user_id:
+                  type: number
+                  description: ''
+                  example: 28.86669
+              required:
+                - start_time
+                - end_time
+                - day_of_week
+                - subject_id
+                - class_room_id
+                - group_id
+                - user_id
+      security: []
+  '/api/lectures/{lecture_id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  start_time: '2024-09-10T07:00:00.000000Z'
+                  end_time: '2024-09-10T09:00:00.000000Z'
+                  day_of_week: 1
+                  subject_id: 1
+                  class_room_id: 1
+                  group_id: 1
+                  user_id: 1
+                  created_at: '2024-09-09T19:46:15.000000Z'
+                  updated_at: '2024-09-09T19:46:15.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  start_time:
+                    type: string
+                    example: '2024-09-10T07:00:00.000000Z'
+                  end_time:
+                    type: string
+                    example: '2024-09-10T09:00:00.000000Z'
+                  day_of_week:
+                    type: integer
+                    example: 1
+                  subject_id:
+                    type: integer
+                    example: 1
+                  class_room_id:
+                    type: integer
+                    example: 1
+                  group_id:
+                    type: integer
+                    example: 1
+                  user_id:
+                    type: integer
+                    example: 1
+                  created_at:
+                    type: string
+                    example: '2024-09-09T19:46:15.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2024-09-09T19:46:15.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                start_time:
+                  type: string
+                  description: ''
+                  example: pariatur
+                end_time:
+                  type: string
+                  description: ''
+                  example: quos
+                day_of_week:
+                  type: number
+                  description: ''
+                  example: 75.003
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 63316.0
+                class_room_id:
+                  type: number
+                  description: ''
+                  example: 117.514627624
+                group_id:
+                  type: number
+                  description: ''
+                  example: 210.0
+                user_id:
+                  type: number
+                  description: ''
+                  example: 108627.1237782
+              required:
+                - start_time
+                - end_time
+                - day_of_week
+                - subject_id
+                - class_room_id
+                - group_id
+                - user_id
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: lecture_id
+        description: 'The ID of the lecture.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/homeworks:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: ipsam
+                user_id:
+                  type: number
+                  description: ''
+                  example: 0.0
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 2090413.8088
+                url:
+                  type: string
+                  description: ''
+                  example: non
+              required:
+                - name
+                - user_id
+                - subject_id
+                - url
+      security: []
+  '/api/homeworks/{homework}/answer':
+    post:
+      summary: ''
+      operationId: postApiHomeworksHomeworkAnswer
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                attachments:
+                  type: array
+                  description: 'Must be a file. Must not be greater than 2048 kilobytes.'
+                  items:
+                    type: string
+                    format: binary
+              required:
+                - attachments
+      security: []
+    parameters:
+      -
+        in: path
+        name: homework
+        description: 'The homework.'
+        example: eligendi
+        required: true
+        schema:
+          type: string
+  '/api/homeworks/{homework_id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: cumque
+                user_id:
+                  type: number
+                  description: ''
+                  example: 802807.72
+                subject_id:
+                  type: number
+                  description: ''
+                  example: 6748161.3042
+                url:
+                  type: string
+                  description: ''
+                  example: quo
+              required:
+                - name
+                - user_id
+                - subject_id
+                - url
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: homework_id
+        description: 'The ID of the homework.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/groups:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example:
+                  -
+                    id: 1
+                    name: '1'
+                    created_at: '2024-09-09T19:46:13.000000Z'
+                    updated_at: '2024-09-09T19:46:13.000000Z'
+                  -
+                    id: 2
+                    name: '2'
+                    created_at: '2024-09-09T19:46:13.000000Z'
+                    updated_at: '2024-09-09T19:46:13.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: qui
+              required:
+                - name
+      security: []
+  '/api/groups/{group_id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 1
+                  name: '1'
+                  created_at: '2024-09-09T19:46:13.000000Z'
+                  updated_at: '2024-09-09T19:46:13.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: '1'
+                  created_at:
+                    type: string
+                    example: '2024-09-09T19:46:13.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2024-09-09T19:46:13.000000Z'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: quisquam
+              required:
+                - name
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: group_id
+        description: 'The ID of the group.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/group-quizzes:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: number
+                  description: ''
+                  example: 271130795.13961
+                quiz_id:
+                  type: number
+                  description: ''
+                  example: 370.93
+                start_time:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-09-10T20:04:50'
+                end_time:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-09-10T20:04:50'
+              required:
+                - group_id
+                - quiz_id
+                - start_time
+                - end_time
+      security: []
+  '/api/group-quizzes/{groupQuiz}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'Server Error'
+                properties:
+                  message:
+                    type: string
+                    example: 'Server Error'
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: number
+                  description: ''
+                  example: 2494528.783772
+                quiz_id:
+                  type: number
+                  description: ''
+                  example: 98329325.901091
+                start_time:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-09-10T20:04:50'
+                end_time:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-09-10T20:04:50'
+              required:
+                - group_id
+                - quiz_id
+                - start_time
+                - end_time
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: groupQuiz
+        description: ''
+        example: deserunt
+        required: true
+        schema:
+          type: string
+  '/api/user-answers/{userId}':
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example: []
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: userId
+        description: ''
+        example: quidem
+        required: true
+        schema:
+          type: string
+  /api/user-answers:
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question_id:
+                  type: number
+                  description: ''
+                  example: 90510.29764
+                user_id:
+                  type: number
+                  description: ''
+                  example: 4.431
+                answer:
+                  type: string
+                  description: ''
+                  example: commodi
+              required:
+                - question_id
+                - user_id
+                - answer
+      security: []
+  '/api/user-answers/{userAnswer}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example: []
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question_id:
+                  type: number
+                  description: ''
+                  example: 44904299.32398
+                user_id:
+                  type: number
+                  description: ''
+                  example: 288478178.73406
+                answer:
+                  type: string
+                  description: ''
+                  example: facilis
+              required:
+                - question_id
+                - user_id
+                - answer
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: userAnswer
+        description: ''
+        example: 20
+        required: true
+        schema:
+          type: integer
+  '/api/teacher/quiz-students/{quizId}':
+    get:
+      summary: 'Handle the incoming request.'
+      operationId: handleTheIncomingRequest
+      description: ''
+      parameters: []
+      responses:
+        404:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  error: 'Quiz not found'
+                properties:
+                  error:
+                    type: string
+                    example: 'Quiz not found'
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: quizId
+        description: ''
+        example: placeat
+        required: true
+        schema:
+          type: string
+  /api/teacher/quiz-assignment:
+    post:
+      summary: 'Handle the incoming request.'
+      operationId: handleTheIncomingRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: number
+                  description: ''
+                  example: 41.53617495
+                quiz_id:
+                  type: number
+                  description: ''
+                  example: 1.528204
+                start_time:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2081-03-09'
+                end_time:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2052-02-23'
+              required:
+                - group_id
+                - quiz_id
+                - start_time
+                - end_time
+      security: []
+  /api/teacher/homework-assignment:
+    post:
+      summary: 'Handle the incoming request.'
+      operationId: handleTheIncomingRequest
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                group_id:
+                  type: number
+                  description: ''
+                  example: 86040.986
+                homework_id:
+                  type: number
+                  description: ''
+                  example: 8498440.5688914
+                due_time:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
+                  example: '2076-07-15'
+              required:
+                - group_id
+                - homework_id
+      security: []
+  '/api/teacher/attendance/{lecture}':
+    post:
+      summary: 'Take attendance for a specific lecture.'
+      operationId: takeAttendanceForASpecificLecture
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: lecture
+        description: ''
+        example: tempore
+        required: true
+        schema:
+          type: string
+  /api/migration:
+    get:
+      summary: ''
+      operationId: getApiMigration
+      description: ''
+      parameters: []
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'An error occurred while running migrations and seeders.'
+                  error: "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'field list' (Connection: mysql, SQL: insert into `comments` (`content`, `user_id`, `homework_id`, `updated_at`, `created_at`) values (>_< gggggggg, 4, 5, 2024-09-10 20:04:55, 2024-09-10 20:04:55))"
+                properties:
+                  message:
+                    type: string
+                    example: 'An error occurred while running migrations and seeders.'
+                  error:
+                    type: string
+                    example: "SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_id' in 'field list' (Connection: mysql, SQL: insert into `comments` (`content`, `user_id`, `homework_id`, `updated_at`, `created_at`) values (>_< gggggggg, 4, 5, 2024-09-10 20:04:55, 2024-09-10 20:04:55))"
+      tags:
+        - Endpoints
+      security: []
+  /api/users/update:
+    put:
+      summary: ''
+      operationId: putApiUsersUpdate
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: inventore
+                phone:
+                  type: string
+                  description: ''
+                  example: deleniti
+                email:
+                  type: string
+                  description: ''
+                  example: null
+              required:
+                - name
+                - phone
+      security: []
+  /api/register:
+    post:
+      summary: ''
+      operationId: postApiRegister
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: oihyf
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: stracke.glen@example.com
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: "'oOu$-"
+              required:
+                - name
+                - email
+                - password
+      security: []
+  /api/login:
+    post:
+      summary: ''
+      operationId: postApiLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: orland.hill@example.net
+                password:
+                  type: string
+                  description: ''
+                  example: 4GBn%Y.AZV
+              required:
+                - email
+                - password
+      security: []
+  /api/student/lectures:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/student/subject/{subject}/homeworks':
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: subject
+        description: 'The subject.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/student/quizzes:
+    get:
+      summary: ''
+      operationId: getApiStudentQuizzes
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/student/quizzes/{id}/answer':
+    post:
+      summary: ''
+      operationId: postApiStudentQuizzesIdAnswer
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: array
+                  description: ''
+                  example:
+                    - []
+                  items:
+                    type: object
+                    properties:
+                      question_id:
+                        type: integer
+                        description: 'Must be at least 1.'
+                        example: 7
+                      answer:
+                        type: string
+                        description: ''
+                        example: aut
+                    required:
+                      - question_id
+                      - answer
+              required:
+                - answers
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the quiz.'
+        example: 16
+        required: true
+        schema:
+          type: integer
+  '/api/student/quizzes/{id}/result':
+    get:
+      summary: ''
+      operationId: getApiStudentQuizzesIdResult
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the quiz.'
+        example: 9
+        required: true
+        schema:
+          type: integer
+  '/api/student/homeworks/{id}/comment':
+    post:
+      summary: ''
+      operationId: postApiStudentHomeworksIdComment
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: lonhepyybzjq
+              required:
+                - content
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the homework.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/student/subject:
+    get:
+      summary: ''
+      operationId: getApiStudentSubject
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+tags:
+  -
+    name: Endpoints
+    description: ''
