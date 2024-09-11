@@ -33,22 +33,6 @@ class StudentHomeworksController extends Controller
             ], 422);
         }
 
-        // $items = DB::table('homework_groups')
-        //     ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
-        //     ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
-        //     ->join('homework_user_answers', 'homework_user_answers.user_id ', '=', $student->id)
-        //     ->whereIn('groups.id', $groups->pluck('id'))
-        //     ->where('homework.subject_id', $subject_id)
-        //     ->select(
-        //         'homework.id',
-        //         'homework.name',
-        //         'homework.attachments',
-        //         'homework_user_answers.attachments as student_attachments'
-        //     )
-        //     ->addSelect(
-        //         DB::raw("(select attachments from homework_user_answers where homework_user_answers.user_id = ' . $student->id . ' and homework_user_answers.homework_id = homework.id ) as student_attachments")
-        //     )
-        //     ->get();
         $items = DB::table('homework_groups')
             ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
