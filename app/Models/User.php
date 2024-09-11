@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Enums\UserType;
@@ -56,9 +57,10 @@ class User extends Authenticatable
         //return $this->belongsToMany(Group::class, 'group_id');
         return $this->belongsToMany(Group::class);
     }
-    public  function comments(): HasMany
+    public  function comments(): MorphMany
     {
-        return $this->hasMany(Comment::class);
+        //return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class, 'commentable');
     }
     public  function subjects(): BelongsToMany
     {

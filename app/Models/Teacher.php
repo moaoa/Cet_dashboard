@@ -41,7 +41,8 @@ class Teacher extends Model
 
     public function comments(): HasMany
     {
-        return $this->hasMany(Comment::class);
+        //return $this->hasMany(Comment::class);
+        return $this->morphMany(Comment::class, 'commentable');
     }
 
     public function subjects(): BelongsToMany

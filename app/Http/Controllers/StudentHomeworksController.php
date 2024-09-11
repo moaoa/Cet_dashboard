@@ -25,57 +25,58 @@ class StudentHomeworksController extends Controller
     public function index(String $subject_id, Request $request)
     {
         $student = $request->user();
-        // TODO: fix groups to group
-        $group = $student->groups()->first();
+        $groups = $student->groups()->get();
 
-        if (!$group) {
+        if (!$groups) {
             return response()->json([
                 'message' => 'لا يوجد مجموعات لهذا الطالب',
             ], 422);
         }
 
-        $homeworks = Homework::query()
-            ->with([
-                'comments' => function ($query) use ($group) {
-                    $query->whereIn('user_id', $group->users()->get('id'));
-                },
-                'groups' => function ($query) use ($group) {
-                    $query->where('groups.id', $group->id)
-                        ->withPivot('due_time');
-                }
-            ])->where('subject_id', $subject_id)->get();
-
-        $group_users = $group->users()->get();
-
-        $answers = HomeworkUserAnswer::where('user_id', $student->id)
-            ->whereIn('homework_id', $homeworks->pluck('id'))
+        // $items = DB::table('homework_groups')
+        //     ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
+        //     ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+        //     ->join('homework_user_answers', 'homework_user_answers.user_id ', '=', $student->id)
+        //     ->whereIn('groups.id', $groups->pluck('id'))
+        //     ->where('homework.subject_id', $subject_id)
+        //     ->select(
+        //         'homework.id',
+        //         'homework.name',
+        //         'homework.attachments',
+        //         'homework_user_answers.attachments as student_attachments'
+        //     )
+        //     ->addSelect(
+        //         DB::raw("(select attachments from homework_user_answers where homework_user_answers.user_id = ' . $student->id . ' and homework_user_answers.homework_id = homework.id ) as student_attachments")
+        //     )
+        //     ->get();
+        $items = DB::table('homework_groups')
+            ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
+            ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+            ->join('homework_user_answers', function ($join) use ($student) {
+                $join->on('homework_user_answers.homework_id', '=', 'homework.id')
+                     ->where('homework_user_answers.user_id', '=', $student->id);
+            })
+            ->whereIn('groups.id', $groups->pluck('id'))
+            ->where('homework.subject_id', $subject_id)
+            ->select(
+                'homework.id',
+                'homework.name',
+                'homework.description',
+                'homework.attachments',
+                'homework_user_answers.attachments as student_attachments'
+            )
             ->get();
 
-        //return $answers;
+        $data = $items->map(function ($item) {
+            $done = $item->student_attachments !== null;
 
-        $data = $homeworks->map(function ($homework) use ($group, $group_users, $answers) {
-            $done = $answers->where('homework_id', $homework->id)->count() > 0;
-            $user_attachments = $answers->where('homework_id', $homework->id)->first()?->attachments;
-            $comments = $homework->comments->map(function ($comment) use ($group_users) {
-                return [
-                    'content' => $comment->content,
-                    'user_name' => $group_users->firstWhere('id', $comment->user_id)->name,
-                    'created_at' => $comment->created_at
-                ];
-            });
             return [
-                'id' => $homework->id,
-                'name' => $homework->name,
-                'description' => $homework->description,
-                'attachments' => json_decode($homework->attachments),
-                'comments' => $comments,
-                'date' => $pivotTable = DB::table('homework_groups')
-                    ->select('due_time')
-                    ->where('group_id', $group->id)
-                    ->where('homework_id', $homework->id)
-                    ->first()?->due_time,
+                'id' => $item->id,
+                'description' => $item->description,
+                'attachments' => $item->attachments ? json_decode($item->attachments): null,
+                'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
                 'done' => $done,
-                'student_attachments' => $user_attachments ? json_decode($user_attachments) : null
+                // 'date' => $item->
             ];
         });
 
@@ -109,3 +110,5 @@ class StudentHomeworksController extends Controller
         return response()->json([], 201);
     }
 }
+
+// select homework.id, homework.name, homework.attachments from homework_groups inner join groups on groups.id = homework_groups.group_id inner join homework on homework.id = homework_groups.homework_id where groups.id in (1) and homework.subject_id = '5';
