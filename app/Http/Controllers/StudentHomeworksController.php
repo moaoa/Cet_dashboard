@@ -63,7 +63,8 @@ class StudentHomeworksController extends Controller
                 'homework.name',
                 'homework.description',
                 'homework.attachments',
-                'homework_user_answers.attachments as student_attachments'
+                'homework_user_answers.attachments as student_attachments',
+                'homework_groups.due_time as date'
             )
             ->get();
 
@@ -76,7 +77,7 @@ class StudentHomeworksController extends Controller
                 'attachments' => $item->attachments ? json_decode($item->attachments): null,
                 'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
                 'done' => $done,
-                // 'date' => $item->
+                'date' => $item->date
             ];
         });
 
