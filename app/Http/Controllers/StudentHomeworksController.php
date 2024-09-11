@@ -36,7 +36,7 @@ class StudentHomeworksController extends Controller
         $items = DB::table('homework_groups')
             ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
-            ->join('homework_user_answers', function ($join) use ($student) {
+            ->leftJoin('homework_user_answers', function ($join) use ($student) {
                 $join->on('homework_user_answers.homework_id', '=', 'homework.id')
                      ->where('homework_user_answers.user_id', '=', $student->id);
             })
