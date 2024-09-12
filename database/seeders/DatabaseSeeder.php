@@ -202,7 +202,8 @@ class DatabaseSeeder extends Seeder
         // Now create the comment
         $comments = Comment::create([
             'content' => '>_< gggggggg',
-            'user_id' => $student->id,
+            'commentable_id' => $student->id,
+            'commentable_type' => User::class,
             'homework_id' => $homework->id
         ]);
 

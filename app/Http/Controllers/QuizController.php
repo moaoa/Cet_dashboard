@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\QuestionResource;
 use App\Http\Resources\QuizResource;
 use App\Models\Group;
+use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\User;
 use App\Models\UserAnswer;
@@ -164,38 +165,49 @@ class QuizController extends Controller
     {
         $student = $request->user();
 
-        $group = $student->groups()->first();
+        $groups = $student->groups()->get();
 
-        $pivot = DB::table('quiz_groups')
-            ->join('quizzes', 'quizzes.id', '=', 'quiz_groups.quiz_id')
-            ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
-            ->select('*')
+        $items = DB::table('quizzes')
+             ->join('quiz_groups', 'quiz_groups.quiz_id', '=', 'quizzes.id')
+             ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
+             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+             ->where('groups.id', $groups->pluck('id'))
+             ->select(
+                 'quizzes.id',
+                 'quizzes.name',
+                 'quizzes.note',
+                 'subjects.name as subject_name',
+                 'quiz_groups.start_time',
+                 'quiz_groups.end_time',
+                 'groups.id as group_id',
+             )
+             ->get();
+
+        $questions = Question::whereIn('quiz_id', $items->pluck('id'))
             ->get();
-
-        $quizzes = $student->groups()->first()->quizzes()->get();
 
         $user_answers = DB::table('user_answers')
             ->join('questions', 'questions.id', '=', 'user_answers.question_id')
             ->where('user_answers.user_id', $student->id)
-            ->whereIn('questions.quiz_id', $quizzes->pluck('id'))->get();
+            ->whereIn('questions.quiz_id', $items->pluck('id'))->get();
 
-
-        $data =  $quizzes->map(function ($quiz) use ($group, $pivot, $user_answers) {
-            $pivot_record = $pivot->where('quiz_id', $quiz->id)->where('group_id', $group->id)->first();
-
+        $data = $items->map(function ($quiz) use ($user_answers, $questions) {
             $done = $user_answers->contains(function ($answer) use ($quiz) {
                 return $answer->quiz_id == $quiz->id;
             });
+
+            $quizQuestions = $questions
+                ->where('quiz_id', $quiz->id);
 
             return [
                 'id' => $quiz->id,
                 'name' => $quiz->name,
                 'note' => $quiz->note,
-                'subject_name' => $quiz->subject->name,
-                'start_time' => $pivot_record->start_time,
-                'end_time' => $pivot_record->end_time,
+                'subject_name' => $quiz->subject_name,
+                'start_time' => $quiz->start_time,
+                'end_time' => $quiz->end_time,
                 'done' => $done,
-                'questions' => QuestionResource::collection($quiz->questions),
+                'questions' => QuestionResource::collection($quizQuestions),
             ];
         });
         return response()->json($data);

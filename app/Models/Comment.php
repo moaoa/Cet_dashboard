@@ -18,7 +18,7 @@ class Comment extends Model
     protected $fillable = [
         'content',
         'homework_id',
-        'user_id',
+        'commentable_id',
     ];
 
     /**
@@ -29,7 +29,7 @@ class Comment extends Model
     protected $casts = [
         'id' => 'integer',
         'homework_id' => 'integer',
-        'user_id' => 'integer',
+        'commentable_id' => 'integer',
     ];
 
     public function homework(): BelongsTo
