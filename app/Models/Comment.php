@@ -20,6 +20,7 @@ class Comment extends Model
         'content',
         'homework_id',
         'commentable_id',
+        'commentable_type',
     ];
 
     /**
