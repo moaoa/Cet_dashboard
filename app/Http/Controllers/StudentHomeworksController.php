@@ -68,6 +68,7 @@ class StudentHomeworksController extends Controller
 
             return [
                 'id' => $item->id,
+                'name' => $item->name,
                 'description' => $item->description,
                 'attachments' => $item->attachments ? json_decode($item->attachments): null,
                 'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
