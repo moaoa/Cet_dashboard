@@ -101,7 +101,8 @@ class StudentHomeworksController extends Controller
         Comment::create([
             'content' => $request->input('content'),
             'homework_id' => $homework_id,
-            'user_id' => $student->id
+            'commentable_id' => $student->id,
+            'commentable_type' => User::class
         ]);
 
         return response()->json([], 201);
