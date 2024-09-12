@@ -66,12 +66,12 @@ class QuizController extends Controller
 
         $student = $request->user();
 
-        $studentGroup = $student->groups()->first();
+        $groups = $student->groups()->get();
 
         $quiz = Quiz::findOrFail($quiz_id);
 
         $end_time = DB::table('quiz_groups')
-            ->where('group_id', $studentGroup->id)
+            ->whereIn('group_id', $groups->pluck('id'))
             ->where('quiz_id', $quiz_id)
             ->select('end_time')
             ->first()->end_time;
