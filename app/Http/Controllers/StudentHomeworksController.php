@@ -64,7 +64,7 @@ class StudentHomeworksController extends Controller
                     'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
                     'image' => $comment->commentable_type == User::class ? 'https://st2.depositphotos.com/3369547/11438/v/380/depositphotos_114380960-stock-illustration-graduation-cap-and-boy-icon.jpg' : 'https://st2.depositphotos.com/3557671/11164/v/950/depositphotos_111644880-stock-illustration-man-avatar-icon-of-vector.jpg'
                 ];
-            })->toArray();
+            })->values()->toArray();
 
             return [
                 'id' => $item->id,
