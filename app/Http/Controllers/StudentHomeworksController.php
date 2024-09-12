@@ -52,14 +52,26 @@ class StudentHomeworksController extends Controller
             )
             ->get();
 
-        $data = $items->map(function ($item) {
+        $comments = Comment::with('commentable')->whereIn('homework_id', $items->pluck('id'))->get();
+
+        $data = $items->map(function ($item) use($comments) {
             $done = $item->student_attachments !== null;
+
+            $homeworkComments = $comments->where('homework_id', $item->id)->map(function ($comment) {
+                return [
+                    'name' => $comment->commentable->name,
+                    'content' => $comment->content,
+                    'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
+                    'image' => $comment->commentable_type == User::class ? 'https://st2.depositphotos.com/3369547/11438/v/380/depositphotos_114380960-stock-illustration-graduation-cap-and-boy-icon.jpg' : 'https://st2.depositphotos.com/3557671/11164/v/950/depositphotos_111644880-stock-illustration-man-avatar-icon-of-vector.jpg'
+                ];
+            });
 
             return [
                 'id' => $item->id,
                 'description' => $item->description,
                 'attachments' => $item->attachments ? json_decode($item->attachments): null,
                 'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
+                'comments' => $homeworkComments,
                 'done' => $done,
                 'date' => $item->date
             ];
