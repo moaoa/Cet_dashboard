@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Lecture;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,12 +12,12 @@ class LectureStudentsController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, $lecture_id)
+    public function __invoke(Request $request, String $lecture_id)
     {
-        $lecture = Lecture::query()->where('id', $lecture_id)->first();
+        $group = Lecture::find($lecture_id)->group()->first();
 
-        $students = User::query()->where('group_id', $lecture->group_id)->get();
+        $students = $group->users()->get();
 
-        return response()->json($students);
+        return response()->json(UserResource::collection($students));
     }
 }
