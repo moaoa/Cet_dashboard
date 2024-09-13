@@ -49,6 +49,6 @@ class TakeAttendanceController extends Controller
             ]);
             $attendance->save();
         }
-        return response()->json('ok', 201);
+        return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
 }

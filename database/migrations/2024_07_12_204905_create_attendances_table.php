@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignId('lecture_id');
             $table->foreignId('user_id');
             $table->timestamps();
+
+            //$table->unique(['lecture_id', 'user_id']);
         });
     }
 
