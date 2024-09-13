@@ -14,11 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\GroupQuizController;
-use App\Http\Controllers\UserAnswerController;
-
-
-
-
+use Illuminate\Support\Facades\Mail;
 
 
 // Quiz routes
@@ -88,3 +84,13 @@ Route::put('/users/update', [UserController::class, 'update'])->middleware('auth
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('email', function (){
+
+        Mail::raw('message', function ($message) {
+            $message->to('moaadbn3@gmail.com')
+                    ->subject('Job Offer');
+        });
+
+        return response()->json(['message' => 'Email sent successfully.']);
+});
