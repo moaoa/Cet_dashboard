@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AttendanceStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Lecture;
 use App\Models\User;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TakeAttendanceController extends Controller
 {
@@ -24,7 +26,7 @@ class TakeAttendanceController extends Controller
 
        $validator = Validator::make($request->input('attendance'), [
             '*.user_id' => 'required|exists:users,id',
-            '*.status' => 'required|integer|in:1,2,3',
+            '*.status' => ['required', Rule::enum(ServerStatus::class)],
             '*.note' => 'nullable|string|max:255',
             '*.date' => 'required|date'
         ]);
