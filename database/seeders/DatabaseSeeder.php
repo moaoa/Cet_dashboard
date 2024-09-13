@@ -190,7 +190,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'ahmad',
             'ref_number' => 2222,
             'type' => UserType::Student,
-            'email' => 'ahmad@gmail.com',
+            'email' => 'graish333@gmail.com',
             'email_verified_at' => now(),
             'phone_number' => '1222223',
         ]);
