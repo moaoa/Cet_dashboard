@@ -26,7 +26,7 @@ class TakeAttendanceController extends Controller
 
        $validator = Validator::make($request->input('attendance'), [
             '*.user_id' => 'required|exists:users,id',
-            '*.status' => ['required', Rule::enum(ServerStatus::class)],
+            '*.status' => ['required', Rule::enum(AttendanceStatus::class)],
             '*.note' => 'nullable|string|max:255',
             '*.date' => 'required|date'
         ]);
