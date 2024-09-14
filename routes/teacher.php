@@ -2,9 +2,11 @@
 use App\Http\Controllers\Teacher\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\LecturesController;
+use App\Http\Controllers\Teacher\SubjectsController;
 
 Route::middleware('auth:teacher')->group(function () {
     Route::get('/lectures', [LecturesController::class, 'index']);
+    Route::get('/subjects', [SubjectsController::class, 'index']);
 
 // Route::prefix('teacher')->group(function () {
 //     Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class);
