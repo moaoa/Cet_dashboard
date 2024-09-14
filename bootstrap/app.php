@@ -15,10 +15,14 @@ return Application::configure(basePath: dirname(__DIR__))
             Route::middleware('api')
                 ->prefix('api')
                 ->group(base_path('routes/student.php'));
+
+            Route::middleware('api')
+                ->name('teacher.')
+                ->prefix('api/teacher')
+                ->group(base_path('routes/teacher.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Teacher extends Model
+
+class Teacher extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $guard = 'teacher';
 
     protected $fillable = [
         'name',
@@ -48,5 +53,10 @@ class Teacher extends Model
     public function subjects(): BelongsToMany
     {
         return $this->belongsToMany(Subject::class);
+    }
+
+    public function lectures(): HasMany
+    {
+        return $this->hasMany(Lecture::class);
     }
 }
