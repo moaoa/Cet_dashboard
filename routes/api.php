@@ -69,12 +69,6 @@ Route::group([], function () {
 });
 
 // Teacher Stuff
-Route::prefix('teacher')->group(function () {
-    Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class);
-    Route::post('/quiz-assignment', AssignQuizToGroupController::class);
-    Route::post('/homework-assignment', AssignHomeworkToGroupController::class);
-    Route::post('/attendance/{lecture}', TakeAttendanceController::class);
-});
 
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders']);
@@ -84,6 +78,7 @@ Route::put('/users/update', [UserController::class, 'update'])->middleware('auth
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 
 Route::get('email', function (){
 

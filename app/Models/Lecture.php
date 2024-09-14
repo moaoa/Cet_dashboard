@@ -57,7 +57,7 @@ class Lecture extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function user(): BelongsTo
+    public function teacher(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

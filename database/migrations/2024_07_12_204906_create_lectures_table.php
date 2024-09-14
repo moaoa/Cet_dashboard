@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('subject_id');
             $table->foreignId('class_room_id');
             $table->foreignId('group_id');
-            $table->foreignId('user_id');
+            $table->foreignId('teacher_id');
             $table->timestamps();
         });
     }

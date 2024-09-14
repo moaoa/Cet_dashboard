@@ -86,6 +86,7 @@ class DatabaseSeeder extends Seeder
         $semester = Semester::first();
         $teacher = Teacher::factory()->create([
             'name' => 'رحيم',
+            'email' => 'raheemdehom123@gmail.com',
         ]);
 
         $subject->groups()->attach($group);
@@ -98,7 +99,7 @@ class DatabaseSeeder extends Seeder
             'subject_id' => $subject->id,
             'class_room_id' => $classRoom->id,
             'group_id' => $group->id,
-            'user_id' => 1, // Assuming there's a user with ID 1
+            'teacher_id' => 1, // Assuming there's a user with ID 1
         ]);
 
         Lecture::create([
@@ -108,7 +109,7 @@ class DatabaseSeeder extends Seeder
             'subject_id' => $subject->id,
             'class_room_id' => $classRoom->id,
             'group_id' => $group->id,
-            'user_id' => 1, // Assuming there's a user with ID 1
+            'teacher_id' => 1, // Assuming there's a user with ID 1
         ]);
 
         Lecture::create([
@@ -118,7 +119,7 @@ class DatabaseSeeder extends Seeder
             'subject_id' => $subject->id,
             'class_room_id' => $classRoom->id,
             'group_id' => $group->id,
-            'user_id' => 1, // Assuming there's a user with ID 1
+            'teacher_id' => 1, // Assuming there's a user with ID 1
         ]);
 
         $subject2 = Subject::create([
@@ -135,7 +136,7 @@ class DatabaseSeeder extends Seeder
             'subject_id' => $subject2->id,
             'class_room_id' => $classRoom->id,
             'group_id' => $group->id,
-            'user_id' => 1, // Assuming there's a user with ID 1
+            'teacher_id' => 1, // Assuming there's a user with ID 1
         ]);
 
 
