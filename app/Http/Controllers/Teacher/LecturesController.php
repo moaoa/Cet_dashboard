@@ -6,20 +6,19 @@ use App\Enums\WeekDays;
 use App\Http\Controllers\Controller;
 use App\Models\Lecture;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\LectureResource;
 use Illuminate\Support\Facades\Validator;
 
 class LecturesController extends Controller
 {
-    //
-    public function index(Request $request): Response
+    public function index(Request $request): JsonResponse
     {
         $teacher = $request->user();
         $lectures = Lecture::with('group.users', 'subject')->where('teacher_id', $teacher->id)->get();
 
-        return LectureResource::collection($lectures);
+        return response()->json(LectureResource::collection($lectures));
     }
 
     public function store(Request $request): Response
@@ -66,6 +65,5 @@ class LecturesController extends Controller
         $lecture->save();
 
         return response()->json(['message' => 'Lecture created successfully']);
-
     }
 }
