@@ -24,11 +24,12 @@ class TakeAttendanceController extends Controller
     {
         $lecture = Lecture::query()->findOrFail($lectureId);
 
-       $validator = Validator::make($request->input('attendance'), [
-            '*.user_id' => 'required|exists:users,id',
-            '*.status' => ['required', Rule::enum(AttendanceStatus::class)],
-            '*.note' => 'nullable|string|max:255',
-            '*.date' => 'required|date'
+        $validator = Validator::make($request->all(), [
+            'attendance' => 'required|array',
+            'attendance.*.user_id' => 'required|exists:users,id',
+            'attendance.*.status' => ['required', Rule::enum(AttendanceStatus::class)],
+            'attendance.*.note' => 'nullable|string|max:255',
+            'date' => 'required|date'
         ]);
 
         if($validator->fails()){
@@ -45,8 +46,9 @@ class TakeAttendanceController extends Controller
                 'user_id' => $attendanceItem['user_id'],
                 'status' => $attendanceItem['status'],
                 'note' => $attendanceItem['note'] ?? '',
-                'date' => now()->format('Y-m-d'),
+                'date' => $request->input('date'),
             ]);
+
             $attendance->save();
         }
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
