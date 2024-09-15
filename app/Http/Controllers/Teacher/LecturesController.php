@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\LectureResource;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class LecturesController extends Controller
 {
@@ -21,7 +22,7 @@ class LecturesController extends Controller
         return response()->json(LectureResource::collection($lectures));
     }
 
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'group_id' => 'required|exists:groups,id',
