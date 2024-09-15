@@ -30,7 +30,7 @@ class LecturesController extends Controller
             'day_of_week' => ['required', Rule::enum(WeekDays::class)],
             'duration' => 'required|integer|min:1',
             'start_time' => 'required|date_format:H:i',
-            'class_room_id' => 'required|string|max:255',
+            'class_room_id' => 'required|int|max:255',
             'lecture_date' => 'required_if:one_time_lecture,true|date',
             'one_time_lecture' => 'boolean',
         ]);
