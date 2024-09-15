@@ -24,6 +24,7 @@ class Lecture extends Model
         'class_room_id',
         'group_id',
         'user_id',
+        'deleted_at',
     ];
 
     /**

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->time('end_time');
             $table->unsignedBigInteger('day_of_week');
             $table->foreignId('subject_id');
+            $table->date('deleted_at')->nullable();
             $table->foreignId('class_room_id');
             $table->foreignId('group_id');
             $table->foreignId('teacher_id');
