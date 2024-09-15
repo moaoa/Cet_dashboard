@@ -51,13 +51,20 @@ class DatabaseSeeder extends Seeder
         // Seed ClassRooms
         ClassRoom::factory()->count(5)->create();
 
+        $teacher = Teacher::factory()->create([
+            'name' => 'رحيم',
+            'email' => 'raheemdehom123@gmail.com',
+        ]);
+
         //Group::factory()->count(2)->create();
         Group::factory()->create([
-            'name' => '1'
+            'name' => '1',
+            'teacher_id' => $teacher->id
         ]);
 
         Group::factory()->create([
-            'name' => '2'
+            'name' => '2',
+            'teacher_id' => $teacher->id
         ]);
 
         //Homework::factory()->count(2)->create();
@@ -84,10 +91,7 @@ class DatabaseSeeder extends Seeder
         $classRoom = ClassRoom::first();
         $subject = Subject::first();
         $semester = Semester::first();
-        $teacher = Teacher::factory()->create([
-            'name' => 'رحيم',
-            'email' => 'raheemdehom123@gmail.com',
-        ]);
+
 
         $subject->groups()->attach($group);
 

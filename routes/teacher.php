@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\Teacher\AuthController;
+use App\Http\Controllers\Teacher\GroupsOfSubjectController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\LecturesController;
 use App\Http\Controllers\Teacher\SubjectsController;
@@ -10,6 +11,7 @@ Route::middleware('auth:teacher')->group(function () {
      Route::post('/lectures', [LecturesController::class, 'store']);
      Route::get('/subjects', [SubjectsController::class, 'index']);
      Route::post('/attendance/{lecture}', TakeAttendanceController::class);
+     Route::get('/subjects/{subject}/groups', [GroupsOfSubjectController::class, 'index']);
 
      // Route::prefix('teacher')->group(function () {
      //     Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class);
