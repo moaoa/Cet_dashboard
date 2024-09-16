@@ -72,4 +72,26 @@ class QuizController extends Controller
             'total' => $quizTotalScore
         ]);
     }
+    public function getStudentResult(String $quiz_id, String $student_id): JsonResponse
+    {
+        $quiz = Quiz::findOrFail($quiz_id);
+
+        $user_answers = DB::table('user_answers')
+            ->join('questions', 'questions.id', '=', 'user_answers.question_id')
+            ->where('user_answers.user_id', $student_id)
+            ->where('questions.quiz_id', $quiz->id)
+            ->select('questions.id as id', 'questions.question', 'questions.answer as model_answer', 'options', 'user_answers.answer as user_answer')
+            ->get();
+
+        $data = $quiz->questions()->get()->map(function ($question) use ($user_answers) {
+            return [
+                'question' => $question->question,
+                'model_answer' => $question->answer,
+                'user_answer' => $user_answers->where('id', $question->id)->first()?->user_answer,
+                'options' => $question->options
+            ];
+        });
+
+        return response()->json($data);
+    }
 }
