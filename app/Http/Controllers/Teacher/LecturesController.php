@@ -65,6 +65,6 @@ class LecturesController extends Controller
 
         $lecture->save();
 
-        return response()->json(['message' => 'Lecture created successfully']);
+        return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);
     }
 }
