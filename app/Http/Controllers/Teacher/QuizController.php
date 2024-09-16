@@ -21,7 +21,7 @@ class QuizController extends Controller
             ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
             ->where('groups.teacher_id', $teacher->id)
-            ->select('quizzes.name', 'subjects.name as subject_name', 'start_time', 'end_time', 'note')
+            ->select('quizzes.id', 'quizzes.name', 'subjects.name as subject_name', 'start_time', 'end_time', 'note')
             ->get();
 
         return response()->json($items);
