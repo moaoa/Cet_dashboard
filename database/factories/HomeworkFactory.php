@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Teacher;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\Homework;
@@ -29,7 +30,7 @@ class HomeworkFactory extends Factory
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]),
-            'user_id' => User::factory(),
+            'teacher_id' => Teacher::factory(),
             'subject_id' => Subject::factory(),
         ];
     }

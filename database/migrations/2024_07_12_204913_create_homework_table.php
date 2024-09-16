@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->longText('description');
             $table->json('attachments');
-            $table->foreignId('user_id');
+            $table->foreignId('teacher_id');
             $table->foreignId('subject_id');
             $table->timestamps();
         });

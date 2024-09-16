@@ -159,7 +159,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $teacher->id,
+            'teacher_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
         // Associate the Homework with the first Group
@@ -172,7 +172,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $teacher->id,
+            'teacher_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
         // Associate the Homework with the first Group
@@ -185,7 +185,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Homework II.png',
                 'url' => 'https://www.halpernadvisors.com/wp-content/uploads/2022/09/HW.jpg'
             ]]),
-            'user_id' => $teacher->id,
+            'teacher_id' => $teacher->id,
             'subject_id' => $subject->id,
         ]);
         // Associate the Homework with the first Group
@@ -213,7 +213,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $quiz = Quiz::create([
-            'user_id' => $teacher->id,
+            'teacher_id' => $teacher->id,
             'name' => 'الاختبار رقم 1',
             'subject_id' => $subject->id,
             'note' => 'التسليم يوم 30 تسعة >_<تن'
@@ -268,7 +268,7 @@ class DatabaseSeeder extends Seeder
         ];
 
         $quiz2 = Quiz::create([
-            'user_id' => $teacher->id,
+            'teacher_id' => $teacher->id,
             'name' => 'الاختبار رقم 2',
             'subject_id' => $subject->id,
             'note' => 'الاختبار رقم 2'
