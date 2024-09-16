@@ -8,6 +8,7 @@ use App\Models\ClassRoom;
 
 class ClassRoomFactory extends Factory
 {
+    static $counter = 200;
     /**
      * The name of the factory's corresponding model.
      *
@@ -21,7 +22,7 @@ class ClassRoomFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => 'القاعة ' . $this::$counter++,
         ];
     }
 }
