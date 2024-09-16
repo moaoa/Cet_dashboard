@@ -13,6 +13,7 @@ use App\Models\Homework;
 use App\Models\Lecture;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\QuizScore;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -28,10 +29,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = User::factory()->create([
+        $student1 = User::factory()->create([
             'name' => 'moaad',
             'ref_number' => 1111,
-            'type' => UserType::Admin,
             'email' => 'moaadbn3@gmail.com',
             'email_verified_at' => now(),
             'phone_number' => '1222223',
@@ -94,6 +94,7 @@ class DatabaseSeeder extends Seeder
 
 
         $subject->groups()->attach($group);
+        $student1->groups()->attach($group);
 
         // Create a new Lecture instance and associate it with the first instances of the related models
         $lecture = Lecture::create([
@@ -312,6 +313,5 @@ class DatabaseSeeder extends Seeder
                'user_id' => $student->id
             ]);
         }
-
     }
 }

@@ -21,7 +21,7 @@ Route::middleware('auth:teacher')->group(function () {
      Route::get('/available-classrooms', AvailableClassRoomsController::class);
 
      Route::get('/quizzes', [QuizController::class, 'index']);
-     Route::get('/quiz-students/{quizId}', UsersAttendingQuizController::class);
+     Route::get('/quiz-results/{quiz}', [QuizController::class, 'quizResults']);
 
      // Route::prefix('teacher')->group(function () {
      //     Route::post('/quiz-assignment', AssignQuizToGroupController::class);
