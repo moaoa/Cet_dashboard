@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Actions\UserQuizScoreAction;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Teacher\QuizResource;
-use App\Models\Group;
+use App\Models\Question;
 use App\Models\Quiz;
-use App\Models\QuizScore;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
 {
@@ -93,5 +91,70 @@ class QuizController extends Controller
         });
 
         return response()->json($data);
+    }
+
+    public function store(Request $request): JsonResponse
+    {
+        $teacher = $request->user();
+
+        $rules = [
+            'group_ids'   => 'required|array', // Validate that group_ids is an array
+            'group_ids.*' => 'exists:groups,id', // Validate that each group_id exists in the groups table
+            'name'        => 'required|string|max:255',
+            'note'        => 'nullable|string',
+            'start_time'  => 'required|date',//|after_or_equal:now
+            'end_time'    => 'required|date|after:start_time',
+            'subject_id'  => 'required|exists:subjects,id',
+
+            'questions'            => 'required|array', // Questions must be an array
+            'questions.*.question' => 'required|string|max:255', // Each question is required and must be a string
+            'questions.*.options'  => 'required|array|min:2', // Options must be an array with at least 2 options
+            'questions.*.options.*'=> 'required|string', // Each option must be a string
+            'questions.*.answer'   => 'required|string', // The answer is required and must be a string
+        ];
+
+        // Create the validator instance
+        $validator = Validator::make($request->all(), $rules);
+
+        // Check if the validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors(),
+            ], 422); // Unprocessable Entity status code
+        }
+
+        $quiz = Quiz::create([
+            'name'       => $request->input('name'),
+            'note'       => $request->input('note'),
+            'subject_id' => $request->input('subject_id'),
+            'teacher_id' => $teacher->id,
+        ]);
+
+        // Attach the quiz to the groups via pivot table
+        $quiz->groups()->attach($request->input('group_ids'), [
+            'start_time' => $request->input('start_time'),
+            'end_time'   => $request->input('end_time')
+        ]);
+
+
+        $questionData = [];
+
+        foreach ($request->input('questions') as $question) {
+            $questionData[] = [
+                'question' => $question['question'],
+                'options' => json_encode($question['options']),
+                'answer' => $question['answer'],
+                'quiz_id' => $quiz->id,
+            ];
+        }
+
+        Question::insert($questionData);
+
+
+        // Return a success response with the quiz details
+        return response()->json([
+            'message' => 'Quiz created successfully',
+            'quiz'    => $quiz,
+        ], 201);
     }
 }
