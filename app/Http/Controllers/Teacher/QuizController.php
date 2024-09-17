@@ -110,7 +110,7 @@ class QuizController extends Controller
             'questions.*.question' => 'required|string|max:255',
             'questions.*.options'  => 'required|array|min:2',
             'questions.*.options.*'=> 'required|string',
-            'questions.*.answer_index'   => 'required|integer|min:0|max:3',
+            'questions.*.answer_index'   => 'required|integer|min:1|max:4',
         ];
 
         $messages = [
@@ -175,7 +175,7 @@ class QuizController extends Controller
             $questionData[] = [
                 'question' => $question['question'],
                 'options' => json_encode($question['options']),
-                'answer' => $question['options'][$correctAnswerIndex],
+                'answer' => $question['options'][(int)$correctAnswerIndex - 1],
                 'quiz_id' => $quiz->id,
             ];
         }
