@@ -141,8 +141,8 @@ class QuizController extends Controller
             'questions.*.options.*.string'       => 'يجب أن يكون الخيار نصاً.',
             'questions.*.answer_index.required'  => 'الإجابة الصحيحة مطلوبة.',
             'questions.*.answer_index.integer'   => 'يجب أن تكون الإجابة الصحيحة رقماً.',
-            'questions.*.answer_index.min'       => 'يجب أن تكون الإجابة الصحيحة بين 0 و 3.',
-            'questions.*.answer_index.max'       => 'يجب أن تكون الإجابة الصحيحة بين 0 و 3.',
+            'questions.*.answer_index.min'       => 'يجب أن تكون الإجابة الصحيحة بين 1 و 4.',
+            'questions.*.answer_index.max'       => 'يجب أن تكون الإجابة الصحيحة بين 1 و 4.',
         ];
 
         // Create the validator instance
@@ -183,9 +183,8 @@ class QuizController extends Controller
         Question::insert($questionData);
 
 
-        // Return a success response with the quiz details
         return response()->json([
-            'message' => 'Quiz created successfully',
+            'message' => 'تمت إضافة الاختبار بنجاح',
             'quiz'    => $quiz,
         ], 201);
     }
