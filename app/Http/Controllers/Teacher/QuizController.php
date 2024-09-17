@@ -150,7 +150,7 @@ class QuizController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'errors' => $validator->errors()->first(),
             ], 422);
         }
 
