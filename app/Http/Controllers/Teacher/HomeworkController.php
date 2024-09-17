@@ -7,6 +7,7 @@ use App\Models\Homework;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\HomeworkResource;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class HomeworkController extends Controller
@@ -19,9 +20,23 @@ class HomeworkController extends Controller
     public function index(Request $request): JsonResponse
     {
         $teacher = $request->user();
-        $homeworks = Homework::with('subject', 'teacher')->where('teacher_id', $teacher->id)->get();
 
-        return response()->json(HomeworkResource::collection($homeworks));
+        // $items = DB::table('homework_groups')
+        //     ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+        //     ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
+        //     ->where('homework.teacher_id', $teacher->id)
+        //     ->select('homework.name', 'description', 'homework.attachments', 'groups.name as group_name')
+        //     ->get();
+
+        $items = DB::table('subjects')
+            ->join('group_subject', 'group_subject.subject_id', '=', 'subjects.id')
+            ->join('groups', 'groups.id', '=', 'group_subject.group_id')
+            ->where('groups.teacher_id', $teacher->id)
+            ->select('groups.id as group_id', 'subjects.id as subject_id', 'subjects.name', 'groups.name as group_name')
+            ->get();
+
+
+        return response()->json($items);
     }
 
     /**
