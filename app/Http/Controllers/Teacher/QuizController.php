@@ -113,8 +113,40 @@ class QuizController extends Controller
             'questions.*.answer_index'   => 'required|integer|min:0|max:3',
         ];
 
+        $messages = [
+            'group_ids.required' => 'حقل المجموعات مطلوب.',
+            'group_ids.array'    => 'يجب أن يكون حقل المجموعات مصفوفة.',
+            'group_ids.*.exists' => 'المجموعة المحددة غير موجودة.',
+            'name.required'      => 'اسم الاختبار مطلوب.',
+            'name.string'        => 'يجب أن يكون الاسم نصاً.',
+            'name.max'           => 'لا يجب أن يتجاوز الاسم 255 حرفاً.',
+            'note.string'        => 'يجب أن تكون الملاحظة نصاً.',
+            'start_time.required'=> 'وقت البدء مطلوب.',
+            'start_time.date'    => 'يجب أن يكون وقت البدء تاريخاً صالحاً.',
+            'end_time.required'  => 'وقت الانتهاء مطلوب.',
+            'end_time.date'      => 'يجب أن يكون وقت الانتهاء تاريخاً صالحاً.',
+            'end_time.after'     => 'يجب أن يكون وقت الانتهاء بعد وقت البدء.',
+            'subject_id.required'=> 'حقل الموضوع مطلوب.',
+            'subject_id.exists'  => 'الموضوع المحدد غير موجود.',
+
+            'questions.required'                 => 'الأسئلة مطلوبة.',
+            'questions.array'                    => 'يجب أن يكون حقل الأسئلة مصفوفة.',
+            'questions.*.question.required'      => 'السؤال مطلوب.',
+            'questions.*.question.string'        => 'يجب أن يكون السؤال نصاً.',
+            'questions.*.question.max'           => 'يجب ألا يتجاوز طول السؤال 255 حرفاً.',
+            'questions.*.options.required'       => 'الخيارات مطلوبة.',
+            'questions.*.options.array'          => 'يجب أن يكون حقل الخيارات مصفوفة.',
+            'questions.*.options.min'            => 'يجب أن تحتوي الخيارات على خيارين على الأقل.',
+            'questions.*.options.*.required'     => 'الخيار مطلوب.',
+            'questions.*.options.*.string'       => 'يجب أن يكون الخيار نصاً.',
+            'questions.*.answer_index.required'  => 'الإجابة الصحيحة مطلوبة.',
+            'questions.*.answer_index.integer'   => 'يجب أن تكون الإجابة الصحيحة رقماً.',
+            'questions.*.answer_index.min'       => 'يجب أن تكون الإجابة الصحيحة بين 0 و 3.',
+            'questions.*.answer_index.max'       => 'يجب أن تكون الإجابة الصحيحة بين 0 و 3.',
+        ];
+
         // Create the validator instance
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return response()->json([
