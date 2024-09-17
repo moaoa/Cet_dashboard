@@ -88,13 +88,14 @@ class DatabaseSeeder extends Seeder
 
         // Seed Groups
         $group = Group::first();
+        $group2 = Group::find(2);
         $classRoom = ClassRoom::first();
         $subject = Subject::first();
         $semester = Semester::first();
 
 
         $subject->groups()->attach($group);
-        $student1->groups()->attach($group);
+        $student1->groups()->attach($group2);
 
         // Create a new Lecture instance and associate it with the first instances of the related models
         $lecture = Lecture::create([
