@@ -23,6 +23,7 @@ class Homework extends Model
         'attachments',
         'user_id',
         'subject_id',
+        'teacher_id',
     ];
 
     /**
@@ -32,13 +33,17 @@ class Homework extends Model
      */
     protected $casts = [
         'id' => 'integer',
-        'user_id' => 'integer',
         'subject_id' => 'integer',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function teacher(): BelongsTo
+    {
+        return $this->belongsTo(Teacher::class);
     }
 
     public function subject(): BelongsTo

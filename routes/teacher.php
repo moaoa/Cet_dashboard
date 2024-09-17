@@ -2,6 +2,7 @@
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\Teacher\AuthController;
 use App\Http\Controllers\Teacher\GroupsOfSubjectController;
+use App\Http\Controllers\Teacher\HomeworkController;
 use App\Http\Controllers\Teacher\QuizController;
 use App\Http\Controllers\UsersAttendingQuizController;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,9 @@ Route::middleware('auth:teacher')->group(function () {
      Route::get('/quiz-results/{quiz}', [QuizController::class, 'quizResults']);
      Route::get('/quiz/{quiz}/users/{user}/result', [QuizController::class, 'getStudentResult']);
 
+
+     Route::get('/homeworks', [HomeworkController::class, 'index']);
+     Route::post('/homeworks', [HomeworkController::class, 'store']);
      // Route::prefix('teacher')->group(function () {
      //     Route::post('/quiz-assignment', AssignQuizToGroupController::class);
      //     Route::post('/homework-assignment', AssignHomeworkToGroupController::class);
