@@ -98,29 +98,28 @@ class QuizController extends Controller
         $teacher = $request->user();
 
         $rules = [
-            'group_ids'   => 'required|array', // Validate that group_ids is an array
-            'group_ids.*' => 'exists:groups,id', // Validate that each group_id exists in the groups table
+            'group_ids'   => 'required|array',
+            'group_ids.*' => 'exists:groups,id',
             'name'        => 'required|string|max:255',
             'note'        => 'nullable|string',
-            'start_time'  => 'required|date',//|after_or_equal:now
+            'start_time'  => 'required|date',
             'end_time'    => 'required|date|after:start_time',
             'subject_id'  => 'required|exists:subjects,id',
 
-            'questions'            => 'required|array', // Questions must be an array
-            'questions.*.question' => 'required|string|max:255', // Each question is required and must be a string
-            'questions.*.options'  => 'required|array|min:2', // Options must be an array with at least 2 options
-            'questions.*.options.*'=> 'required|string', // Each option must be a string
-            'questions.*.answer'   => 'required|string', // The answer is required and must be a string
+            'questions'            => 'required|array',
+            'questions.*.question' => 'required|string|max:255',
+            'questions.*.options'  => 'required|array|min:2',
+            'questions.*.options.*'=> 'required|string',
+            'questions.*.answer_index'   => 'required|integer|min:0|max:3',
         ];
 
         // Create the validator instance
         $validator = Validator::make($request->all(), $rules);
 
-        // Check if the validation fails
         if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
-            ], 422); // Unprocessable Entity status code
+            ], 422);
         }
 
         $quiz = Quiz::create([
@@ -140,10 +139,11 @@ class QuizController extends Controller
         $questionData = [];
 
         foreach ($request->input('questions') as $question) {
+            $correctAnswerIndex = $question['answer_index'];
             $questionData[] = [
                 'question' => $question['question'],
                 'options' => json_encode($question['options']),
-                'answer' => $question['answer'],
+                'answer' => $question['options'][$correctAnswerIndex],
                 'quiz_id' => $quiz->id,
             ];
         }
