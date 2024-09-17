@@ -17,15 +17,15 @@ class QuizController extends Controller
         $teacher = $request->user();
         $quizzes = Quiz::with('subject', 'groups')->where('teacher_id', $teacher->id)->get();
 
-        $items = DB::table('quiz_groups')
-            ->join('quizzes', 'quizzes.id', '=', 'quiz_groups.quiz_id')
-            ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
-            ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->where('groups.teacher_id', $teacher->id)
-            ->select('quizzes.id', 'quizzes.name', 'subjects.name as subject_name', 'start_time', 'end_time', 'note', 'groups.name as group_name', 'groups.id as group_id')
-            ->get();
+        // $items = DB::table('quiz_groups')
+        //     ->join('quizzes', 'quizzes.id', '=', 'quiz_groups.quiz_id')
+        //     ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
+        //     ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+        //     ->where('groups.teacher_id', $teacher->id)
+        //     ->select('quizzes.id', 'quizzes.name', 'subjects.name as subject_name', 'start_time', 'end_time', 'note', 'groups.name as group_name', 'groups.id as group_id')
+        //     ->get();
 
-        return response()->json($items);
+        return response()->json($quizzes);
     }
 
     // public function quizResults(Request $request, String $quiz_id): JsonResponse
