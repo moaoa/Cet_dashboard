@@ -16,11 +16,11 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->unsignedBigInteger('day_of_week');
-            $table->foreignId('subject_id');
+            $table->foreignId('subject_id')->constrained('subjects');
             $table->date('deleted_at')->nullable();
-            $table->foreignId('class_room_id');
-            $table->foreignId('group_id');
-            $table->foreignId('teacher_id');
+            $table->foreignId('class_room_id')->constrained('class_rooms');
+            $table->foreignId('group_id')->constrained('groups');
+            $table->foreignId('teacher_id')->constrained('teachers');
             $table->timestamps();
         });
     }

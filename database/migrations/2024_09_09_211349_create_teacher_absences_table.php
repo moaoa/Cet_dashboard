@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('teacher_absences', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('teacher_id');
-            $table->foreignId('lecture_id');
+            $table->foreignId('teacher_id')->constrained('teachers');
+            $table->foreignId('lecture_id')->constrained('lectures');
             $table->date('date');
             $table->timestamps();
         });

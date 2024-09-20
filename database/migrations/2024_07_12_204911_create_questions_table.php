@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->string('answer');
-            $table->foreignId('quiz_id');
+            $table->foreignId('quiz_id')->constrained('quizzes');
             $table->json('options');
             $table->timestamps();
         });

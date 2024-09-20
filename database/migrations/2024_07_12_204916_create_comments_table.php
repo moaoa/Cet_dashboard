@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->foreignId('homework_id');
+            $table->foreignId('homework_id')->constrained('homework');
             $table->integer('commentable_id');
             $table->string('commentable_type');
             $table->timestamps();
