@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Teacher;
 
-use App\Http\Controllers\Controller;
 use App\Models\Homework;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use App\Http\Resources\Teacher\HomeworkResource;
+use Illuminate\Http\JsonResponse;
+use App\Models\HomeworkUserAnswer;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 
 class HomeworkController extends Controller
@@ -20,13 +20,6 @@ class HomeworkController extends Controller
     public function index(Request $request): JsonResponse
     {
         $teacher = $request->user();
-
-        // $items = DB::table('homework_groups')
-        //     ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
-        //     ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
-        //     ->where('homework.teacher_id', $teacher->id)
-        //     ->select('homework.name', 'description', 'homework.attachments', 'groups.name as group_name')
-        //     ->get();
 
         $items = DB::table('subjects')
             ->join('group_subject', 'group_subject.subject_id', '=', 'subjects.id')
@@ -89,13 +82,74 @@ class HomeworkController extends Controller
         ], 201);
     }
     /**
-     * Display the specified resource.
+     * Get homeworks for a specific group and subject with their comments.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getHomeworkForGroupAndSubject(Request $request): JsonResponse
+    {
+        $groupId = $request->route('group');
+        $subjectId = $request->route('subject');
+
+        // Validate the route parameters
+        $validator = Validator::make([
+            'group_id' => $groupId,
+            'subject_id' => $subjectId,
+        ], [
+            'group_id' => 'required|exists:groups,id',
+            'subject_id' => 'required|exists:subjects,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // The validated data
+        $validated = $validator->validated();
+
+        $groupId = $validated['group_id'];
+        $subjectId = $validated['subject_id'];
+
+        $homeworks = Homework::where('subject_id', $subjectId)
+            ->whereHas('groups', function ($query) use ($groupId) {
+                $query->where('group_id', $groupId);
+            })
+            ->with(['comments' => function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }])
+            ->get();
+
+        return response()->json([
+            'homeworks' => $homeworks,
+        ]);
+    }
+    /**
+     * Show the specified homework with its attachments and student attachments.
      *
      * @param Homework $homework
      * @return JsonResponse
      */
     public function show(Homework $homework): JsonResponse
     {
-        return response()->json($homework);
+        $userAnswers = HomeworkUserAnswer::where('homework_id', $homework->id)
+            ->with('user')
+            ->get();
+
+        $homework = $homework->toArray();
+        $homework['attachments'] = json_decode($homework['attachments']);
+        $homework['user_answers'] = $userAnswers->map(function ($answer) {
+            return [
+                'user' => $answer->user,
+                'attachments' => json_decode($answer->attachments),
+                'created_at' => $answer->created_at,
+            ];
+        });
+
+        return response()->json([
+            'homework' => $homework,
+        ]);
     }
 }

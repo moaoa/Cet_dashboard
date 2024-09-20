@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\Teacher\AuthController;
 use App\Http\Controllers\Teacher\GroupsOfSubjectController;
@@ -29,6 +30,8 @@ Route::middleware('auth:teacher')->group(function () {
 
      Route::get('/homeworks', [HomeworkController::class, 'index']);
      Route::post('/homeworks', [HomeworkController::class, 'store']);
+     Route::get('/groups/{group}/subjects/{subject}/homeworks', [HomeworkController::class, 'getHomeworkForGroupAndSubject']);
+     Route::get('/homeworks/{homework}', [HomeworkController::class, 'show']);
      // Route::prefix('teacher')->group(function () {
      //     Route::post('/quiz-assignment', AssignQuizToGroupController::class);
      //     Route::post('/homework-assignment', AssignHomeworkToGroupController::class);
@@ -41,7 +44,7 @@ Route::middleware('auth:teacher')->group(function () {
      // Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment']);
 });
 
- Route::post('/register', [AuthController::class, 'register']);
- Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 //jRoute::get('/student/subject', [UserSubjectController::class, 'index'])->middleware('auth:sanctum');
