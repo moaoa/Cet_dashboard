@@ -28,6 +28,7 @@ class User extends Authenticatable
         'password',
         'email',
         'phone_number',
+        'device_subscriptions',
     ];
 
     /**
@@ -66,7 +67,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'user_subjects')->withPivot('passed');
     }
-    public function isAdmin(){
+    public function isAdmin()
+    {
         return $this->type == UserType::Student;
     }
 }

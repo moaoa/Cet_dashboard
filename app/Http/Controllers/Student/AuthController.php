@@ -45,11 +45,21 @@ class AuthController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+            'oneSignalId' => 'nullable|string',
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
             $user = User::where('email', $request->input('email'))->first();
             $token = $user->createToken('auth_token')->plainTextToken;
+
+            if ($request->oneSignalId) {
+                $deviceSubscriptions = json_decode($user->device_subscriptions, true);
+                $deviceSubscriptions[] = $request->oneSignalId;
+                $user->device_subscriptions = json_encode($deviceSubscriptions);
+
+                $user->save();
+            }
+
             return response()->json(['message' => 'Login successful', 'user' => new UserResource($user), 'token' => $token]);
         } else {
             return response()->json(['message' => 'Invalid credentials'], 401);

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->timestamps();
             $table->rememberToken();
+            $table->json('device_subscriptions')->default(json_encode([]));
         });
     }
 

@@ -17,6 +17,7 @@ class Admin extends Model
         'ref_number',
         'password',
         'email',
+        'device_subscriptions',
     ];
 
     /**

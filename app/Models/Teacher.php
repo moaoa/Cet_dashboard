@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -23,6 +24,7 @@ class Teacher extends Authenticatable
         'password',
         'email',
         'phone_number',
+        'device_subscriptions',
     ];
 
     /**
@@ -45,7 +47,7 @@ class Teacher extends Authenticatable
         'password' => 'hashed'
     ];
 
-    public function comments(): HasMany
+    public function comments(): MorphMany
     {
         //return $this->hasMany(Comment::class);
         return $this->morphMany(Comment::class, 'commentable');

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
@@ -44,9 +45,18 @@ class AuthController extends Controller
         $data = $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
+            'oneSignalId' => 'nullable|string',
         ]);
 
         $teacher = Teacher::where('email', $data['email'])->first();
+
+        if ($request->oneSignalId) {
+            $deviceSubscriptions = json_decode($teacher->device_subscriptions, true);
+            $deviceSubscriptions[] = $request->oneSignalId;
+            $teacher->device_subscriptions = json_encode($deviceSubscriptions);
+
+            $teacher->save();
+        }
 
         if (!$teacher || Hash::check($data['password'], $teacher->password)) {
             $user = Teacher::where('email', $request->input('email'))->first();

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamps();
             $table->rememberToken();
+            $table->json('device_subscriptions')->default(json_encode([]));
         });
     }
 
