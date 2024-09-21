@@ -28,6 +28,7 @@ class UserFactory extends Factory
             'password' => Hash::make('password'),
             'email' => $this->faker->safeEmail(),
             'phone_number' => $this->faker->phoneNumber(),
+            'device_subscriptions' => json_encode([]),
         ];
     }
 }
