@@ -21,6 +21,7 @@ class LectureNotification extends Mailable
     public function build()
     {
         return $this->subject('New Lecture Notification')
-            ->view('emails.lecture-notification');
+            ->view('emails.lecture-notification')
+            ->with(['message' => $this->message]);
     }
 }
