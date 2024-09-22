@@ -2,11 +2,15 @@
 
 namespace App\Services;
 
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+
 class OneSignalNotifier
 {
     private static $appId;
     private static $restApiKey;
     private static $baseUrl = "https://onesignal.com/api/v1/notifications";
+    private static $client;
 
     public static function init()
     {
@@ -16,6 +20,8 @@ class OneSignalNotifier
         if (!self::$appId || !self::$restApiKey) {
             throw new \Exception("OneSignal configuration not found in environment variables.");
         }
+
+        self::$client = new Client();
     }
 
     public static function sendNotificationToUsers(array $subscriptions, $message, $heading = "Notification")
@@ -42,33 +48,25 @@ class OneSignalNotifier
         return self::sendNotification($payload);
     }
 
-
     private static function sendNotification($payload)
     {
         if (!self::$appId || !self::$restApiKey) {
             self::init();
         }
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::$baseUrl);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json; charset=utf-8',
-            'Authorization: Basic ' . self::$restApiKey
-        ]);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        try {
+            $response = self::$client->post(self::$baseUrl, [
+                'headers' => [
+                    'Content-Type' => 'application/json; charset=utf-8',
+                    'Authorization' => 'Basic ' . self::$restApiKey
+                ],
+                'json' => $payload,
+                'verify' => false // Only use this if you're having SSL verification issues
+            ]);
 
-        $response = curl_exec($ch);
-        $error = curl_error($ch);
-        curl_close($ch);
-
-        if ($error) {
-            throw new \Exception("cURL Error: " . $error);
+            return json_decode($response->getBody(), true);
+        } catch (GuzzleException $e) {
+            throw new \Exception("HTTP Request failed: " . $e->getMessage());
         }
-
-        return json_decode($response, true);
     }
 }

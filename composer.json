@@ -10,6 +10,7 @@
         "berkayk/onesignal-laravel": "^2.1",
         "dedoc/scramble": "^0.11.11",
         "filament/filament": "^3.2",
+        "guzzlehttp/guzzle": "^7.9",
         "hg/apidoc": "^5.2",
         "laravel/framework": "^11.9",
         "laravel/pulse": "^1.2",
