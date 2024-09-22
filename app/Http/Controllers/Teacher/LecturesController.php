@@ -10,7 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\LectureResource;
 use App\Models\Subject;
-use Berkayk\OneSignal\OneSignalFacade;
+use App\Services\OneSignalNotifier;
 use Carbon\WeekDay;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -79,9 +79,11 @@ class LecturesController extends Controller
 
         foreach ($users as $user) {
             foreach (json_decode($user->device_subscriptions) as $subscription) {
-                OneSignalFacade::sendNotificationToUser(
-                    $message,
+                OneSignalNotifier::init();
+
+                OneSignalNotifier::sendNotificationToUsers(
                     $subscription,
+                    $message,
                     $url = "https://cet-management.moaad.ly",
                     $data = null,
                     $buttons = null,
