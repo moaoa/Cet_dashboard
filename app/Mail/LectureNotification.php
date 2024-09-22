@@ -11,17 +11,16 @@ class LectureNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
+    public $message_content;
 
     public function __construct(string $message)
     {
-        $this->message = $message;
+        $this->message_content = $message;
     }
 
     public function build()
     {
-        return $this->subject('New Lecture Notification')
-            ->view('emails.lecture-notification')
-            ->with(['message' => $this->message]);
+        return $this->subject('إعلان محاضرة')
+            ->view('emails.lecture-notification');
     }
 }
