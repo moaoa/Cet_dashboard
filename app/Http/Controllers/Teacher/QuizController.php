@@ -193,6 +193,8 @@ class QuizController extends Controller
 
         $message = ' تم إضافة اختبار جديد لمادة' . $subject->name;
 
+        OneSignalNotifier::init();
+
         foreach ($groups as $group) {
             foreach ($group->users as $user) {
                 OneSignalNotifier::sendNotificationToUsers(
