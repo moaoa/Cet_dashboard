@@ -74,13 +74,21 @@ class LecturesController extends Controller
 
         $message = "تم إضافة محاضرة {$lectureType} يوم {$weekDay->toArabic()} لمادة {$subject->name}";
 
-        OneSignalFacade::sendNotificationToAll(
-            $message,
-            $url = "https://cet-management.moaad.ly",
-            $data = null,
-            $buttons = null,
-            $schedule = null
-        );
+        // Fetch users for the group
+        $users = $lecture->group->users;
+
+        foreach ($users as $user) {
+            foreach (json_decode($user->device_subscriptions) as $subscription) {
+                OneSignalFacade::sendNotificationToUser(
+                    $message,
+                    $subscription,
+                    $url = "https://cet-management.moaad.ly",
+                    $data = null,
+                    $buttons = null,
+                    $schedule = null
+                );
+            }
+        }
 
         return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);
     }
