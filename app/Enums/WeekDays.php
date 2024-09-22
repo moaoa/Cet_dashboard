@@ -10,4 +10,16 @@ enum WeekDays: int
     case TUESDAY = 4;
     case WEDNESDAY = 5;
     case THURSDAY = 6;
+
+    public function toArabic(): string
+    {
+        return match ($this) {
+            self::SATURDAY => 'السبت',
+            self::SUNDAY => 'الأحد',
+            self::MONDAY => 'الاثنين',
+            self::TUESDAY => 'الثلاثاء',
+            self::WEDNESDAY => 'الأربعاء',
+            self::THURSDAY => 'الخميس',
+        };
+    }
 }

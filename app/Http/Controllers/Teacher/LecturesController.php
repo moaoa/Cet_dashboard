@@ -9,6 +9,9 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\LectureResource;
+use App\Models\Subject;
+use Berkayk\OneSignal\OneSignalFacade;
+use Carbon\WeekDay;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -46,7 +49,7 @@ class LecturesController extends Controller
 
         $maxTime = Carbon::now()->setHour(18)->setMinute(0);
 
-        if($endTime->gt($maxTime)){
+        if ($endTime->gt($maxTime)) {
             return response()->json(['message' => 'لا يوجد محاضرات بعد الساعة 6'], 422);
         }
 
@@ -59,11 +62,25 @@ class LecturesController extends Controller
         $lecture->day_of_week = $request->input('day_of_week');
         $lecture->class_room_id = $request->input('class_room_id');
 
-        if($request->input('one_time_lecture')){
+        if ($request->input('one_time_lecture')) {
             $lecture->deleted_at = Carbon::parse($request->input('lecture_date'))->setHour(23)->setMinute(0);
         }
 
         $lecture->save();
+
+        $subject = Subject::find($request->input('subject_id'));
+        $weekDay = WeekDays::from($request->input('day_of_week'));
+        $lectureType = $request->input('one_time_lecture') ? "تعويضية" : "جديدة";
+
+        $message = "تم إضافة محاضرة {$lectureType} يوم {$weekDay->toArabic()} لمادة {$subject->name}";
+
+        OneSignalFacade::sendNotificationToAll(
+            $message,
+            $url = "https://cet-management.moaad.ly",
+            $data = null,
+            $buttons = null,
+            $schedule = null
+        );
 
         return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);
     }

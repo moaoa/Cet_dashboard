@@ -49,12 +49,12 @@ class MultiChannelNotification extends Notification
     }
 
     // Define how the notification will be broadcasted (e.g., WebSockets, Pusher)
-    // public function toBroadcast($notifiable)
-    // {
-    //     return new BroadcastMessage([
-    //         'title' => $this->details['title'],
-    //         'body' => $this->details['body'],
-    //         //'url' => $this->details['url'],
-    //     ]);
-    // }
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'title' => $this->details['title'],
+            'body' => $this->details['body'],
+            //'url' => $this->details['url'],
+        ]);
+    }
 }
