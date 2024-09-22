@@ -84,9 +84,9 @@ class LecturesController extends Controller
                 json_decode($user->device_subscriptions) ?? [],
                 $message,
                 $url = "https://cet-management.moaad.ly",
-                $data = null,
-                $buttons = null,
-                $schedule = null
+                // $data = null,
+                // $buttons = null,
+                // $schedule = null
             );
         }
 

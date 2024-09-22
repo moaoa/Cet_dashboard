@@ -24,25 +24,26 @@ class OneSignalNotifier
         self::$client = new Client();
     }
 
-    public static function sendNotificationToUsers(array $subscriptions, $message, $heading = "Notification")
+    public static function sendNotificationToUsers(array $subscriptions, $message)
     {
         $payload = [
             'app_id' => self::$appId,
             "include_subscription_ids" => $subscriptions,
             'contents' => ['en' => $message],
-            'headings' => ['en' => $heading]
+            'headings' => ['en' => "إعلان"],
         ];
 
         return self::sendNotification($payload);
     }
 
-    public static function sendNotificationToAllUsers($message, $heading = "Notification")
+    public static function sendNotificationToAllUsers($message, $url)
     {
         $payload = [
             'app_id' => self::$appId,
             "included_segments" => ["Total Subscriptions"],
             'contents' => ['en' => $message],
-            'headings' => ['en' => $heading]
+            'headings' => ['en' => "إعلان"],
+            'url' => $url
         ];
 
         return self::sendNotification($payload);
