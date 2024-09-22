@@ -26,6 +26,9 @@ class OneSignalNotifier
 
     public static function sendNotificationToUsers(array $subscriptions, $message)
     {
+        if (sizeof($subscriptions) == 0)
+            return;
+
         $payload = [
             'app_id' => self::$appId,
             "include_subscription_ids" => $subscriptions,
