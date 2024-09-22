@@ -77,19 +77,17 @@ class LecturesController extends Controller
         // Fetch users for the group
         $users = $lecture->group->users;
 
-        foreach ($users as $user) {
-            foreach (json_decode($user->device_subscriptions) as $subscription) {
-                OneSignalNotifier::init();
+        OneSignalNotifier::init();
 
-                OneSignalNotifier::sendNotificationToUsers(
-                    $subscription,
-                    $message,
-                    $url = "https://cet-management.moaad.ly",
-                    $data = null,
-                    $buttons = null,
-                    $schedule = null
-                );
-            }
+        foreach ($users as $user) {
+            OneSignalNotifier::sendNotificationToUsers(
+                json_decode($user->device_subscriptions) ?? [],
+                $message,
+                $url = "https://cet-management.moaad.ly",
+                $data = null,
+                $buttons = null,
+                $schedule = null
+            );
         }
 
         return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);
