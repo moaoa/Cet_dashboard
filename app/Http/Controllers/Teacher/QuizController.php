@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Mail\QuizNotification;
+use App\Models\Group;
 use App\Models\Question;
 use App\Models\Quiz;
+use App\Models\Subject;
+use App\Services\OneSignalNotifier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class QuizController extends Controller
@@ -33,11 +38,11 @@ class QuizController extends Controller
     {
         $teacher = $request->user();
 
-        $isTeacherOwnQuiz =  $teacher->quizzes()->pluck('id')->contains(function($id) use ($quiz_id){
+        $isTeacherOwnQuiz =  $teacher->quizzes()->pluck('id')->contains(function ($id) use ($quiz_id) {
             return $id == $quiz_id;
         });
 
-        if(!$isTeacherOwnQuiz) {
+        if (!$isTeacherOwnQuiz) {
             return response()->json(['message' => 'لا يوجد لديك اختبار بهذا المعرف'], 422);
         }
 
@@ -109,7 +114,7 @@ class QuizController extends Controller
             'questions'            => 'required|array',
             'questions.*.question' => 'required|string|max:255',
             'questions.*.options'  => 'required|array|min:2',
-            'questions.*.options.*'=> 'required|string',
+            'questions.*.options.*' => 'required|string',
             'questions.*.answer_index'   => 'required|integer|min:1|max:4',
         ];
 
@@ -121,12 +126,12 @@ class QuizController extends Controller
             'name.string'        => 'يجب أن يكون الاسم نصاً.',
             'name.max'           => 'لا يجب أن يتجاوز الاسم 255 حرفاً.',
             'note.string'        => 'يجب أن تكون الملاحظة نصاً.',
-            'start_time.required'=> 'وقت البدء مطلوب.',
+            'start_time.required' => 'وقت البدء مطلوب.',
             'start_time.date'    => 'يجب أن يكون وقت البدء تاريخاً صالحاً.',
             'end_time.required'  => 'وقت الانتهاء مطلوب.',
             'end_time.date'      => 'يجب أن يكون وقت الانتهاء تاريخاً صالحاً.',
             'end_time.after'     => 'يجب أن يكون وقت الانتهاء بعد وقت البدء.',
-            'subject_id.required'=> 'حقل الموضوع مطلوب.',
+            'subject_id.required' => 'حقل الموضوع مطلوب.',
             'subject_id.exists'  => 'الموضوع المحدد غير موجود.',
 
             'questions.required'                 => 'الأسئلة مطلوبة.',
@@ -183,6 +188,22 @@ class QuizController extends Controller
         Question::insert($questionData);
 
 
+        $groups = Group::with('users')->whereIn('id', $request->input('group_ids'))->get();
+        $subject = Subject::find($request->input('subject_id'));
+
+        $message = ' تم إضافة اختبار جديد لمادة' . $subject->name;
+
+        foreach ($groups as $group) {
+            foreach ($group->users as $user) {
+                OneSignalNotifier::sendNotificationToUsers(
+                    json_decode($user->device_subscriptions) ?? [],
+                    $message,
+                    $url = "https://cet-management.moaad.ly"
+                );
+
+                Mail::to($user->email)->send(new QuizNotification($message));
+            }
+        }
         return response()->json([
             'message' => 'تمت إضافة الاختبار بنجاح',
             'quiz'    => $quiz,

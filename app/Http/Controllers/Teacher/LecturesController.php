@@ -12,7 +12,6 @@ use App\Http\Resources\Teacher\LectureResource;
 use App\Mail\LectureNotification;
 use App\Models\Subject;
 use App\Services\OneSignalNotifier;
-use Carbon\WeekDay;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
