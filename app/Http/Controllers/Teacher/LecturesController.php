@@ -89,7 +89,7 @@ class LecturesController extends Controller
                 $url = "https://cet-management.moaad.ly"
             );
 
-            Mail::to($user->email)->send(new LectureNotification($lecture, $message));
+            Mail::to($user->email)->send(new LectureNotification($message));
         }
 
         return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);

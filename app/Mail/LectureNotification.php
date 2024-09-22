@@ -11,12 +11,10 @@ class LectureNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $lecture;
     public $message;
 
-    public function __construct(Lecture $lecture, string $message)
+    public function __construct(string $message)
     {
-        $this->lecture = $lecture;
         $this->message = $message;
     }
 
