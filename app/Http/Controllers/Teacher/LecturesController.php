@@ -83,11 +83,11 @@ class LecturesController extends Controller
 
         foreach ($users as $user) {
             // Send OneSignal notification
-            // OneSignalNotifier::sendNotificationToUsers(
-            //     json_decode($user->device_subscriptions) ?? [],
-            //     $message,
-            //     $url = "https://cet-management.moaad.ly"
-            // );
+            OneSignalNotifier::sendNotificationToUsers(
+                json_decode($user->device_subscriptions) ?? [],
+                $message,
+                $url = "https://cet-management.moaad.ly"
+            );
             Mail::to($user->email)->send(new LectureNotification($message));
         }
 
