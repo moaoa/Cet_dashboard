@@ -9,11 +9,13 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Teacher\LectureResource;
+use App\Mail\LectureNotification;
 use App\Models\Subject;
 use App\Services\OneSignalNotifier;
 use Carbon\WeekDay;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class LecturesController extends Controller
 {
@@ -80,14 +82,14 @@ class LecturesController extends Controller
         OneSignalNotifier::init();
 
         foreach ($users as $user) {
+            // Send OneSignal notification
             OneSignalNotifier::sendNotificationToUsers(
                 json_decode($user->device_subscriptions) ?? [],
                 $message,
-                $url = "https://cet-management.moaad.ly",
-                // $data = null,
-                // $buttons = null,
-                // $schedule = null
+                $url = "https://cet-management.moaad.ly"
             );
+
+            Mail::to($user->email)->send(new LectureNotification($lecture, $message));
         }
 
         return response()->json(['message' => 'تمت إضافة المحاضرة بنجاح']);
