@@ -52,6 +52,6 @@ class Group extends Model
     }
     public function lectures(): HasMany
     {
-        return $this->hasMany();
+        return $this->hasMany(Lecture::class);
     }
 }
