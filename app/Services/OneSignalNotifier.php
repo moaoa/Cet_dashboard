@@ -29,8 +29,8 @@ class OneSignalNotifier
         $payload = [
             'app_id' => self::$appId,
             "include_subscription_ids" => $subscriptions,
-            'contents' => ['en' => $message],
-            'headings' => ['en' => "إعلان"],
+            'contents' => ['ar' => $message],
+            'headings' => ['ar' => "إعلان"],
         ];
 
         return self::sendNotification($payload);
@@ -41,8 +41,8 @@ class OneSignalNotifier
         $payload = [
             'app_id' => self::$appId,
             "included_segments" => ["Total Subscriptions"],
-            'contents' => ['en' => $message],
-            'headings' => ['en' => "إعلان"],
+            'contents' => ['ar' => $message],
+            'headings' => ['ar' => "إعلان"],
             'url' => $url
         ];
 
