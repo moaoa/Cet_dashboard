@@ -126,12 +126,15 @@ class StudentHomeworksController extends Controller
             $subscriptions = [];
 
             $group->users()->get()->each(function ($user) use (&$subscriptions) {
-                $subscriptions[] = json_decode($user->device_subscriptions);
+                $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
             });
-            $subscriptions = collect($subscriptions)->flatten()->unique();
-            $subscriptions = collect([$subscriptions, json_decode($group->teacher->device_subscriptions)]);
-            Log::info($subscriptions->flatten()->toArray());
-            OneSignalNotifier::sendNotificationToUsers($subscriptions->toArray(), $message);
+
+            $subscriptions = array_unique($subscriptions);
+            $subscriptions = array_merge($subscriptions, json_decode($group->teacher->device_subscriptions, true));
+
+            Log::info(array_values($subscriptions));
+            Log::info("=====================================================");
+            OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
         }
 
         return response()->json([], 201);
