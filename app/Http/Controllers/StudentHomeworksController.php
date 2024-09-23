@@ -127,8 +127,8 @@ class StudentHomeworksController extends Controller
                 return $user->device_subscriptions;
             });
             $subscriptions = $subscriptions->flatten()->unique();
-            $subscriptions = array_merge($subscriptions, $group->teacher->device_subscriptions);
-            OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+            $subscriptions = $subscriptions->merge($group->teacher->device_subscriptions);
+            OneSignalNotifier::sendNotificationToUsers($subscriptions->toArray(), $message);
         }
 
         return response()->json([], 201);
