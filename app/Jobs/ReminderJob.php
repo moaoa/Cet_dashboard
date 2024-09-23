@@ -26,6 +26,7 @@ class ReminderJob implements ShouldQueue
     {
         $this->message = $message;
         $this->users = $users;
+        $this->mailable = $mailable;
     }
 
     /**
