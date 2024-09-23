@@ -124,16 +124,14 @@ class StudentHomeworksController extends Controller
 
         if ($group) {
             $subscriptions = $group->users()->get()->map(function ($user) {
-                return $user->device_subscriptions;
+                return json_encode($user->device_subscriptions);
             });
-            $subscriptions = $subscriptions->flatten()->unique();
-            $subscriptions = $subscriptions->merge($group->teacher->device_subscriptions);
-            Log::info($subscriptions->flatten()->unique()->toArray());
+            $subscriptions = $subscriptions->flatten();
+            $subscriptions = collect([$subscriptions, json_encode($group->teacher->device_subscriptions)]);
+            Log::info($subscriptions->flatten()->toArray());
             OneSignalNotifier::sendNotificationToUsers($subscriptions->toArray(), $message);
         }
 
         return response()->json([], 201);
     }
 }
-
-// select homework.id, homework.name, homework.attachments from homework_groups inner join groups on groups.id = homework_groups.group_id inner join homework on homework.id = homework_groups.homework_id where groups.id in (1) and homework.subject_id = '5';
