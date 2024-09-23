@@ -116,7 +116,7 @@ class StudentHomeworksController extends Controller
         $group_id = DB::table('homework_groups')
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
             ->where('homework_groups.homework_id', $homework_id)
-            ->whereIn('homework_groups.group_id', $student->groups()->pluck('id'))
+            ->whereIn('homework_groups.group_id', $student->groups()->pluck('homework_groups.id'))
             ->select('homework_groups.group_id')
             ->first();
 
