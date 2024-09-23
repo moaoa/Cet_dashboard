@@ -56,7 +56,8 @@ class HomeworkController extends Controller
             'due_time' => 'nullable|date',
             'attachments.*' => 'file|mimes:jpg,jpeg,png,pdf|max:2048',
             'subject_id' => 'required|exists:subjects,id',
-            'group_id' => 'required|exists:groups,id',
+            'group_ids' => 'required|array',
+            'group_ids.*' => 'exists:groups,id',
         ]);
 
         // Check if the validation fails
@@ -81,7 +82,7 @@ class HomeworkController extends Controller
         ]);
 
         // Attach the homework to the selected group (one-to-many relationship)
-        $homework->groups()->attach($validated['group_id'], ['due_time' => $request->input('due_time')]);
+        $homework->groups()->attach($validated['group_ids'], ['due_time' => $request->input('due_time')]);
 
         $groups = Group::with('users')->whereIn('id', $request->input('group_ids'))->get();
         $subject = Subject::find($request->input('subject_id'));
