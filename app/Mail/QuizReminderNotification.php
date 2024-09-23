@@ -31,15 +31,7 @@ class QuizReminderNotification extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
+
 
     /**
      * Get the attachments for the message.
