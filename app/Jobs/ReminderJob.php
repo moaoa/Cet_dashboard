@@ -50,6 +50,6 @@ class ReminderJob implements ShouldQueue
         }
 
         // Mail::to($user->email)->send(new HomeworkReminderNotification($message));
-        Mail::to($user->email)->send($this->mailable);
+        // Mail::to($user->email)->send($this->mailable);
     }
 }
