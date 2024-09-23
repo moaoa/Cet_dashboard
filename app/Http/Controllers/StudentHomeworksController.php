@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\AttendanceStatus;
 use App\Models\Comment;
+use App\Models\Group;
 use App\Models\Homework;
 use App\Models\HomeworkUserAnswer;
 use App\Models\Lecture;
@@ -112,15 +113,21 @@ class StudentHomeworksController extends Controller
         OneSignalNotifier::init();
         $message = ' تم إضافة تعليق جديد للواجب ' . $homework->name;
 
-        $group = $student->groups()->whereHas('homework_groups', function ($query) use ($homework_id) {
-            $query->where('homework_id', $homework_id);
-        })->first();
+        $group_id = DB::table('homework_groups')
+            ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+            ->where('homework_groups.homework_id', $homework_id)
+            ->whereIn('homework_groups.group_id', $student->groups()->pluck('id'))
+            ->select('homework_groups.group_id')
+            ->first();
+
+        $group = Group::with('users', 'teacher')->find($group_id);
 
         if ($group) {
             $subscriptions = $group->users()->map(function ($user) {
                 return $user->device_subscriptions();
             });
             $subscriptions = $subscriptions->flatten()->unique();
+            $subscriptions = array_merge($subscriptions, $group->teacher->device_subscriptions);
             OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
         }
 
