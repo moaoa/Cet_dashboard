@@ -123,7 +123,7 @@ class StudentHomeworksController extends Controller
         $group = Group::with('users', 'teacher')->find($group->group_id);
 
         if ($group) {
-            $subscriptions = $group->users()->map(function ($user) {
+            $subscriptions = $group->users()->get()->map(function ($user) {
                 return $user->device_subscriptions();
             });
             $subscriptions = $subscriptions->flatten()->unique();
