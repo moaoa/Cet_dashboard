@@ -8,6 +8,14 @@ use Illuminate\Http\JsonResponse;
 use App\Models\HomeworkUserAnswer;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Jobs\ReminderJob;
+use App\Mail\HomeworkNotification;
+use App\Mail\HomeworkReminderNotification;
+use App\Models\Group;
+use App\Models\Subject;
+use App\Services\OneSignalNotifier;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class HomeworkController extends Controller
@@ -75,6 +83,45 @@ class HomeworkController extends Controller
         // Attach the homework to the selected group (one-to-many relationship)
         $homework->groups()->attach($validated['group_id'], ['due_time' => $request->input('due_time')]);
 
+        $groups = Group::with('users')->whereIn('id', $request->input('group_ids'))->get();
+        $subject = Subject::find($request->input('subject_id'));
+
+        $message = ' تم إضافة واجب جديد لمادة' . $subject->name;
+
+        OneSignalNotifier::init();
+
+
+        $users = $groups->flatMap(function ($group) {
+            return $group->users;
+        })->unique();
+
+        foreach ($users as $user) {
+            OneSignalNotifier::sendNotificationToUsers(
+                json_decode($user->device_subscriptions) ?? [],
+                $message,
+                $url = "https://cet-management.moaad.ly"
+            );
+
+            Mail::to($user->email)->send(new HomeworkNotification($message));
+        }
+
+        $due_time = $request->input('due_time');
+
+        $formatted_due_time = null;
+
+        if ($due_time && Carbon::parse($due_time)->gt(Carbon::now()->addHours(2))) {
+            $formatted_due_time = Carbon::parse($due_time)->format('H:i');
+        }
+
+        if ($formatted_due_time) {
+            $execution_time = Carbon::parse($formatted_due_time)->subHours(2);
+
+            $homework_reminder_message = ' وقت تسليم الواجب اليوم الساعة: ' . $formatted_due_time;
+
+            $mail = new HomeworkReminderNotification($message);
+
+            ReminderJob::dispatch($homework_reminder_message, $users, $mail)->daily()->at($execution_time);
+        }
         // Return a success response
         return response()->json([
             'message' => 'Homework created and assigned to group successfully',
