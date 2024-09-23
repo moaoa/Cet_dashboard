@@ -8,6 +8,7 @@ use App\Models\Homework;
 use App\Models\HomeworkUserAnswer;
 use App\Models\Lecture;
 use App\Models\User;
+use App\Services\OneSignalNotifier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -38,7 +39,7 @@ class StudentHomeworksController extends Controller
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
             ->leftJoin('homework_user_answers', function ($join) use ($student) {
                 $join->on('homework_user_answers.homework_id', '=', 'homework.id')
-                     ->where('homework_user_answers.user_id', '=', $student->id);
+                    ->where('homework_user_answers.user_id', '=', $student->id);
             })
             ->whereIn('groups.id', $groups->pluck('id'))
             ->where('homework.subject_id', $subject_id)
@@ -54,7 +55,7 @@ class StudentHomeworksController extends Controller
 
         $comments = Comment::with('commentable')->whereIn('homework_id', $items->pluck('id'))->get();
 
-        $data = $items->map(function ($item) use($comments) {
+        $data = $items->map(function ($item) use ($comments) {
             $done = $item->student_attachments !== null;
 
             $homeworkComments = $comments->where('homework_id', $item->id)->map(function ($comment) {
@@ -70,7 +71,7 @@ class StudentHomeworksController extends Controller
                 'id' => $item->id,
                 'name' => $item->name,
                 'description' => $item->description,
-                'attachments' => $item->attachments ? json_decode($item->attachments): null,
+                'attachments' => $item->attachments ? json_decode($item->attachments) : null,
                 'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
                 'comments' => $homeworkComments,
                 'done' => $done,
@@ -105,6 +106,23 @@ class StudentHomeworksController extends Controller
             'commentable_id' => $student->id,
             'commentable_type' => User::class
         ]);
+
+
+
+        OneSignalNotifier::init();
+        $message = ' تم إضافة تعليق جديد للواجب ' . $homework->name;
+
+        $group = $student->groups()->whereHas('homework_groups', function ($query) use ($homework_id) {
+            $query->where('homework_id', $homework_id);
+        })->first();
+
+        if ($group) {
+            $subscriptions = $group->users()->map(function ($user) {
+                return $user->device_subscriptions();
+            });
+            $subscriptions = $subscriptions->flatten()->unique();
+            OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+        }
 
         return response()->json([], 201);
     }
