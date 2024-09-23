@@ -132,8 +132,6 @@ class StudentHomeworksController extends Controller
             $subscriptions = array_unique($subscriptions);
             $subscriptions = array_merge($subscriptions, json_decode($group->teacher->device_subscriptions, true));
 
-            Log::info(array_values($subscriptions));
-            Log::info("=====================================================");
             OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
         }
 
