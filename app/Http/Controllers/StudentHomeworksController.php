@@ -123,10 +123,12 @@ class StudentHomeworksController extends Controller
         $group = Group::with('users', 'teacher')->find($group->group_id);
 
         if ($group) {
-            $subscriptions = $group->users()->get()->map(function ($user) {
-                return json_decode($user->device_subscriptions);
+            $subscriptions = [];
+
+            $group->users()->get()->each(function ($user) use (&$subscriptions) {
+                $subscriptions[] = json_decode($user->device_subscriptions);
             });
-            $subscriptions = $subscriptions->flatten();
+            $subscriptions = collect($subscriptions)->flatten()->unique();
             $subscriptions = collect([$subscriptions, json_decode($group->teacher->device_subscriptions)]);
             Log::info($subscriptions->flatten()->toArray());
             OneSignalNotifier::sendNotificationToUsers($subscriptions->toArray(), $message);
