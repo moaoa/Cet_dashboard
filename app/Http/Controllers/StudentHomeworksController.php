@@ -113,14 +113,14 @@ class StudentHomeworksController extends Controller
         OneSignalNotifier::init();
         $message = ' تم إضافة تعليق جديد للواجب ' . $homework->name;
 
-        $group_id = DB::table('homework_groups')
+        $group = DB::table('homework_groups')
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
             ->where('homework_groups.homework_id', $homework_id)
-            ->whereIn('homework_groups.group_id', $student->groups()->pluck('homework_groups.group_id'))
+            ->whereIn('homework_groups.group_id', $student->groups()->pluck('id'))
             ->select('homework_groups.group_id')
             ->first();
 
-        $group = Group::with('users', 'teacher')->find($group_id);
+        $group = Group::with('users', 'teacher')->find($group->group_id);
 
         if ($group) {
             $subscriptions = $group->users()->map(function ($user) {
