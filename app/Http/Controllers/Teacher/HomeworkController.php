@@ -127,7 +127,7 @@ class HomeworkController extends Controller
 
             $mail = new HomeworkReminderNotification($message);
 
-            ReminderJob::dispatch($homework_reminder_message, $users, $mail)->daily()->at($execution_time);
+            ReminderJob::dispatch($homework_reminder_message, $users, $mail)->delay($execution_time);
         }
         // Return a success response
         return response()->json([
