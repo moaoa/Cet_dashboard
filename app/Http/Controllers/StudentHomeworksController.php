@@ -124,7 +124,7 @@ class StudentHomeworksController extends Controller
 
         if ($group) {
             $subscriptions = $group->users()->get()->map(function ($user) {
-                return $user->device_subscriptions();
+                return $user->device_subscriptions;
             });
             $subscriptions = $subscriptions->flatten()->unique();
             $subscriptions = array_merge($subscriptions, $group->teacher->device_subscriptions);
