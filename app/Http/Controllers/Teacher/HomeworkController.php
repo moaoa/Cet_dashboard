@@ -125,7 +125,7 @@ class HomeworkController extends Controller
 
             $homework_reminder_message = ' وقت تسليم الواجب اليوم الساعة: ' . $formatted_due_time;
 
-            $mail = new HomeworkReminderNotification($message);
+            $mail = new HomeworkReminderNotification($homework_reminder_message);
 
             ReminderJob::dispatch($homework_reminder_message, $users, $mail)->delay($execution_time);
         }
