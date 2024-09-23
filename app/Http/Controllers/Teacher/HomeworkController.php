@@ -110,18 +110,13 @@ class HomeworkController extends Controller
 
         $formatted_due_time = null;
 
-        // if ($due_time && Carbon::parse($due_time)->gt(Carbon::now()->addHours(2))) {
-        //     $formatted_due_time = Carbon::parse($due_time)->format('H:i');
-        // }
-
-        if ($due_time) {
+        if ($due_time && Carbon::parse($due_time)->gt(Carbon::now()->addHours(2))) {
             $formatted_due_time = Carbon::parse($due_time)->format('H:i');
         }
 
-        if ($formatted_due_time) {
-            //$execution_time = Carbon::parse($formatted_due_time)->subHours(2);
-            $execution_time = Carbon::parse($formatted_due_time)->subMinutes(5);
 
+        if ($formatted_due_time) {
+            $execution_time = Carbon::parse($formatted_due_time)->subHours(1);
 
             $homework_reminder_message = ' وقت تسليم الواجب اليوم الساعة: ' . $formatted_due_time;
 
