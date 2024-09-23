@@ -13,33 +13,18 @@ class QuizReminderNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $message_content;
+    public function build()
+    {
+        return $this->subject('تذكير الاختبار')
+            ->view('emails.quiz-reminder');
+    }
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($message_content)
     {
-        //
-    }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Quiz Reminder Notification',
-        );
-    }
-
-
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        $this->message_content = $message_content;
     }
 }

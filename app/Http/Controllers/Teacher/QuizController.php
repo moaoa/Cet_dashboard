@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Teacher;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ReminderJob;
 use App\Mail\QuizNotification;
+use App\Mail\QuizReminderNotification;
 use App\Models\Group;
 use App\Models\Question;
 use App\Models\Quiz;
 use App\Models\Subject;
 use App\Services\OneSignalNotifier;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -195,17 +198,41 @@ class QuizController extends Controller
 
         OneSignalNotifier::init();
 
-        foreach ($groups as $group) {
-            foreach ($group->users as $user) {
-                OneSignalNotifier::sendNotificationToUsers(
-                    json_decode($user->device_subscriptions) ?? [],
-                    $message,
-                    $url = "https://cet-management.moaad.ly"
-                );
+        $users = $groups->flatMap(function ($group) {
+            return $group->users;
+        })->unique();
 
-                Mail::to($user->email)->send(new QuizNotification($message));
-            }
+        foreach ($users as $user) {
+            OneSignalNotifier::sendNotificationToUsers(
+                json_decode($user->device_subscriptions) ?? [],
+                $message,
+                $url = "https://cet-management.moaad.ly"
+            );
+
+            Mail::to($user->email)->send(new QuizNotification($message));
         }
+
+
+        $start_time = $request->input('start_time');
+
+        $formatted_start_time = null;
+
+        if ($start_time && Carbon::parse($start_time)->gt(Carbon::now()->addHours(2))) {
+            $formatted_start_time = Carbon::parse($start_time)->format('H:i');
+        }
+
+
+        if ($formatted_start_time) {
+            $execution_time = Carbon::parse($formatted_start_time)->subHours(1);
+
+            $homework_reminder_message = ' وقت بداية الاختبار اليوم الساعة: ' . $formatted_start_time . ' في مادة ' . $subject->name;
+
+
+            $mail = new QuizReminderNotification($homework_reminder_message);
+
+            ReminderJob::dispatch($homework_reminder_message, $users, $mail)->delay($execution_time);
+        }
+
         return response()->json([
             'message' => 'تمت إضافة الاختبار بنجاح',
             'quiz'    => $quiz,
