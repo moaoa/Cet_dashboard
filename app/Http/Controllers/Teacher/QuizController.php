@@ -217,7 +217,7 @@ class QuizController extends Controller
 
         $formatted_start_time = null;
 
-        if ($start_time && Carbon::parse($start_time)->gt(Carbon::now()->addHours(2))) {
+        if ($start_time && Carbon::parse($start_time)->gt(Carbon::now()->addHours(1))) {
             $formatted_start_time = Carbon::parse($start_time)->format('H:i');
         }
 
@@ -226,7 +226,6 @@ class QuizController extends Controller
             $execution_time = Carbon::parse($formatted_start_time)->subHours(1);
 
             $homework_reminder_message = ' وقت بداية الاختبار اليوم الساعة: ' . $formatted_start_time . ' في مادة ' . $subject->name;
-
 
             $mail = new QuizReminderNotification($homework_reminder_message);
 

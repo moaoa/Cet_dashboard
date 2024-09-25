@@ -110,7 +110,7 @@ class HomeworkController extends Controller
 
         $formatted_due_time = null;
 
-        if ($due_time && Carbon::parse($due_time)->gt(Carbon::now()->addHours(2))) {
+        if ($due_time && Carbon::parse($due_time)->gt(Carbon::now()->addHours(1))) {
             $formatted_due_time = Carbon::parse($due_time)->format('H:i');
         }
 
