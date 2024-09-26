@@ -27,6 +27,7 @@ class CetPanelProvider extends PanelProvider
             ->id('cet')
             ->path('cet')
             ->login()
+            ->authGuard('admin')
             ->colors([
                 'primary' => Color::Amber,
             ])
