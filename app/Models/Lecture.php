@@ -60,7 +60,7 @@ class Lecture extends Model
 
     public function teacher(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Teacher::class);
     }
 
     public function attendances(): HasMany
