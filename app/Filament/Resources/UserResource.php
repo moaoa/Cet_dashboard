@@ -51,7 +51,7 @@ class UserResource extends Resource
                 Forms\Components\Select::make('group_id')
                     ->options(Group::all()->pluck('name', 'id'))
                     ->label('المجموعة')
-                    // ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->ref_number} {$record->name}")
+                // ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->ref_number} {$record->name}")
             ]);
     }
 
@@ -64,9 +64,9 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('ref_number')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('type'),
-                    // ->formatStateUsing(function ($type){
-                    //     return $type->label();
-                    // }),
+                // ->formatStateUsing(function ($type){
+                //     return $type->label();
+                // }),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email_verified_at')
@@ -100,7 +100,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\GroupsRelationManager::class,
         ];
     }
 
