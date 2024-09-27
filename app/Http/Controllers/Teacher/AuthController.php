@@ -48,7 +48,12 @@ class AuthController extends Controller
             'oneSignalId' => 'nullable|string',
         ]);
 
+
         $teacher = Teacher::where('email', $data['email'])->first();
+
+        if (!$teacher || !Hash::check($data['password'], $teacher->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        }
 
         if ($request->oneSignalId) {
             $deviceSubscriptions = json_decode($teacher->device_subscriptions, true);
@@ -58,13 +63,8 @@ class AuthController extends Controller
             $teacher->save();
         }
 
-        if (!$teacher || Hash::check($data['password'], $teacher->password)) {
-            $user = Teacher::where('email', $request->input('email'))->first();
-            $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['message' => 'Login successful', 'user' => new TeacherResource($user), 'token' => $token]);
-        } else {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
+        $token = $teacher->createToken('auth_token')->plainTextToken;
+        return response()->json(['message' => 'Login successful', 'user' => new TeacherResource($teacher), 'token' => $token]);
     }
 
     // Teacher logout
