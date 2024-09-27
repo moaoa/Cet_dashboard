@@ -14,6 +14,11 @@ class CommentsRelationManager extends RelationManager
 {
     protected static string $relationship = 'comments';
 
+    public function isReadOnly(): bool
+    {
+        return false;
+    }
+
     public function form(Form $form): Form
     {
         return $form
@@ -31,6 +36,10 @@ class CommentsRelationManager extends RelationManager
             ->columns([
                 Tables\Columns\TextColumn::make('id'),
                 Tables\Columns\TextColumn::make('content'),
+                Tables\Columns\TextColumn::make('commentable_type')->label('النوع')
+                    ->formatStateUsing(fn($state) => $state == 'App\Models\User' ? 'طالب' : 'استاذ'),
+                Tables\Columns\TextColumn::make('commentable.name')->label('صاحب التعليق'),
+                Tables\Columns\TextColumn::make('created_at'),
             ])
             ->filters([
                 //
@@ -43,9 +52,9 @@ class CommentsRelationManager extends RelationManager
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                // Tables\Actions\BulkActionGroup::make([
+                //     Tables\Actions\DeleteBulkAction::make(),
+                // ]),
             ]);
     }
 }

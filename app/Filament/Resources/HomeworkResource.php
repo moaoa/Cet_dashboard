@@ -4,14 +4,21 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\HomeworkResource\Pages;
 use App\Filament\Resources\HomeworkResource\RelationManagers;
+use App\Infolists\Components\AttachmentsEntry;
 use App\Models\Homework;
+use Faker\Provider\ar_EG\Text;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
+
 
 class HomeworkResource extends Resource
 {
@@ -81,12 +88,25 @@ class HomeworkResource extends Resource
         ];
     }
 
+    public static function infoList(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                TextEntry::make('name'),
+                TextEntry::make('teacher.name'),
+                TextEntry::make('subject.name'),
+                TextEntry::make('created_at'),
+                TextEntry::make('updated_at'),
+                AttachmentsEntry::make('attachments'),
+            ]);
+    }
     public static function getPages(): array
     {
         return [
             'index' => Pages\ListHomework::route('/'),
             'create' => Pages\CreateHomework::route('/create'),
             'edit' => Pages\EditHomework::route('/{record}/edit'),
+            'view' => Pages\ViewHomework::route('/{record}'),
         ];
     }
 }
