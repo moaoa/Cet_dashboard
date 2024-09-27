@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\AttendanceStatus;
 use App\Enums\UserType;
+use App\Models\Admin;
 use App\Models\Attendance;
 use App\Models\ClassRoom;
 use App\Models\Comment;
@@ -29,6 +30,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Admin::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+        ]);
+
         $student1 = User::factory()->create([
             'name' => 'moaad',
             'ref_number' => 1111,
@@ -36,7 +42,7 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'phone_number' => '1222223',
         ]);
-      // Seed Semesters
+        // Seed Semesters
         Semester::factory()->count(3)->create();
 
         // Seed Subjects
@@ -284,7 +290,7 @@ class DatabaseSeeder extends Seeder
 
         Question::insert($questions);
         // Insert multiple records using the insert method
-        Question::insert(array_map(function($item) {
+        Question::insert(array_map(function ($item) {
             return [...$item, 'quiz_id' => 2];
         }, $questions));
 
@@ -307,11 +313,11 @@ class DatabaseSeeder extends Seeder
             );
 
             Attendance::create([
-               'status' => AttendanceStatus::Absent,
-               'note' => '',
-               'date' => $randomDateInPreviousMonth->format('Y-m-d'),
-               'lecture_id' => $lecture->id,
-               'user_id' => $student->id
+                'status' => AttendanceStatus::Absent,
+                'note' => '',
+                'date' => $randomDateInPreviousMonth->format('Y-m-d'),
+                'lecture_id' => $lecture->id,
+                'user_id' => $student->id
             ]);
         }
     }
