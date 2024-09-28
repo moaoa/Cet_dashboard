@@ -22,4 +22,15 @@ enum WeekDays: int
             self::THURSDAY => 'الخميس',
         };
     }
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::SATURDAY => 'السبت',
+            self::SUNDAY => 'الأحد',
+            self::MONDAY => 'الاثنين',
+            self::TUESDAY => 'الثلاثاء',
+            self::WEDNESDAY => 'الأربعاء',
+            self::THURSDAY => 'الخميس',
+        };
+    }
 }
