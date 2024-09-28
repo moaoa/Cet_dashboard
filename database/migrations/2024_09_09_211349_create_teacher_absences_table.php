@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->foreignId('lecture_id')->constrained('lectures');
             $table->date('date');
+            $table->unsignedSmallInteger('status');
             $table->timestamps();
         });
     }
