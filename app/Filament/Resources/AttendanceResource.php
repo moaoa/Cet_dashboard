@@ -7,6 +7,7 @@ use App\Filament\Resources\AttendanceResource\Pages;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
 use App\Models\Attendance;
 use App\Models\Group;
+use App\Models\Semester;
 use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -17,7 +18,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-
+use Illuminate\Support\Facades\DB;
 
 class AttendanceResource extends Resource
 {
@@ -65,7 +66,6 @@ class AttendanceResource extends Resource
                 Tables\Columns\TextColumn::make('lecture.group.name')
                     ->numeric()
                     ->sortable(),
-
                 Tables\Columns\TextColumn::make('lecture.teacher.name')
                     ->numeric(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -80,10 +80,20 @@ class AttendanceResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
+                        Forms\Components\Select::make('semester_id')
+                            ->options(Semester::all()->pluck('name', 'id'))
+                            ->live(),
                         Forms\Components\Select::make('subject_id')
-                            ->options(Subject::all()->pluck('name', 'id')),
+                            ->options(
+                                fn(Forms\Get $get) => Subject::where('semester_id', $get('semester_id'))->pluck('name', 'id')
+                            ),
                         Forms\Components\Select::make('group_id')
-                            ->options(Group::all()->pluck('name', 'id'))
+                            ->options(
+                                fn(Forms\Get $get) => DB::table('group_subject')
+                                    ->join('groups', 'groups.id', '=', 'group_subject.group_id')
+                                    ->where('group_subject.subject_id', $get('subject_id'))
+                                    ->pluck('groups.name', 'groups.id')
+                            )
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
