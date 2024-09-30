@@ -6,7 +6,10 @@ use App\Enums\UserType;
 use App\Enums\WeekDays;
 use App\Filament\Resources\LectureResource\Pages;
 use App\Filament\Resources\LectureResource\RelationManagers;
+use App\Models\ClassRoom;
+use App\Models\Group;
 use App\Models\Lecture;
+use App\Models\Teacher;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -32,19 +35,49 @@ class LectureResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('day_of_week')
                     ->required()
+                    ->live()
                     ->options(WeekDays::class),
                 Forms\Components\Select::make('subject_id')
                     ->relationship('subject', 'name')
                     ->required(),
                 Forms\Components\Select::make('class_room_id')
-                    ->relationship('classRoom', 'name')
+                    // ->relationship('classRoom', 'name')
+                    ->options(function (Forms\Get $get): array {
+                        $start_time = (string)$get('start_time');
+                        $end_time = (string)$get('end_time');
+                        $day_of_week = (int)$get('day_of_week');
+
+                        if ($start_time == null || $end_time == null || $day_of_week == null) {
+                            return [];
+                        }
+
+                        $lecturesInTimeRange = Lecture::where('day_of_week', $day_of_week)
+                            ->where('start_time', '<=', $start_time)
+                            ->where('end_time', '>', $start_time)
+                            ->orWhere(function ($query) use ($end_time) {
+                                $query->where('start_time', '>', $end_time)
+                                    ->where('end_time', '<=', $end_time);
+                            })
+                            ->get();
+
+
+                        $availableClassrooms = ClassRoom::whereNotIn(
+                            'id',
+                            $lecturesInTimeRange->pluck('class_room_id')
+                        )
+                            ->pluck('name', 'id');
+
+                        // dd($availableClassrooms);
+                        return $availableClassrooms;
+                    })
                     ->required(),
                 Forms\Components\Select::make('group_id')
                     ->relationship('group', 'name')
+                    ->options(Group::all()->pluck('name', 'id'))
                     ->required(),
-                Forms\Components\Select::make('user_id')
+                Forms\Components\Select::make('teacher_id')
                     ->label('الأستاذ')
-                    ->options(User::query()->where('type', UserType::Teacher)->pluck('name', 'id'))
+                    ->options(fn(Forms\Get $get) => $get('start_time'))
                     ->required(),
             ]);
     }
@@ -60,8 +93,7 @@ class LectureResource extends Resource
                     ->time()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('day_of_week')
-                    ->numeric()
-                    ->sortable(),
+                    ->formatStateUsing(fn($state) => WeekDays::from($state)->toArabic()),
                 Tables\Columns\TextColumn::make('subject.name')
                     ->numeric()
                     ->sortable(),
@@ -71,7 +103,7 @@ class LectureResource extends Resource
                 Tables\Columns\TextColumn::make('group.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('teacher.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -86,8 +118,11 @@ class LectureResource extends Resource
             ->filters([
                 //
             ])
+            ->headerActions([
+                Tables\Actions\CreateAction::make(),
+            ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -110,5 +145,31 @@ class LectureResource extends Resource
             'create' => Pages\CreateLecture::route('/create'),
             'edit' => Pages\EditLecture::route('/{record}/edit'),
         ];
+    }
+
+    public static function getAvailableClassRooms($start_time, $end_time, $day_of_week)
+    {
+        if ($start_time == null || $end_time == null || $day_of_week == null) {
+            return [];
+        }
+
+        $lecturesInTimeRange = Lecture::where('day_of_week', $day_of_week)
+            ->where('start_time', '<=', $start_time)
+            ->where('end_time', '>', $start_time)
+            ->orWhere(function ($query) use ($end_time) {
+                $query->where('start_time', '>', $end_time)
+                    ->where('end_time', '<=', $end_time);
+            })
+            ->get();
+
+
+        $availableClassrooms = ClassRoom::whereNotIn(
+            'id',
+            $lecturesInTimeRange->pluck('class_room_id')
+        )
+            ->pluck('name', 'id');
+
+        // dd($availableClassrooms);
+        return $availableClassrooms;
     }
 }
