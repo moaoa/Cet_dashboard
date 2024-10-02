@@ -20,18 +20,19 @@ class StudentLectures extends Controller
      */
     public function index(Request $request): JsonResponse
     {
+
         $student = $request->user();
         $groups = $student->groups()->get();
 
-        if(!$groups){
+        if (!$groups) {
             return response()->json([
                 'message' => 'لا يوجد مجموعات لهذا الطالب',
             ], 422);
         }
 
-        $studentAbsentDays = Attendance::where('user_id', $student->id)->get();
+        $studentAbsentDays = Attendance::with('lecture.subject')->where('user_id', $student->id)->get();
 
-        $teacherAbsentDays = TeacherAbsence::all();
+        $teacherAbsentDays = TeacherAbsence::with('lecture.subject')->get();
 
         $lectures = Lecture::query()
             ->with(['subject'])
@@ -40,16 +41,16 @@ class StudentLectures extends Controller
 
         $data = $lectures->map(function ($lecture) use ($teacherAbsentDays, $studentAbsentDays) {
 
-            $teacherAbsentDaysInLectureCount = $teacherAbsentDays
-                ->where('lecture_id', $lecture->id)
+            $teacherAbsentDaysInSubject = $teacherAbsentDays
+                ->where('lecture.subject.id', $lecture->subject_id)
                 ->where('teacher_id', $lecture->teacher_id)
                 ->count();
 
-            $studentAbsentDaysInLectureCount = $studentAbsentDays
-                ->where('lecture_id', $lecture->id)
+            $studentAbsentDaysInSubject = $studentAbsentDays
+                ->where('lecture.subject.id', $lecture->subject_id)
                 ->count();
 
-            $absencePercentage = ($studentAbsentDaysInLectureCount / (16 - $teacherAbsentDaysInLectureCount));
+            $absencePercentage = ($studentAbsentDaysInSubject / (16 - $teacherAbsentDaysInSubject));
 
             return [
                 'id' => $lecture->id,
