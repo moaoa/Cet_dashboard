@@ -217,7 +217,8 @@ class HomeworkController extends Controller
         $homework['attachments'] = json_decode($homework['attachments']);
         $homework['user_answers'] = $userAnswers->map(function ($answer) {
             return [
-                'user' => $answer->user,
+                'student_name' => $answer->user->name,
+                'ref' => $answer->user->ref_number,
                 'attachments' => json_decode($answer->attachments),
                 'created_at' => $answer->created_at,
             ];

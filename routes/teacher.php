@@ -37,5 +37,3 @@ Route::middleware('auth:teacher')->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
-//jRoute::get('/student/subject', [UserSubjectController::class, 'index'])->middleware('auth:sanctum');
