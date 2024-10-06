@@ -60,4 +60,9 @@ class Homework extends Model
     {
         return $this->BelongsToMany(Group::class, 'homework_groups');
     }
+
+    public function studentAttachments(): HasMany
+    {
+        return $this->hasMany(HomeworkUserAnswer::class);
+    }
 }

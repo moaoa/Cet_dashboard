@@ -13,6 +13,7 @@ use App\Mail\HomeworkNotification;
 use App\Mail\HomeworkReminderNotification;
 use App\Models\Group;
 use App\Models\Subject;
+use App\Models\User;
 use App\Services\OneSignalNotifier;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -162,18 +163,38 @@ class HomeworkController extends Controller
         $groupId = $validated['group_id'];
         $subjectId = $validated['subject_id'];
 
-        $homeworks = Homework::where('subject_id', $subjectId)
+        $items = Homework::where('subject_id', $subjectId)
             ->whereHas('groups', function ($query) use ($groupId) {
                 $query->where('group_id', $groupId);
             })
-            ->with(['comments' => function ($query) {
+            ->with(['comments.commentable' => function ($query) {
                 $query->orderBy('created_at', 'desc');
-            }])
+            }, 'studentAttachments'])  // Assuming you have relationships for attachments
             ->get();
 
-        return response()->json([
-            'homeworks' => $homeworks,
-        ]);
+        $homeworks = $items->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'name' => $item->name,
+                'description' => $item->description,
+                'date' => $item->created_at->format('Y-m-d'),  // Assuming 'created_at' is the date
+                'comments' => $item->comments->map(function ($comment) {
+                    return [
+                        'name' => optional($comment->commentable)->name,
+                        'content' => $comment->content,
+                        'created_at' => $comment->created_at->format('Y-m-d H:i:s'),
+                        'image' => $comment->commentable_type == \App\Models\User::class
+                            ? 'https://st2.depositphotos.com/3369547/11438/v/380/depositphotos_114380960-stock-illustration-graduation-cap-and-boy-icon.jpg'
+                            : 'https://st2.depositphotos.com/3557671/11164/v/950/depositphotos_111644880-stock-illustration-man-avatar-icon-of-vector.jpg'
+                    ];
+                })->values()->toArray(),
+                'attachments' => json_decode($item->attachments),
+                'student_attachments' => $item->studentAttachments ? json_decode($item->studentAttachments) : null,
+            ];
+        });
+
+
+        return response()->json($homeworks);
     }
     /**
      * Show the specified homework with its attachments and student attachments.

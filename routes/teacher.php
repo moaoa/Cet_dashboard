@@ -32,16 +32,6 @@ Route::middleware('auth:teacher')->group(function () {
      Route::post('/homeworks', [HomeworkController::class, 'store']);
      Route::get('/groups/{group}/subjects/{subject}/homeworks', [HomeworkController::class, 'getHomeworkForGroupAndSubject']);
      Route::get('/homeworks/{homework}', [HomeworkController::class, 'show']);
-     // Route::prefix('teacher')->group(function () {
-     //     Route::post('/quiz-assignment', AssignQuizToGroupController::class);
-     //     Route::post('/homework-assignment', AssignHomeworkToGroupController::class);
-     // });
-     // Route::get('/lectures', [StudentLectures::class, 'index']);
-     // Route::get('/subject/{subject}/homeworks', [StudentHomeworksController::class, 'index']);
-     // Route::get('/quizzes', [QuizController::class, 'studentQuizzes']);
-     // Route::post('/quizzes/{id}/answer', [QuizController::class, 'answerQuiz']);
-     // Route::get('/quizzes/{id}/result', [QuizController::class, 'quizResult']);
-     // Route::post('/homeworks/{id}/comment', [StudentHomeworksController::class, 'addComment']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
