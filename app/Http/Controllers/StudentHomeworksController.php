@@ -120,6 +120,11 @@ class StudentHomeworksController extends Controller
             ->select('homework_groups.group_id')
             ->first();
 
+
+        if (!$group) {
+            return response()->json(['message' => 'لا يمكنك التعليق على هذا الواجب'], 422);
+        }
+
         $group = Group::with('users', 'teacher')->find($group->group_id);
 
         if ($group) {
