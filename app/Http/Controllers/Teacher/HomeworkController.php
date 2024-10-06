@@ -11,8 +11,10 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ReminderJob;
 use App\Mail\HomeworkNotification;
 use App\Mail\HomeworkReminderNotification;
+use App\Models\Comment;
 use App\Models\Group;
 use App\Models\Subject;
+use App\Models\Teacher;
 use App\Models\User;
 use App\Services\OneSignalNotifier;
 use Carbon\Carbon;
@@ -167,9 +169,12 @@ class HomeworkController extends Controller
             ->whereHas('groups', function ($query) use ($groupId) {
                 $query->where('group_id', $groupId);
             })
-            ->with(['comments.commentable' => function ($query) {
-                $query->orderBy('created_at', 'desc');
-            }, 'studentAttachments'])  // Assuming you have relationships for attachments
+            ->with([
+                'comments.commentable' => function ($query) {
+                    $query->orderBy('created_at', 'desc');
+                },
+                // 'studentAttachments'
+            ])
             ->get();
 
         $homeworks = $items->map(function ($item) {
@@ -189,7 +194,7 @@ class HomeworkController extends Controller
                     ];
                 })->values()->toArray(),
                 'attachments' => json_decode($item->attachments),
-                'student_attachments' => $item->studentAttachments ? json_decode($item->studentAttachments) : null,
+                // 'student_attachments' => $item->studentAttachments ? json_decode($item->studentAttachments) : null,
             ];
         });
 
@@ -221,5 +226,58 @@ class HomeworkController extends Controller
         return response()->json([
             'homework' => $homework,
         ]);
+    }
+    public function addComment(Request $request, String $homework_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $homework = Homework::find($homework_id);
+
+        if (!$homework) {
+            return response()->json(['error' => 'Homework not found'], 404);
+        }
+
+        $teacher = $request->user();
+
+        Comment::create([
+            'content' => $request->input('content'),
+            'homework_id' => $homework_id,
+            'commentable_id' => $teacher->id,
+            'commentable_type' => Teacher::class
+        ]);
+
+        OneSignalNotifier::init();
+        $message = ' تم إضافة تعليق جديد للواجب ' . $homework->name;
+
+        $groupItem = DB::table('homework_groups')
+            ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+            ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
+            ->where('homework_groups.homework_id', (int) $homework_id)
+            ->where('groups.teacher_id', $teacher->id)
+            ->select('homework_groups.group_id')
+            ->first();
+
+        if (!$groupItem)
+            return response()->json(['message' => 'انت لست استاذا لهذا الواجب'], 422);
+
+        $group = Group::with('users')->find($groupItem->group_id);
+
+        $subscriptions = [];
+
+        $group->users()->get()->each(function ($user) use (&$subscriptions) {
+            $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
+        });
+
+        $subscriptions = array_unique($subscriptions);
+
+        OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+
+        return response()->json([], 201);
     }
 }

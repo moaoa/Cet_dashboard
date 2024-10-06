@@ -56,6 +56,7 @@ class CetPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->viteTheme('resources/css/filament/cet/theme.css');
     }
 }
