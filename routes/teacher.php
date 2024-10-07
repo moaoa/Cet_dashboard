@@ -33,6 +33,7 @@ Route::middleware('auth:teacher')->group(function () {
      Route::get('/groups/{group}/subjects/{subject}/homeworks', [HomeworkController::class, 'getHomeworkForGroupAndSubject']);
      Route::get('/homeworks/{homework}', [HomeworkController::class, 'show']);
      Route::post('/homeworks/{homework}/comment', [HomeworkController::class, 'addComment']);
+     Route::get('/homeworks/{homework}/groups/{group}/answers', [HomeworkController::class, 'getStudentAnswers']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);

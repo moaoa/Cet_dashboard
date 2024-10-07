@@ -281,4 +281,33 @@ class HomeworkController extends Controller
 
         return response()->json([], 201);
     }
+
+    public function getStudentAnswers(String $homework_id, String $group_id)
+    {
+        $homework = Homework::find($homework_id);
+        $group = Group::find($group_id);
+
+        if (!$group) {
+            return response()->json(['message' => 'Group not found'], 404);
+        }
+
+        if (!$homework) {
+            return response()->json(['message' => 'Homework not found'], 404);
+        }
+
+        $items = DB::table('users')
+            ->join('group_user', 'group_user.user_id', '=', 'users.id')
+            ->join('homework_groups', 'homework_groups.group_id', '=', 'group_user.group_id')
+            ->leftJoin('homework_user_answers', 'homework_user_answers.user_id', '=', 'users.id')
+            ->where('homework_groups.homework_id', $homework_id)
+            ->where('homework_groups.group_id', $group_id)
+            ->select('users.name', 'users.ref_number', 'homework_user_answers.attachments')
+            ->get();
+
+        $items->each(function ($item) {
+            $item->attachments = json_decode($item->attachments ?? '[]');
+        });
+
+        return response()->json($items);
+    }
 }

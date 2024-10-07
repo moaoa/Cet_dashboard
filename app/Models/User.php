@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->type == UserType::Student;
     }
+
+    public function homeworkUserAnswers(): HasMany
+    {
+        return $this->hasMany(HomeworkUserAnswer::class);
+    }
 }
