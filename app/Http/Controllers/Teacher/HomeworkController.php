@@ -19,6 +19,7 @@ use App\Models\User;
 use App\Services\OneSignalNotifier;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class HomeworkController extends Controller
@@ -75,11 +76,31 @@ class HomeworkController extends Controller
 
         $teacher = $request->user();
 
+        $attachments = [];
+
+        $files = $request->file('attachments');
+
+        foreach ($files as $file) {
+            // Get the original file name
+            $fileName = $file->getClientOriginalName();
+            $fileName = str_replace(' ', '_', $fileName);
+
+            // Define a path to store the file
+            $destinationPath = '/uploads/files'; // You can change this path
+
+            // Store the file
+            $path = $file->storeAs($destinationPath, $teacher->id . '-' . $fileName, 'public');
+
+            // Add the path to the array of uploaded files
+
+            $attachments[] = ['name' => $fileName, 'url' => asset(Storage::url($path))];
+        }
+
         // Create the homework
         $homework = Homework::create([
             'name' => $validated['name'],
             'description' => $validated['description'],
-            'attachments' => json_encode($validated['attachments'] ?? []),  // Convert attachments to JSON if present
+            'attachments' => json_encode($attachments),
             'teacher_id' => $teacher->id,
             'subject_id' => $validated['subject_id'],
         ]);
