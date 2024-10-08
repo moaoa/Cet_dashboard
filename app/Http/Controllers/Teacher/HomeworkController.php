@@ -327,9 +327,9 @@ class HomeworkController extends Controller
             ->select('users.name', 'users.ref_number', 'homework_user_answers.attachments')
             ->get();
 
-        // $items->each(function ($item) {
-        //     $item->attachments = json_decode($item->attachments ?? '[]');
-        // });
+        $items->each(function ($item) {
+            $item->attachments = json_decode($item->attachments ?? '[]');
+        });
 
         return response()->json($items);
     }
