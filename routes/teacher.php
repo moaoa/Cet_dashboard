@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Teacher\LecturesController;
 use App\Http\Controllers\Teacher\SubjectsController;
 use App\Http\Controllers\AvailableClassRoomsController;
+use App\Http\Controllers\TeacherController;
 
 Route::middleware('auth:teacher')->group(function () {
      Route::get('/lectures', [LecturesController::class, 'index']);
@@ -34,6 +35,8 @@ Route::middleware('auth:teacher')->group(function () {
      Route::get('/homeworks/{homework}', [HomeworkController::class, 'show']);
      Route::post('/homeworks/{homework}/comment', [HomeworkController::class, 'addComment']);
      Route::get('/homeworks/{homework}/groups/{group}/answers', [HomeworkController::class, 'getStudentAnswers']);
+
+     Route::put('/update', [TeacherController::class, 'update']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
