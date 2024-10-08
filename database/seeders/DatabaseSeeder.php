@@ -30,10 +30,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Admin::factory()->create([
-            'name' => 'admin',
-            'email' => 'admin@gmail.com',
-        ]);
+
 
         $student1 = User::factory()->create([
             'name' => 'moaad',

@@ -322,12 +322,12 @@ class HomeworkController extends Controller
             ->leftJoin('homework_user_answers', 'homework_user_answers.user_id', '=', 'users.id')
             ->where('homework_groups.homework_id', $homework_id)
             ->where('group_user.group_id', $group_id)
-            ->select('users.name', 'users.ref_number', 'homework_user_answers.attachments')
+            // ->select('users.name', 'users.ref_number', 'homework_user_answers.attachments')
             ->get();
 
-        $items->each(function ($item) {
-            $item->attachments = json_decode($item->attachments ?? '[]');
-        });
+        // $items->each(function ($item) {
+        //     $item->attachments = json_decode($item->attachments ?? '[]');
+        // });
 
         return response()->json($items);
     }
