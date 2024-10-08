@@ -319,10 +319,8 @@ class HomeworkController extends Controller
         $items = DB::table('users')
             ->join('group_user', 'group_user.user_id', '=', 'users.id')
             ->join('homework_groups', 'homework_groups.group_id', '=', 'group_user.group_id')
-            ->leftJoin('homework_user_answers', function ($join) use ($homework_id) {
-                $join->on('homework_user_answers.user_id', '=', 'users.id')
-                    ->where('homework_groups.homework_id', '=', $homework_id);
-            })
+            ->leftJoin('homework_user_answers', 'homework_user_answers.user_id', '=', 'users.id')
+            ->where('homework_groups.homework_id', $homework_id)
             ->where('group_user.group_id', $group_id)
             ->select('users.name', 'users.ref_number', 'homework_user_answers.attachments')
             ->get();
