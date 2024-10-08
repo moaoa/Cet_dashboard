@@ -78,7 +78,7 @@ class HomeworkController extends Controller
 
         $attachments = [];
 
-        $files = $request->file('attachments');
+        $files = $request->file('attachments') ?? [];
 
         foreach ($files as $file) {
             // Get the original file name
