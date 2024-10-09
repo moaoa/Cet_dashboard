@@ -57,7 +57,7 @@ class OneSignalNotifier
         // if (!self::$appId || !self::$restApiKey) {
         //     self::init();
         // }
-        if (!self::$client) self::init();
+        self::init();
 
         try {
             $response = self::$client->post(self::$baseUrl, [
