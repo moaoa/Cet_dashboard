@@ -55,8 +55,6 @@ class TakeAttendanceController extends Controller
             $attendance->save();
         }
 
-        $subscriptions = [];
-
         $absentUsers = array_filter(
             $request->input('attendance'),
             function ($item) {
@@ -70,22 +68,17 @@ class TakeAttendanceController extends Controller
 
         $users = User::whereIn('id', $userIds)->get();
 
-        foreach ($users as $user) {
-            $userSubscriptions = json_decode($user->device_subscriptions, true);
-
-            if (is_array($userSubscriptions)) {
-                $subscriptions = array_merge($subscriptions, $userSubscriptions);
-            }
-        }
-
-        $subscriptions = array_unique($subscriptions);
-
-        $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name;
         OneSignalNotifier::init();
 
-        OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+        foreach ($users as $user) {
+            $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name . " راجع نسبة حضورك";
 
-        Mail::to($user->email)->send(new AttendanceNotification($message));
+            $userSubscriptions = json_decode($user->device_subscriptions, true);
+
+            OneSignalNotifier::sendNotificationToUsers($userSubscriptions, $message);
+
+            Mail::to($user->email)->send(new AttendanceNotification($message));
+        }
 
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
