@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Enums\UserType;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 

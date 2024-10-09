@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\UserType;
+
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\Group;
