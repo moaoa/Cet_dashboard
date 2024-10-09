@@ -14,7 +14,6 @@ use App\Models\Homework;
 use App\Models\Lecture;
 use App\Models\Question;
 use App\Models\Quiz;
-use App\Models\QuizScore;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
@@ -30,6 +29,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        Admin::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@gmail.com',
+        ]);
 
         $student1 = User::factory()->create([
             'name' => 'moaad',
@@ -44,7 +47,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'raheemdehom123@gmail.com',
         ]);
 
-        //Group::factory()->count(2)->create();
         Group::factory()->create([
             'name' => '1',
             'teacher_id' => $teacher->id
