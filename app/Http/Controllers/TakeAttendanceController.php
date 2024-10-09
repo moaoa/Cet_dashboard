@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AttendanceStatus;
+use App\Mail\AttendanceNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Lecture;
@@ -11,6 +12,7 @@ use App\Models\Attendance;
 use App\Services\OneSignalNotifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class TakeAttendanceController extends Controller
 {
@@ -82,6 +84,8 @@ class TakeAttendanceController extends Controller
         OneSignalNotifier::init();
 
         OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+
+        Mail::to($user->email)->send(new AttendanceNotification($message));
 
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
