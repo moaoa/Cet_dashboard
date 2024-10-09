@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use App\Enums\UserType;
+
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -49,7 +49,7 @@ class User extends Authenticatable
         'id' => 'integer',
         'ref_number' => 'integer',
         // 'type' => UserType::class
-        'type' => 'integer',
+        // 'type' => 'integer',
         'password' => 'hashed'
     ];
 
@@ -67,10 +67,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'user_subjects')->withPivot('passed');
     }
-    public function isAdmin()
-    {
-        return $this->type == UserType::Student;
-    }
+    // public function isAdmin()
+    // {
+    //     return $this->type == UserType::Student;
+    // }
 
     public function homeworkUserAnswers(): HasMany
     {

@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\LectureResource\Pages;
 
-use App\Enums\UserType;
+
 use App\Filament\Resources\LectureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;

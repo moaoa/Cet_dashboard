@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Enums\AttendanceStatus;
-use App\Enums\UserType;
+
 use App\Models\Admin;
 use App\Models\Attendance;
 use App\Models\ClassRoom;

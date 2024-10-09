@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\UserType;
+
 use App\Enums\WeekDays;
 use App\Filament\Resources\LectureResource\Pages;
 use App\Filament\Resources\LectureResource\RelationManagers;

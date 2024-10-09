@@ -2,7 +2,7 @@
 
 namespace App\Filament\Resources\GroupResource\RelationManagers;
 
-use App\Enums\UserType;
+
 use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
