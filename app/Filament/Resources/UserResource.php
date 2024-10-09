@@ -32,9 +32,6 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('ref_number')
                     ->required()
                     ->numeric(),
-                // Forms\Components\Select::make('type')
-                //     ->required()
-                //     ->options(UserType::class),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
@@ -48,9 +45,9 @@ class UserResource extends Resource
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('group_id')
-                    ->options(Group::all()->pluck('name', 'id'))
-                    ->label('المجموعة')
+                // Forms\Components\Select::make('group_id')
+                //     ->options(Group::all()->pluck('name', 'id'))
+                //     ->label('المجموعة')
                 // ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->ref_number} {$record->name}")
             ]);
     }
@@ -63,7 +60,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ref_number')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('type'),
+                // Tables\Columns\TextColumn::make('type'),
                 // ->formatStateUsing(function ($type){
                 //     return $type->label();
                 // }),
