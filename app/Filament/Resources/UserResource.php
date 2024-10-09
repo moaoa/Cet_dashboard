@@ -32,9 +32,9 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('ref_number')
                     ->required()
                     ->numeric(),
-                Forms\Components\Select::make('type')
-                    ->required()
-                    ->options(UserType::class),
+                // Forms\Components\Select::make('type')
+                //     ->required()
+                //     ->options(UserType::class),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()

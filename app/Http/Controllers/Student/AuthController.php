@@ -30,7 +30,6 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password,  // No need to hash the password here
             'ref_number' => $base + $numberOfUsers,
-            'type' => UserType::Student->value
         ]);
         $token = $user->createToken('auth_token')->plainTextToken;
 

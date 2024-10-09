@@ -14,8 +14,7 @@ class ListLectures extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
-                ->visible(condition: auth()->user()->type === UserType::Admin),
+            Actions\CreateAction::make(),
         ];
     }
 }

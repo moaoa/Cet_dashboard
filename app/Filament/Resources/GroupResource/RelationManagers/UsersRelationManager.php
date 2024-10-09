@@ -24,9 +24,9 @@ class UsersRelationManager extends RelationManager
                 Forms\Components\TextInput::make('ref_number')
                     ->required()
                     ->maxLength(255),
-                Select::make('type')
-                    ->options(UserType::class)
-                    ->default(UserType::Student)
+                // Select::make('type')
+                //     ->options(UserType::class)
+                //     ->default(UserType::Student)
             ]);
     }
 
