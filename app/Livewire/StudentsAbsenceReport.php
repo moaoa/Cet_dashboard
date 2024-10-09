@@ -6,6 +6,9 @@ use App\Models\Attendance;
 use App\Models\Subject;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use App\Exports\ExcelExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class StudentsAbsenceReport extends Component
 {
@@ -16,7 +19,7 @@ class StudentsAbsenceReport extends Component
     public function render()
     {
         $this->subjects = Subject::all();
-        return view('livewire.students-absence-report', ['data' => [], 'subjects' => $this->subjects]);
+        return view('livewire.students-absence-report');
     }
 
     public function generateReport()
@@ -30,12 +33,25 @@ class StudentsAbsenceReport extends Component
             })
             ->select(
                 'users.name',
+                'users.ref_number',
                 'subjects.name as subject_name',
                 DB::raw('SUM(CASE WHEN attendances.status = 1 THEN 1 ELSE 0 END) as total_absences')
             )
-            ->groupBy('users.name', 'subjects.name')
+            ->groupBy('users.name', 'subjects.name', 'users.ref_number')
             ->get();
 
         $this->absenceData = $absenceData;
+    }
+    public function exportToExcel()
+    {
+        if ($this->absenceData) {
+            return Excel::download(
+                new ExcelExport(
+                    $this->absenceData,
+                    ['الطالب', 'رقم القيد', 'المادة', 'الغياب']
+                ),
+                'absence_report.xlsx'
+            );
+        }
     }
 }

@@ -14,7 +14,13 @@
             <button
                 wire:click="generateReport"
                 class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded">
-                Generate Report
+                إنشاء التقرير
+            </button>
+
+            <button
+                wire:click="exportToExcel"
+                class="bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 px-4 rounded">
+                Excel
             </button>
         </div>
 
@@ -25,6 +31,7 @@
             <thead>
                 <tr class="border-b">
                     <th class="border px-4 py-2 text-center">الطالب</th>
+                    <th class="border px-4 py-2 text-center">رقم القيد</th>
                     <th class="border px-4 py-2">الغياب</th>
                     <th class="border px-4 py-2">المادة</th>
                 </tr>
@@ -33,6 +40,7 @@
                 @foreach ($absenceData as $item)
                 <tr>
                     <td class="border px-4 py-2 text-center">{{ $item->name }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->ref_number }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->total_absences }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->subject_name }}</td>
                 </tr>
