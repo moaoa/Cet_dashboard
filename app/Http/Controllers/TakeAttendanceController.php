@@ -79,7 +79,7 @@ class TakeAttendanceController extends Controller
         $subscriptions = array_unique($subscriptions);
 
         $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name;
-        OneSignalNotifier::init();
+        // OneSignalNotifier::init();
 
         OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
 

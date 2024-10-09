@@ -54,9 +54,10 @@ class OneSignalNotifier
 
     private static function sendNotification($payload)
     {
-        if (!self::$appId || !self::$restApiKey) {
-            self::init();
-        }
+        // if (!self::$appId || !self::$restApiKey) {
+        //     self::init();
+        // }
+        if (!self::$client) self::init();
 
         try {
             $response = self::$client->post(self::$baseUrl, [
