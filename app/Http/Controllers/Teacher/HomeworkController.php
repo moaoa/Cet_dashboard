@@ -203,7 +203,7 @@ class HomeworkController extends Controller
                 'id' => $item->id,
                 'name' => $item->name,
                 'description' => $item->description,
-                'date' => $item->created_at->format('Y-m-d'),  // Assuming 'created_at' is the date
+                'date' => $item->due_time?->format('Y-m-d'),  // Assuming 'created_at' is the date
                 'comments' => $item->comments->map(function ($comment) {
                     return [
                         'name' => optional($comment->commentable)->name,

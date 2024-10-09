@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TakeAttendanceController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\GroupQuizController;
+use App\Http\Controllers\ImportDBController;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -72,6 +73,7 @@ Route::group([], function () {
 
 
 Route::get('/migration', [MigrationController::class, 'runMigrationsAndSeeders']);
+// Route::get('/migration', [ImportDBController::class, 'importDB']);
 
 
 Route::put('/users/update', [UserController::class, 'update'])->middleware('auth:sanctum');
@@ -80,12 +82,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 
-Route::get('email', function (){
+Route::get('email', function () {
 
-        Mail::raw('message', function ($message) {
-            $message->to('moaadbn3@gmail.com')
-                    ->subject('Job Offer');
-        });
+    Mail::raw('message', function ($message) {
+        $message->to('moaadbn3@gmail.com')
+            ->subject('Job Offer');
+    });
 
-        return response()->json(['message' => 'Email sent successfully.']);
+    return response()->json(['message' => 'Email sent successfully.']);
 });

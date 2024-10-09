@@ -3,13 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AttendanceStatus;
+use App\Mail\AttendanceNotification;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Models\Lecture;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Services\OneSignalNotifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
 
 class TakeAttendanceController extends Controller
 {
@@ -32,7 +35,7 @@ class TakeAttendanceController extends Controller
             'date' => 'required|date'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 422);
@@ -51,6 +54,32 @@ class TakeAttendanceController extends Controller
 
             $attendance->save();
         }
+
+        $absentUsers = array_filter(
+            $request->input('attendance'),
+            function ($item) {
+                return $item['status'] == AttendanceStatus::Absent->value;
+            }
+        );
+
+        $userIds = array_map(function ($item) {
+            return $item['user_id'];
+        }, $absentUsers);
+
+        $users = User::whereIn('id', $userIds)->get();
+
+        OneSignalNotifier::init();
+
+        foreach ($users as $user) {
+            $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name . " راجع نسبة حضورك";
+
+            $userSubscriptions = json_decode($user->device_subscriptions, true);
+
+            OneSignalNotifier::sendNotificationToUsers($userSubscriptions, $message);
+
+            Mail::to($user->email)->send(new AttendanceNotification($message));
+        }
+
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
 }
