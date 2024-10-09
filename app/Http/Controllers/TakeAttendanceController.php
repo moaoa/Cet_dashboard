@@ -71,11 +71,14 @@ class TakeAttendanceController extends Controller
         foreach ($users as $user) {
             $userSubscriptions = json_decode($user->device_subscriptions, true);
             if (is_array($userSubscriptions)) {
-                $subscriptions = array_merge($subscriptions, $userSubscriptions);
+                // $subscriptions = array_merge($subscriptions, $userSubscriptions);
+                foreach ($userSubscriptions as $subscription) {
+                    $subscriptions[] = $subscription;
+                }
             }
         }
 
-        $subscriptions = array_unique($subscriptions);
+        // $subscriptions = array_unique($subscriptions);
         dd(array_values($subscriptions));
 
         $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name;
