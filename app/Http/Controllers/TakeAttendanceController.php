@@ -66,10 +66,14 @@ class TakeAttendanceController extends Controller
             return $item['user_id'];
         }, $absentUsers);
 
-        User::whereIn('id', $userIds)->get()->each(function ($user) use (&$subscriptions) {
-            $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
-        });
+        $users = User::whereIn('id', $userIds)->get();
 
+        foreach ($users as $user) {
+            $userSubscriptions = json_decode($user->device_subscriptions, true);
+            if (is_array($userSubscriptions)) {
+                $subscriptions = array_merge($subscriptions, $userSubscriptions);
+            }
+        }
 
         $subscriptions = array_unique($subscriptions);
         dd($subscriptions);
