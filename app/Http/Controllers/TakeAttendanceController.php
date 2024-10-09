@@ -76,7 +76,7 @@ class TakeAttendanceController extends Controller
         }
 
         $subscriptions = array_unique($subscriptions);
-        dd($subscriptions);
+        dd(array_values($subscriptions));
 
         $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name;
 
