@@ -49,7 +49,7 @@ class User extends Authenticatable
         'id' => 'integer',
         'ref_number' => 'integer',
         // 'type' => UserType::class
-        'type' => 'integer',
+        // 'type' => 'integer',
         'password' => 'hashed'
     ];
 
@@ -67,10 +67,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Subject::class, 'user_subjects')->withPivot('passed');
     }
-    public function isAdmin()
-    {
-        return $this->type == UserType::Student;
-    }
+    // public function isAdmin()
+    // {
+    //     return $this->type == UserType::Student;
+    // }
 
     public function homeworkUserAnswers(): HasMany
     {
