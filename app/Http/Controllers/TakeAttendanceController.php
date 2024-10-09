@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use App\Models\Lecture;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Services\OneSignalNotifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -32,7 +33,7 @@ class TakeAttendanceController extends Controller
             'date' => 'required|date'
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
                 'errors' => $validator->errors(),
             ], 422);
@@ -51,6 +52,24 @@ class TakeAttendanceController extends Controller
 
             $attendance->save();
         }
+
+        $subscriptions = [];
+
+        $userIds = array_map(function ($item) {
+            return $item->user_id;
+        }, $request->input('attendance'));
+
+        User::whereIn('id', $userIds)->get()->each(function ($user) use (&$subscriptions) {
+            $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
+        });
+
+
+        $subscriptions = array_unique($subscriptions);
+
+        $message = 'تم تسجيلك غياب في المحاضرة للمادة ' . $lecture->subject->name;
+
+        OneSignalNotifier::sendNotificationToUsers($subscriptions, $message);
+
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
 }
