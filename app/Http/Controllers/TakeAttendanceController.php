@@ -55,9 +55,16 @@ class TakeAttendanceController extends Controller
 
         $subscriptions = [];
 
+        $absentUsers = array_filter(
+            $request->input('attendance'),
+            function ($item) {
+                return $item->status == AttendanceStatus::Absent->value;
+            }
+        );
+
         $userIds = array_map(function ($item) {
             return $item->user_id;
-        }, $request->input('attendance'));
+        }, $absentUsers);
 
         User::whereIn('id', $userIds)->get()->each(function ($user) use (&$subscriptions) {
             $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
