@@ -67,7 +67,7 @@ class DatabaseSeeder extends Seeder
 
 
         // Seed Subjects
-        Subject::factory()->count(10)->create();
+        // Subject::factory()->count(10)->create();
         $subjects = Subject::factory()->createMany([
             ['name' => 'كهربائية 1'],
             ['name' => 'كهربائية 2'],
