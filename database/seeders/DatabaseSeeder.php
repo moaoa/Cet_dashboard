@@ -43,8 +43,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $teacher = Teacher::factory()->create([
-            'name' => 'test 2',
-            'email' => 'test2@gmail.com',
+            'name' => 'raheem',
+            'email' => 'raheemdehom123@gmail.com',
         ]);
 
         Group::factory()->create([
