@@ -58,12 +58,12 @@ class TakeAttendanceController extends Controller
         $absentUsers = array_filter(
             $request->input('attendance'),
             function ($item) {
-                return $item->status == AttendanceStatus::Absent->value;
+                return $item['status'] == AttendanceStatus::Absent->value;
             }
         );
 
         $userIds = array_map(function ($item) {
-            return $item->user_id;
+            return $item['user_id'];
         }, $absentUsers);
 
         User::whereIn('id', $userIds)->get()->each(function ($user) use (&$subscriptions) {
