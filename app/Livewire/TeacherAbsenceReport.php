@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Enums\AttendanceStatus;
 use App\Exports\ExcelExport;
 use App\Models\Attendance;
 use App\Models\Subject;
@@ -34,7 +35,7 @@ class TeacherAbsenceReport extends Component
             ->select(
                 'teachers.name',
                 'subjects.name as subject_name',
-                DB::raw('SUM(CASE WHEN teacher_absences.status = 1 THEN 1 ELSE 0 END) as total_absences')
+                DB::raw('SUM(CASE WHEN teacher_absences.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_absences')
             )
             ->groupBy('teachers.name', 'subjects.name')
             ->get();
