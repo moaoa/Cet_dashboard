@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_subjects', function (Blueprint $table) {
             $table->id();
-            $table->boolean('passed');
+            $table->boolean('passed')->default(false);
             $table->foreignId('subject_id')->constrained('subjects');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
