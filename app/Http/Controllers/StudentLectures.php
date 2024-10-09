@@ -30,9 +30,14 @@ class StudentLectures extends Controller
             ], 422);
         }
 
-        $studentAbsentDays = Attendance::with('lecture.subject')->where('user_id', $student->id)->get();
+        $studentAbsentDays = Attendance::with('lecture.subject')
+            ->where('user_id', $student->id)
+            ->where('status', AttendanceStatus::Absent->value)
+            ->get();
 
-        $teacherAbsentDays = TeacherAbsence::with('lecture.subject')->get();
+        $teacherAbsentDays = TeacherAbsence::with('lecture.subject')
+            ->where('status', AttendanceStatus::Absent->value)
+            ->get();
 
         $lectures = Lecture::query()
             ->with(['subject'])
@@ -50,7 +55,7 @@ class StudentLectures extends Controller
                 ->where('lecture.subject.id', $lecture->subject_id)
                 ->count();
 
-            $absencePercentage = ($studentAbsentDaysInSubject / (16 - $teacherAbsentDaysInSubject));
+            $absencePercentage = number_format(($studentAbsentDaysInSubject / (16 - $teacherAbsentDaysInSubject)) * 100, 2);
 
             return [
                 'id' => $lecture->id,

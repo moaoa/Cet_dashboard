@@ -31,7 +31,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-
         $student1 = User::factory()->create([
             'name' => 'moaad',
             'ref_number' => 1111,
@@ -39,20 +38,6 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'phone_number' => '1222223',
         ]);
-        // Seed Semesters
-        Semester::factory()->count(3)->create();
-
-        // Seed Subjects
-        //Subject::factory()->count(10)->create();
-        $subjects = Subject::factory()->createMany([
-            ['name' => 'كهربائية 1'],
-            ['name' => 'كهربائية 2'],
-            ['name' => 'رياضة 1'],
-            ['name' => 'رياضة 2'], // You can add more if needed
-        ]);
-
-        // Seed ClassRooms
-        ClassRoom::factory()->count(5)->create();
 
         $teacher = Teacher::factory()->create([
             'name' => 'رحيم',
@@ -70,7 +55,26 @@ class DatabaseSeeder extends Seeder
             'teacher_id' => $teacher->id
         ]);
 
-        //Homework::factory()->count(2)->create();
+        // Seed Semesters
+        Semester::factory()->count(3)->create();
+
+        // Seed Groups
+        $group = Group::first();
+        $group2 = Group::find(2);
+        $student1->groups()->attach($group2);
+
+
+        // Seed Subjects
+        //Subject::factory()->count(10)->create();
+        $subjects = Subject::factory()->createMany([
+            ['name' => 'كهربائية 1'],
+            ['name' => 'كهربائية 2'],
+            ['name' => 'رياضة 1'],
+            ['name' => 'رياضة 2'], // You can add more if needed
+        ]);
+
+        // Seed ClassRooms
+        ClassRoom::factory()->count(5)->create();
 
         Homework::factory()->create([
             'name' => 'واجب رقم 1',
@@ -89,16 +93,13 @@ class DatabaseSeeder extends Seeder
             ]),
         ]);
 
-        // Seed Groups
-        $group = Group::first();
-        $group2 = Group::find(2);
+
         $classRoom = ClassRoom::first();
         $subject = Subject::first();
         $semester = Semester::first();
 
 
         $subject->groups()->attach($group);
-        $student1->groups()->attach($group2);
 
         // Create a new Lecture instance and associate it with the first instances of the related models
         $lecture = Lecture::create([
