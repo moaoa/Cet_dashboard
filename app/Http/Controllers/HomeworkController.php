@@ -7,6 +7,7 @@ use App\Models\HomeworkUserAnswer;
 use App\Models\Teacher;
 use App\Models\User;
 use App\Services\OneSignalNotifier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -58,6 +59,13 @@ class HomeworkController extends Controller
         }
 
         if (!$request->hasFile('attachments')) return response()->json(['message' => 'No files uploaded'], 400);
+
+
+        $due_time =  $homework->groups()->first()->due_time;
+
+        if ($due_time && $due_time = Carbon::parse($due_time) && now()->gt($due_time)) {
+            return response()->json(['message' => 'وقت التسليم انتهآ'], 422);
+        }
 
         $attachments = [];
 
