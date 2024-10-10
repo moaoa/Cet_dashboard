@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Major;
 use App\Filament\Resources\SubjectResource\Pages;
 use App\Filament\Resources\SubjectResource\RelationManagers;
+use App\Models\Semester;
 use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -34,11 +36,37 @@ class SubjectResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('اسم المادة')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('Major')
+                    ->options(Major::class)
+                    ->enum(Major::class)
+                    ->label('القسم')
+                    ->required()
+                    ->reactive()
+                    ->afterStateUpdated(fn(callable $set) => $set('semester_id', null)),
                 Forms\Components\Select::make('semester_id')
-                    ->relationship('semester', 'name')
-                    ->required(),
+                    ->label('الفصل الدراسي')
+                    ->options(function (callable $get) {
+                        $majorValue = $get('Major');
+                        if ($majorValue === null) {
+                            return [];
+                        }
+                        $major = Major::from($majorValue);
+                        return Semester::where('major', $major->value)
+                            ->pluck('name', 'id')
+                            ->toArray();
+                    })
+                    ->required()
+                    ->reactive()
+                    ->disabled(fn(callable $get) => $get('Major') === null)
+                    ->afterStateUpdated(function ($state, callable $set, callable $get) {
+                        if ($state === null) {
+                            return;
+                        }
+                        $set('semester_id', $state);
+                    }),
             ]);
     }
 
@@ -47,15 +75,22 @@ class SubjectResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('اسم المادة')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('semester.name')
-                    ->numeric()
+                    ->label('الفصل الدراسي')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('semester.major')
+                    ->label('القسم')
+                    ->formatStateUsing(fn($state) => Major::getArabicName($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تاريخ الإنشاء')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تاريخ التحديث')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -65,6 +100,8 @@ class SubjectResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
