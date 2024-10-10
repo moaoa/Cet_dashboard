@@ -36,7 +36,7 @@ class StudentsAbsenceReport extends Component
                 'users.name',
                 'users.ref_number',
                 'subjects.name as subject_name',
-                DB::raw('SUM(CASE WHEN teacher_absences.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_absences')
+                DB::raw('SUM(CASE WHEN attendances.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_absences')
             )
             ->groupBy('users.name', 'subjects.name', 'users.ref_number')
             ->get();
