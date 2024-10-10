@@ -15,7 +15,7 @@ class UserSubjectController extends Controller
     {
         $student = $request->user();
 
-        $groups = $student->groups();
+        $groups = $student->groups()->get();
 
         $subjects = DB::table('user_subjects')
             ->join('group_subject', 'group_subject.subject_id', '=', 'user_subjects.subject_id')
