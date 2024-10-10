@@ -41,6 +41,16 @@ class TakeAttendanceController extends Controller
             ], 422);
         }
 
+        $numberOfStudents = $lecture->group()->first()->users()->count();
+        $attendanceUsers = array_map(function ($item) {
+            return $item['user_id'];
+        }, $request->input('attendance'));
+
+        $attendanceUsers = array_unique($attendanceUsers);
+
+        if ($numberOfStudents != count($request->input('attendance'))) {
+            return response()->json(['message' => 'يجب ارسال جميع الطلبة'], 422);
+        }
 
         // Store the attendance data
         foreach ($request->input('attendance') as $attendanceItem) {
@@ -79,6 +89,7 @@ class TakeAttendanceController extends Controller
 
             Mail::to($user->email)->send(new AttendanceNotification($message));
         }
+
 
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }
