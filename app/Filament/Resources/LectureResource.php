@@ -51,7 +51,7 @@ class LectureResource extends Resource
                     ->relationship('subject', 'name')
                     ->required(),
                 Forms\Components\Select::make('class_room_id')
-                    // ->relationship('classRoom', 'name')
+                    ->relationship('classRoom', 'name')
                     ->options(function (Forms\Get $get) {
                         $start_time = (string)$get('start_time');
                         $end_time = (string)$get('end_time');

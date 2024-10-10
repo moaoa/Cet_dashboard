@@ -40,9 +40,9 @@ class DatabaseSeeder extends Seeder
             SemestersSeeders::class,
             SubjectsSeeder::class,
             SubjectTeacherSeeder::class,
-            GroupsSeeder::class,
-            GroupsStudentsSeeder::class,
-            GroupsSubjectsSeeder::class,
+            // GroupsSeeder::class,
+            // GroupsStudentsSeeder::class,
+            // GroupsSubjectsSeeder::class,
             StudentsSubjectsSeeder::class
         ]);
     }

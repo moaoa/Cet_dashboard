@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Major;
 use App\Filament\Resources\GroupResource\Pages;
 use App\Filament\Resources\GroupResource\RelationManagers;
 use App\Models\Group;
+use App\Models\Semester;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,10 +37,21 @@ class GroupResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('teacher_id')
-                    ->relationship('teacher', 'name')
+                Forms\Components\Select::make('major')
+                    ->label('التخصص')
+                    ->required()
+                    ->live()
+                    ->options(Major::class),
+                Forms\Components\Select::make('semester_id')
+                    ->label('الفصل الدراسي')
+                    ->relationship('semester', 'name')
+                    ->options(function (Forms\Get $get) {
+                        $semesters = Semester::where('major', $get('major'))->pluck('name', 'id');
+                        return $semesters;
+                    })
                     ->required(),
             ]);
     }
@@ -48,10 +61,17 @@ class GroupResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('teacher.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->searchable()
+                    ->label('المجموعة'),
+                Tables\Columns\TextColumn::make('semester.name')
+                    ->searchable()
+                    ->label('الفصل الدراسي'),
+                Tables\Columns\TextColumn::make('semester.major')
+                    ->searchable()
+                    ->label('التخصص')
+                    ->getStateUsing(function ($record) {
+                        return Major::getArabicName($record->semester->major);
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -89,5 +109,4 @@ class GroupResource extends Resource
             'edit' => Pages\EditGroup::route('/{record}/edit'),
         ];
     }
-    
 }
