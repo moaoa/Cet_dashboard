@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Homework;
 use App\Models\HomeworkUserAnswer;
+use App\Models\Teacher;
 use App\Models\User;
+use App\Services\OneSignalNotifier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Storage;
@@ -57,6 +60,13 @@ class HomeworkController extends Controller
 
         if (!$request->hasFile('attachments')) return response()->json(['message' => 'No files uploaded'], 400);
 
+
+        $due_time =  $homework->groups()->first()->due_time;
+
+        if ($due_time && $due_time = Carbon::parse($due_time) && now()->gt($due_time)) {
+            return response()->json(['message' => 'وقت التسليم انتهآ'], 422);
+        }
+
         $attachments = [];
 
         $files = $request->file('attachments');
@@ -77,12 +87,21 @@ class HomeworkController extends Controller
             $attachments[] = ['name' => $fileName, 'url' => asset(Storage::url($path))];
         }
 
+
         if (count($attachments) > 0) {
-            HomeworkUserAnswer::updateOrInsert([ 'user_id' => $student->id, 'homework_id' => $homework_id, ], [
+            HomeworkUserAnswer::updateOrInsert(['user_id' => $student->id, 'homework_id' => $homework_id,], [
                 'attachments' => json_encode($attachments)
             ]);
-
         }
+
+        OneSignalNotifier::init();
+
+        $homework->groups->each(function ($group) use ($homework) {
+            OneSignalNotifier::sendNotificationToUsers(
+                json_decode($group->teacher->device_subscriptions),
+                'تمت الاجابة على الواحب في مادة ' . $homework->subject->name
+            );
+        });
 
         // Return a response with the paths of the uploaded files
         return response()->json([

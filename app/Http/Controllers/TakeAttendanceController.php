@@ -33,14 +33,33 @@ class TakeAttendanceController extends Controller
             'attendance.*.status' => ['required', Rule::enum(AttendanceStatus::class)],
             'attendance.*.note' => 'nullable|string|max:255',
             'date' => 'required|date'
+        ], [
+            'attendance.required' => 'يجب تسجيل حضور لكل الطلاب',
+            'attendance.*.user_id.required' => 'The user ID is required.',
+            'attendance.*.user_id.exists' => 'The selected user ID is invalid.',
+            'attendance.*.status.required' => 'The status field is required.',
+            'attendance.*.status.enum' => 'The selected status is invalid.',
+            'attendance.*.note.max' => 'The note must not exceed 255 characters.',
+            'date.required' => 'The date field is required.',
+            'date.date' => 'The date must be a valid date.'
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'message' => $validator->errors()->first(),
             ], 422);
         }
 
+        $numberOfStudents = $lecture->group()->first()->users()->count();
+        $attendanceUsers = array_map(function ($item) {
+            return $item['user_id'];
+        }, $request->input('attendance'));
+
+        $attendanceUsers = array_unique($attendanceUsers);
+
+        if ($numberOfStudents != count($request->input('attendance'))) {
+            return response()->json(['message' => 'يجب تسجيل حضور لكل الطلاب'], 422);
+        }
 
         // Store the attendance data
         foreach ($request->input('attendance') as $attendanceItem) {
@@ -79,6 +98,7 @@ class TakeAttendanceController extends Controller
 
             Mail::to($user->email)->send(new AttendanceNotification($message));
         }
+
 
         return response()->json(['message' => 'تم تسجيل الحضور'], 201);
     }

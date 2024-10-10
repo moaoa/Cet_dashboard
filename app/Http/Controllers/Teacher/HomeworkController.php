@@ -160,7 +160,7 @@ class HomeworkController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getHomeworkForGroupAndSubject(Request $request): JsonResponse
+    public function getHomeworkForGroupAndSubject(Request $request)
     {
         $groupId = $request->route('group');
         $subjectId = $request->route('subject');
@@ -186,25 +186,45 @@ class HomeworkController extends Controller
         $groupId = $validated['group_id'];
         $subjectId = $validated['subject_id'];
 
-        $items = Homework::where('subject_id', $subjectId)
-            ->whereHas('groups', function ($query) use ($groupId) {
-                $query->where('group_id', $groupId);
-            })
-            ->with([
-                'comments.commentable' => function ($query) {
-                    $query->orderBy('created_at', 'desc');
-                },
-                // 'studentAttachments'
-            ])
+        // $items = Homework::where('subject_id', $subjectId)
+        //     ->whereHas('groups', function ($query) use ($groupId) {
+        //         $query->where('group_id', $groupId);
+        //     })
+        //     ->with([
+        //         'comments.commentable' => function ($query) {
+        //             $query->orderBy('created_at', 'desc');
+        //         },
+        //         // 'studentAttachments'
+        //     ])
+        //     ->get();
+
+        $items = DB::table('homework')
+            ->join('homework_groups', 'homework_groups.homework_id', '=', 'homework.id')
+            ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
+            ->where('homework_groups.group_id', $groupId)
+            ->where('homework.subject_id', $subjectId)
+            ->select(
+                'homework.id',
+                'homework.name',
+                'homework.description',
+                'homework.attachments',
+                'homework.teacher_id',
+                'groups.name as group_name',
+                'homework_groups.due_time'
+            )
             ->get();
 
-        $homeworks = $items->map(function ($item) {
+        $comments = Comment::whereIn('homework_id', $items->pluck('id'))->get();
+
+        $homeworks = $items->map(function ($item) use ($comments) {
+            if ($item->due_time)
+                $item->due_time = Carbon::parse($item->due_time)->format('Y-m-d');
             return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'description' => $item->description,
-                'date' => $item->due_time?->format('Y-m-d'),  // Assuming 'created_at' is the date
-                'comments' => $item->comments->map(function ($comment) {
+                'date' => $item->due_time,
+                'comments' => $comments->map(function ($comment) {
                     return [
                         'name' => optional($comment->commentable)->name,
                         'content' => $comment->content,

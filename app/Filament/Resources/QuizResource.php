@@ -36,7 +36,7 @@ class QuizResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('teacher.name')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subject.name')
@@ -55,7 +55,8 @@ class QuizResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

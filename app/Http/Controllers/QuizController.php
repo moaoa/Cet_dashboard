@@ -168,20 +168,20 @@ class QuizController extends Controller
         $groups = $student->groups()->get();
 
         $items = DB::table('quizzes')
-             ->join('quiz_groups', 'quiz_groups.quiz_id', '=', 'quizzes.id')
-             ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
-             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-             ->where('groups.id', $groups->pluck('id'))
-             ->select(
-                 'quizzes.id',
-                 'quizzes.name',
-                 'quizzes.note',
-                 'subjects.name as subject_name',
-                 'quiz_groups.start_time',
-                 'quiz_groups.end_time',
-                 'groups.id as group_id',
-             )
-             ->get();
+            ->join('quiz_groups', 'quiz_groups.quiz_id', '=', 'quizzes.id')
+            ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
+            ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
+            ->whereIn('groups.id', $groups->pluck('id'))
+            ->select(
+                'quizzes.id',
+                'quizzes.name',
+                'quizzes.note',
+                'subjects.name as subject_name',
+                'quiz_groups.start_time',
+                'quiz_groups.end_time',
+                'groups.id as group_id',
+            )
+            ->get();
 
         $questions = Question::whereIn('quiz_id', $items->pluck('id'))
             ->get();
