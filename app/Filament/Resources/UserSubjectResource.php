@@ -20,20 +20,30 @@ class UserSubjectResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
     protected static ?string $navigationLabel = 'ادارة مواد الطالب';
 
+    public static function getModelLabel(): string
+    {
+        return 'مواد طالب'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'مواد الطلبة '; // Directly writing the translation for "Users"
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\Toggle::make('passed')
-                    ->required(),
-                Forms\Components\TextInput::make('note')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->required(),
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
+                    ->label('الطالب') // Translated label for "User"
+                    ->required(),
+                Forms\Components\Select::make('subject_id')
+                    ->relationship('subject', 'name')
+                    ->label('المادة') // Translated label for "Subject"
+                    ->required(),
+                Forms\Components\Toggle::make('passed')
+                    ->label('نجح') // Translated label for "Passed"
                     ->required(),
             ]);
     }
@@ -42,30 +52,36 @@ class UserSubjectResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\IconColumn::make('passed')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('note')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->searchable()
+                    ->label('الطالب'), // Translated label for "User"
+                Tables\Columns\TextColumn::make('subject.name')
+                    ->numeric()
+                    ->sortable()
+                    ->label('المادة'), // Translated label for "Subject"
+                Tables\Columns\IconColumn::make('passed')
+                    ->boolean()
+                    ->label('نجح'), // Translated label for "Passed"
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('تاريخ الإنشاء'), // Translated label for "Created At"
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('تاريخ التحديث'), // Translated label for "Updated At"
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

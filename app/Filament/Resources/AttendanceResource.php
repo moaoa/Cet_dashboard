@@ -27,6 +27,15 @@ class AttendanceResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
     protected static ?string $navigationLabel = 'حضور وغياب الطلبة';
 
+    public static function getModelLabel(): string
+    {
+        return 'الحضور'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'حضور وغياب الطلبة'; // Directly writing the translation for "Users"
+    }
     public static function form(Form $form): Form
     {
         return $form

@@ -20,6 +20,15 @@ class ClassRoomResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'ادارة القاعات';
 
+    public static function getModelLabel(): string
+    {
+        return 'قاعة'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'قاعات'; // Directly writing the translation for "Users"
+    }
     public static function form(Form $form): Form
     {
         return $form

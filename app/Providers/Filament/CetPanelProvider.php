@@ -30,8 +30,7 @@ class CetPanelProvider extends PanelProvider
             ->login()
             ->authGuard('admin')
             ->colors([
-                'primary' => Color::Cyan,
-                'gray'=>Color::Slate
+                'primary' => Color::Sky,
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

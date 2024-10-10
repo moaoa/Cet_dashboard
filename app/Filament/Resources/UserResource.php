@@ -23,33 +23,42 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = 'ادارة الطلبة';
 
+    public static function getModelLabel(): string
+    {
+        return 'الطالب'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'الطلبة'; // Directly writing the translation for "Users"
+    }
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('اسم الطالب') // "Student Name"
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('ref_number')
+                    ->label('رقم القيد') // "Reference Number"
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('password')
                     ->password()
+                    ->label('كلمة المرور') // "Password"
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('البريد الإلكتروني') // "Email"
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
                 Forms\Components\TextInput::make('phone_number')
+                    ->label('رقم الهاتف') // "Phone Number"
                     ->tel()
                     ->required()
                     ->maxLength(255),
-                // Forms\Components\Select::make('group_id')
-                //     ->options(Group::all()->pluck('name', 'id'))
-                //     ->label('المجموعة')
-                // ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->ref_number} {$record->name}")
             ]);
     }
 
@@ -58,26 +67,25 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('اسم الطالب') // "Student Name"
                     ->searchable(),
                 Tables\Columns\TextColumn::make('ref_number')
+                    ->label('رقم القيد') // "Reference Number"
+                    ->searchable()
                     ->sortable(),
-                // Tables\Columns\TextColumn::make('type'),
-                // ->formatStateUsing(function ($type){
-                //     return $type->label();
-                // }),
                 Tables\Columns\TextColumn::make('email')
+                    ->label('البريد الإلكتروني') // "Email"
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('phone_number')
+                    ->label('رقم الهاتف') // "Phone Number"
                     ->searchable(),
-                Tables\Columns\TextColumn::make('group.name'),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تاريخ الإنشاء') // "Created At"
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تاريخ التحديث') // "Updated At"
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -87,6 +95,8 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -97,7 +107,7 @@ class UserResource extends Resource
 
     public static function getNavigationSort(): ?int
     {
-        return 1; 
+        return 1;
     }
 
     public static function getRelations(): array
@@ -115,5 +125,4 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
- 
 }

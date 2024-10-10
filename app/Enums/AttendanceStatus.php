@@ -14,7 +14,7 @@ enum AttendanceStatus: int implements HasLabel
     {
         return match ($this) {
             self::Absent => 'غائب',
-            self::Present => 'موجود',
+            self::Present => 'حاضر',
             self::AbsentWithPermission => 'غائب مع إذن',
             default => 'غير معروف',
         };
