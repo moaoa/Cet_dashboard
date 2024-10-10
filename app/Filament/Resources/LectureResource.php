@@ -64,8 +64,7 @@ class LectureResource extends Resource
                         $availableClassrooms = ClassRoom::whereNotIn(
                             'id',
                             $lecturesInTimeRange->pluck('class_room_id')
-                        )
-                            ->pluck('name', 'id');
+                        )->get()->pluck('name', 'id')->toArray();
 
                         // dd($availableClassrooms);
                         return $availableClassrooms;
