@@ -66,4 +66,9 @@ class Teacher extends Authenticatable
     {
         return $this->hasMany(Quiz::class);
     }
+
+    public function groups(): BelongsToMany
+    {
+        return $this->belongsToMany(Group::class);
+    }
 }

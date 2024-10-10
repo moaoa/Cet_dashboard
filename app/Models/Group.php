@@ -21,6 +21,7 @@ class Group extends Model
      */
     protected $fillable = [
         'name',
+        'semester_id'
     ];
 
     /**
@@ -37,9 +38,9 @@ class Group extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function teacher(): BelongsTo
+    public function teacher(): BelongsToMany
     {
-        return $this->belongsTo(Teacher::class);
+        return $this->belongsToMany(Teacher::class);
     }
 
     public function quizzes(): BelongsToMany
@@ -53,5 +54,10 @@ class Group extends Model
     public function lectures(): HasMany
     {
         return $this->hasMany(Lecture::class);
+    }
+
+    public function semester(): BelongsTo
+    {
+        return $this->belongsTo(Semester::class);
     }
 }
