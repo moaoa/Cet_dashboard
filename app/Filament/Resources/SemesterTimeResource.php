@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+// namespace App\Filament\Resources;
 
 use App\Filament\Resources\SemesterTimeResource\Pages;
 use App\Filament\Resources\SemesterTimeResource\RelationManagers;

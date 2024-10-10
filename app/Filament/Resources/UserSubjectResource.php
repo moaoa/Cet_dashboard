@@ -17,7 +17,7 @@ class UserSubjectResource extends Resource
 {
     protected static ?string $model = UserSubject::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
     protected static ?string $navigationLabel = 'ادارة مواد الطالب';
 
     public static function form(Form $form): Form
