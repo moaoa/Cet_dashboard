@@ -26,6 +26,15 @@ class LectureResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-table-cells';
     protected static ?string $navigationLabel = 'ادارة المحاضرات';
 
+    public static function getModelLabel(): string
+    {
+        return 'محاضرة'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'محاضرات'; // Directly writing the translation for "Users"
+    }
     public static function form(Form $form): Form
     {
         return $form
@@ -42,7 +51,7 @@ class LectureResource extends Resource
                     ->relationship('subject', 'name')
                     ->required(),
                 Forms\Components\Select::make('class_room_id')
-                    // ->relationship('classRoom', 'name')
+                    ->relationship('classRoom', 'name')
                     ->options(function (Forms\Get $get) {
                         $start_time = (string)$get('start_time');
                         $end_time = (string)$get('end_time');
@@ -118,9 +127,9 @@ class LectureResource extends Resource
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
+            // ->headerActions([
+            //     Tables\Actions\CreateAction::make(),
+            // ])
             ->actions([
                 // Tables\Actions\EditAction::make(),
             ])

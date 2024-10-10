@@ -22,26 +22,41 @@ class TeacherResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationLabel = 'ادارة الاستاذ';
 
+    public static function getModelLabel(): string
+    {
+        return 'استاذ';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'أساتذة'; // Directly writing the translation for "Users"
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('اسم الأستاذ') // "Teacher Name"
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('ref_number')
+                    ->label('الرقم المرجعي') // "Reference Number"
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('password')
+                    ->label('كلمة المرور') // "Password"
                     ->password()
                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('email')
+                    ->label('البريد الإلكتروني') // "Email"
                     ->email()
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('phone_number')
+                    ->label('رقم الهاتف') // "Phone Number"
                     ->tel()
                     ->maxLength(255),
             ]);
@@ -52,19 +67,25 @@ class TeacherResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->label('اسم الأستاذ') // "Teacher Name"
+                    ->searchable(), // Making the name searchable
                 Tables\Columns\TextColumn::make('ref_number')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('رقم التوظيف') // "Reference Number"
+                    ->sortable()
+                    ->searchable(), // Making the reference number searchable
                 Tables\Columns\TextColumn::make('email')
+                    ->label('البريد الإلكتروني') // "Email"
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone_number')
+                    ->label('رقم الهاتف') // "Phone Number"
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('تاريخ الإنشاء') // "Created At"
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('تاريخ التحديث') // "Updated At"
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

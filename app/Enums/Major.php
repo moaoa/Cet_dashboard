@@ -21,4 +21,15 @@ enum Major: int implements HasLabel
             default => 'غير معروف',
         };
     }
+
+    public static function getArabicName(int $major): string
+    {
+        return match ($major) {
+            self::GENERAL->value => 'عام',
+            self::COMPUTER->value => 'حاسب الي',
+            self::POWER->value => 'تحكم الي',
+            self::COMUNICATION->value => 'اتصالات',
+            default => 'غير معروف',
+        };
+    }
 }
