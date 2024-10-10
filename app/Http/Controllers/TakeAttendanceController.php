@@ -46,7 +46,7 @@ class TakeAttendanceController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors(),
+                'message' => $validator->errors()->first(),
             ], 422);
         }
 
