@@ -20,6 +20,15 @@ class SubjectResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
     protected static ?string $navigationLabel = 'ادارة المواد الدراسية';
 
+    public static function getModelLabel(): string
+    {
+        return 'مادة'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'مواد'; // Directly writing the translation for "Users"
+    }
     public static function form(Form $form): Form
     {
         return $form

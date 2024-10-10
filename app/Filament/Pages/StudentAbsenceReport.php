@@ -11,7 +11,9 @@ class StudentAbsenceReport extends Page
 {
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'تقرير عدد غياب الطلبة';
-
+    public function getTitle(): string
+    {
+        return 'تقرير غياب الطلبة'; // Directly write the title in Arabic
+    }
     protected static string $view = 'filament.pages.student-absence-report';
-
 }

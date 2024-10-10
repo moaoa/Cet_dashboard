@@ -1,9 +1,9 @@
 <div>
     <div>
         <div class="mb-4">
-            <label for="lecture-select" class="block font-medium text-gray-700">Select Subject:</label>
+            <label for="lecture-select" class="block font-medium text-gray-700">اختر مادة</label>
             <select id="lecture-select" wire:model="selectedSubject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-                <option value="">Select a subject</option>
+                <option value="">اختر مادة</option>
                 @foreach ($subjects as $subject)
                 <option value="{{ $subject->id }}">{{ $subject->name }}</option>
                 @endforeach
@@ -34,6 +34,7 @@
                     <th class="border px-4 py-2 text-center">رقم القيد</th>
                     <th class="border px-4 py-2">الغياب</th>
                     <th class="border px-4 py-2">المادة</th>
+                    <th class="border px-2 py-2">نسبة الغياب</th>
                 </tr>
             </thead>
             <tbody>

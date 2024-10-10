@@ -20,6 +20,16 @@ class GroupResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
     protected static ?string $navigationLabel = 'ادارة المجموعات';
 
+    public static function getModelLabel(): string
+    {
+        return 'مجموعة'; // Directly writing the translation for "User"
+    }
+    
+    public static function getPluralModelLabel(): string
+    {
+        return 'مجموعات'; // Directly writing the translation for "Users"
+    }
+
     public static function form(Form $form): Form
     {
         return $form
