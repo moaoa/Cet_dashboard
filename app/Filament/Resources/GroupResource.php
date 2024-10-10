@@ -27,13 +27,16 @@ class GroupResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('الاسم')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\Select::make('major')
+                    ->label('التخصص')
                     ->required()
                     ->live()
                     ->options(Major::class),
                 Forms\Components\Select::make('semester_id')
+                    ->label('الفصل الدراسي')
                     ->relationship('semester', 'name')
                     ->options(function (Forms\Get $get) {
                         $semesters = Semester::where('major', $get('major'))->pluck('name', 'id');
@@ -96,5 +99,4 @@ class GroupResource extends Resource
             'edit' => Pages\EditGroup::route('/{record}/edit'),
         ];
     }
-    
 }
