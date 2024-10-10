@@ -25,6 +25,7 @@ class HomeworkResource extends Resource
     protected static ?string $model = Homework::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'الواجبات الدراسية';
 
     public static function form(Form $form): Form
     {

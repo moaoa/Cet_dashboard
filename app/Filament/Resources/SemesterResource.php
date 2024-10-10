@@ -18,6 +18,7 @@ class SemesterResource extends Resource
     protected static ?string $model = Semester::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'ادارة الفصول الدراسية';
 
     public static function form(Form $form): Form
     {

@@ -24,6 +24,7 @@ class TeacherAbsenceResource extends Resource
     protected static ?string $model = TeacherAbsence::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'غياب الاستاذ';
 
     public static function form(Form $form): Form
     {
