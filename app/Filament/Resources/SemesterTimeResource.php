@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+// namespace App\Filament\Resources;
 
 use App\Filament\Resources\SemesterTimeResource\Pages;
 use App\Filament\Resources\SemesterTimeResource\RelationManagers;
@@ -18,6 +18,7 @@ class SemesterTimeResource extends Resource
     protected static ?string $model = SemesterTime::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'وقت الفصل الدراسي';
 
     public static function form(Form $form): Form
     {

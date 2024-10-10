@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Pages;
+// namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use Filament\Pages\Actions\HeaderAction;
