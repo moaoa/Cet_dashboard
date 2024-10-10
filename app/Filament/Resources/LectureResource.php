@@ -42,7 +42,7 @@ class LectureResource extends Resource
                     ->required(),
                 Forms\Components\Select::make('class_room_id')
                     // ->relationship('classRoom', 'name')
-                    ->options(function (Forms\Get $get): array {
+                    ->options(function (Forms\Get $get) {
                         $start_time = (string)$get('start_time');
                         $end_time = (string)$get('end_time');
                         $day_of_week = (int)$get('day_of_week');
