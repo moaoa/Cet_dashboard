@@ -18,6 +18,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\Pages\StudentAbsenceReport;
+use Filament\Notifications\Notification;
 
 class CetPanelProvider extends PanelProvider
 {
@@ -26,7 +27,9 @@ class CetPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('cet')
-            ->path('cet')
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('5s')
+            ->path('cet')->brandLogo('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFisFf8-NzwlNCuybdW-eCXdVH69lU30yHxw&s')->brandLogoHeight('50px')
             ->login()
             ->authGuard('admin')
             ->colors([
@@ -39,10 +42,7 @@ class CetPanelProvider extends PanelProvider
                 StudentAbsenceReport::class
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
-            ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
-            ])
+            ->widgets([])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

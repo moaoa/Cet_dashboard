@@ -56,8 +56,8 @@ class Group extends Model
         return $this->hasMany(Lecture::class);
     }
 
-    public function semester(): BelongsTo
+    public function semester()
     {
-        return $this->belongsTo(Semester::class);
+        return $this->belongsTo(Semester::class, 'semester_id');
     }
 }
