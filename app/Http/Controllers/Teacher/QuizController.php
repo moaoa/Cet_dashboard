@@ -29,7 +29,8 @@ class QuizController extends Controller
             ->join('quizzes', 'quizzes.id', '=', 'quiz_groups.quiz_id')
             ->join('groups', 'groups.id', '=', 'quiz_groups.group_id')
             ->join('subjects', 'subjects.id', '=', 'quizzes.subject_id')
-            ->where('groups.teacher_id', $teacher->id)
+            ->join('teacher_groups', 'teacher_groups.group_id', '=', 'groups.id')
+            ->where('teacher_groups.teacher_id', $teacher->id)
             ->select('quizzes.id', 'quizzes.name', 'subjects.name as subject_name', 'start_time', 'end_time', 'note', 'groups.name as group_name', 'groups.id as group_id')
             ->get();
 
