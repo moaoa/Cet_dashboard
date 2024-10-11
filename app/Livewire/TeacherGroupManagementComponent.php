@@ -34,7 +34,11 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
         return $table
             ->query(Teacher::query())
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('ref_number')
+                    ->sortable()
+                    ->searchable()
+                    ->label('رقم المعرف'),
             ])
             ->actions([
                 Action::make('manage')
