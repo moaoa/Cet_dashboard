@@ -15,17 +15,13 @@ class UserSubjectController extends Controller
     {
         $student = $request->user();
 
-        $groups = $student->groups()->get();
-
         $subjects = DB::table('user_subjects')
-            ->join('group_subject', 'group_subject.subject_id', '=', 'user_subjects.subject_id')
-            ->join('subjects', 'subjects.id', '=', 'group_subject.subject_id')
-            ->join('groups', 'groups.id', '=', 'group_subject.group_id')
-            ->join('subject_teacher', 'subject_teacher.subject_id', '=', 'subjects.id')
+            ->join('subject_teacher', 'subject_teacher.subject_id', '=', 'user_subjects.subject_id')
+            ->join('group_user', 'group_user.user_id', '=', 'user_subjects.user_id')
+            ->join('groups', 'groups.id', '=', 'group_user.group_id')
             ->join('teachers', 'teachers.id', '=', 'subject_teacher.teacher_id')
-
+            ->join('subjects', 'subjects.id', '=', 'user_subjects.subject_id')
             ->where('user_subjects.user_id', $student->id)
-            ->whereIn('groups.id', $groups->pluck('id'))
             ->select('subjects.id', 'subjects.name', 'groups.name as group_name', 'teachers.name as teacher_name')
             ->get();
 
