@@ -7,13 +7,14 @@ use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB as FacadesDB;
 use Illuminate\Support\Facades\DB;
 use App\Filament\Widgets\getNumberOfStundentsInMajor;
+use App\Models\User;
 
 class ChartMajor extends ChartWidget
 {
 
 
 
-    protected static ?string $heading = 'عدد الطلاب في الأقسام';
+    protected static ?string $heading = 'عدد الطلبة في جميع الأقسام';
 
     protected function getData(): array
     {
@@ -33,25 +34,27 @@ class ChartMajor extends ChartWidget
                         '#FFCE56',
                         '#4BC0C0',
                     ],
-                    //
-                    // ],
-                    //
+
                 ],
-                //
+
             ],
-            //'height' => 300,
             'labels' => ["العام", "الحاسب ألي ", "الاتصالات", "تحكم الألي"],
+            //'description' => 'عدد الطلاب في الأقسام',
+
 
         ];
     }
+
 
     protected function getOptions(): array
     {
         return [
             'plugins' => [
                 'legend' => [
-                    'position' => 'top',
+                    'display' => 'top',
+
                 ],
+
             ],
             'maintainAspectRatio' => false,
             'responsive' => true,
@@ -63,33 +66,24 @@ class ChartMajor extends ChartWidget
                     'display' => false,
                 ],
             ],
-            'backgroundColor' => 'rgb(255, 255, 255)',
         ];
     }
 
-    protected function getContainerStyle(): string
-    {
-        return 'display: inline;margin: 0 auto;'; // Apply inline style to center the widget
-    }
 
     protected function getType(): string
     {
         return 'doughnut';
     }
 
-    protected function getBackgroundColor(): string
-    {
-        return 'rgb(255, 255, 255)'; // Set the background color to white
-    }
+
     protected function getNumberOfStundentsInMajor($majorId)
     {
-        $numberOfStudents = DB::table('groups')
-            ->join('group_user', 'groups.id', '=', 'group_user.group_id')
 
-            ->join('semesters', 'semesters.id', '=', 'groups.semesters_id')
-
-            ->where('semesters.major', $majorId)
-            ->count();
-        return $numberOfStudents;
+        $studentCount = User::whereHas('groups', function ($query) use ($majorId) {
+            $query->whereHas('semester', function ($q) use ($majorId) {
+                $q->where('major', $majorId);
+            });
+        })->count();
+        return $studentCount;
     }
 }

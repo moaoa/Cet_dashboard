@@ -36,7 +36,8 @@ class HomeworkController extends Controller
         $items = DB::table('subjects')
             ->join('group_subject', 'group_subject.subject_id', '=', 'subjects.id')
             ->join('groups', 'groups.id', '=', 'group_subject.group_id')
-            ->where('groups.teacher_id', $teacher->id)
+            ->join('teacher_groups', 'teacher_groups.group_id', '=', 'groups.id')
+            ->where('teacher_groups.teacher_id', $teacher->id)
             ->select('groups.id as group_id', 'subjects.id as subject_id', 'subjects.name', 'groups.name as group_name')
             ->get();
 
