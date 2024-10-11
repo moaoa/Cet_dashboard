@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\UserSubjectResource\Pages;
 
 use App\Filament\Resources\UserSubjectResource;
+use App\Models\Subject;
 use App\Models\User;
 use App\Models\UserSubject;
 use Filament\Actions;
@@ -17,6 +18,7 @@ class CreateUserSubject extends CreateRecord
     {
 
         $studentGroupAttachments = [];
+        $studentSubjectAttachments = [];
 
         foreach ($data['user_id'] as $key => $userId) {
             // Retrieve the semester of the current group
@@ -47,19 +49,73 @@ class CreateUserSubject extends CreateRecord
                 'user_id' => $userId,
                 'group_id' => $data['group'],
             ];
+            // Check if the user already has a relation with the subject
+            foreach ($data['subject_id'] as $subjectId) {
+                $hasRelation = DB::table('user_subjects') // Replace with your actual pivot table name
+                    ->where('user_id', $userId)
+                    ->where('subject_id', $subjectId)
+                    ->exists();
+
+                // If the relation does not exist, add to the $studentSubjectAttachments array
+                if ($hasRelation) {
+                    Notification::make()
+                        ->title('خطأ')
+                        ->body(User::where('id', $userId)->first()->name . ' ' .
+                            'مسجل في المادة' . ' ' .
+                            Subject::where('id', $subjectId)->first()->name . ' ' .
+                            'بالفعل')
+                        ->danger()
+                        ->send();
+                    continue;
+                }
+                $studentSubjectAttachments[] = [
+                    'user_id' => $userId,
+                    'subject_id' => $subjectId, // Use 'subject_id' instead of 'subjectId' for consistency
+                ];
+            }
         }
-        DB::table('group_user')->insert($studentGroupAttachments);
-        // $student=$studentGroupAttachments[0];
-        // Notification::make()
-        //     ->title('Error')
-        //     ->body($student['user_id'])
-        //     ->success()
-        //     ->send();
-        // dd($studentGroupAttachments);
+        if (!empty($studentGroupAttachments)) {
+            try {
+                DB::table('group_user')->insert($studentGroupAttachments);
+            } catch (\Throwable $th) {
+                Notification::make()
+                    ->title('خطأ')
+                    ->body('حدث خطأ')
+                    ->success()
+                    ->send();
+            }
+            Notification::make()
+                ->title('نجاح')
+                ->body('تمت اضافة مجموعات الطلبة بنجاح')
+                ->success()
+                ->send();
+        }
+        if (!empty($studentSubjectAttachments)) {
+            try {
+                DB::table('user_subjects')->insert($studentSubjectAttachments);
+            } catch (\Throwable $th) {
+                Notification::make()
+                    ->title('خطأ')
+                    ->body('حدث خطأ')
+                    ->success()
+                    ->send();
+            }
+            Notification::make()
+                ->title('نجاح')
+                ->body('تمت اضافة مواد الطلبة بنجاح')
+                ->success()
+                ->send();
+        }
+
+
         return UserSubject::where('user_id', $userId)->first();
     }
     protected function getCreatedNotification(): ?Notification
     {
         return null; // Disable the default notification
+    }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index'); // Redirect to the index page after creation
     }
 }
