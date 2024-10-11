@@ -33,9 +33,15 @@ class ClassRoomResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('Number_room')->label('رقم القاعة')
                     ->required()
-                    ->maxLength(255),
+                    ->rules('numeric')
+                    ->maxLength(2000),
+                Forms\Components\Select::make("room")->label('نوع القاعة')->options([
+                    'قاعة' => 'قاعة',
+                    'معمل' => 'معمل',
+                ])->required(),
+
             ]);
     }
 
@@ -58,7 +64,8 @@ class ClassRoomResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+
+                Tables\Actions\EditAction::make()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
