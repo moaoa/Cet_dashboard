@@ -11,6 +11,9 @@ class TeachersSeeders extends Seeder
 
     public function run(): void
     {
+
+        $password = Hash::make('password');
+
         $teachers = [
             'م.عبد الحميد الواعر',
             'أ.مراد',
@@ -44,7 +47,7 @@ class TeachersSeeders extends Seeder
             'ref_number' => $ref_number,
             'email' => 'graish333@gmail.com',
             'phone_number' => '092' . $phone,
-            'password' =>  Hash::make('password'),
+            'password' =>  $password,
             'device_subscriptions' => '[]',
 
         ]);
@@ -53,21 +56,26 @@ class TeachersSeeders extends Seeder
             'ref_number' => ++$ref_number,
             'email' => 'moaadbn3@gmail.com',
             'phone_number' => '092' . $phone + 1,
-            'password' =>  Hash::make('password'),
+            'password' =>  $password,
             'device_subscriptions' => '[]',
         ]);
+
+        $teachers = [];
+
         foreach ($teachers as $teacher) {
             $phone++;
             $counter++;
             $ref_number++;
-            Teacher::create([
+            $teachers[] = [
                 'name' => $teacher,
                 'ref_number' => $ref_number,
                 'email' => 'student' . $counter . '@email.com',
                 'phone_number' => '092' . $phone,
-                'password' =>  Hash::make('password'),
+                'password' =>  $password,
                 'device_subscriptions' => '[]',
-            ]);
+            ];
         }
+
+        Teacher::insert($teachers);
     }
 }
