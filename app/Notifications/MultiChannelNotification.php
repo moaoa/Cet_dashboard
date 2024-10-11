@@ -24,8 +24,8 @@ class MultiChannelNotification extends Notification
     // Define the channels this notification will be sent through
     public function via($notifiable)
     {
-        // return ['mail', 'database', 'broadcast'];
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
+        // return ['mail', 'database'];
     }
 
     // Define how the email will be structured

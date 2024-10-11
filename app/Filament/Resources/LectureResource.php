@@ -2,15 +2,18 @@
 
 namespace App\Filament\Resources;
 
-
+use App\Enums\Major;
 use App\Enums\WeekDays;
 use App\Filament\Resources\LectureResource\Pages;
 use App\Filament\Resources\LectureResource\RelationManagers;
 use App\Models\ClassRoom;
 use App\Models\Group;
 use App\Models\Lecture;
+use App\Models\Semester;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
+use Filament\Tables\Filters\Filter;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,6 +29,8 @@ class LectureResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-table-cells';
     protected static ?string $navigationLabel = 'ادارة المحاضرات';
 
+
+
     public static function getModelLabel(): string
     {
         return 'محاضرة'; // Directly writing the translation for "User"
@@ -35,16 +40,55 @@ class LectureResource extends Resource
     {
         return 'محاضرات'; // Directly writing the translation for "Users"
     }
+
+    public static function getStartTimes()
+    {
+        return [
+            "08:00",
+            "09:00",
+            "10:00",
+            "11:00",
+            "12:00",
+            "13:00",
+            "14:00",
+            "15:00",
+            "16:00",
+            "17:00"
+        ];
+    }
+
+    public static function getAvailableClassRooms($start_time, $end_time, $day_of_week)
+    {
+        $lecturesInTimeRange = Lecture::where('day_of_week', $day_of_week)
+            ->where('start_time', '<=', $start_time)
+            ->where('end_time', '>', $start_time)
+            ->orWhere(function ($query) use ($end_time) {
+                $query->where('start_time', '>', $end_time)
+                    ->where('end_time', '<=', $end_time);
+            })
+            ->get();
+
+        $availableClassrooms = ClassRoom::whereNotIn(
+            'id',
+            $lecturesInTimeRange->pluck('class_room_id')
+        )
+            ->pluck('name', 'id');
+
+        return $availableClassrooms;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TimePicker::make('start_time')
+                Forms\Components\Select::make('start_time')
+                    ->options(LectureResource::getStartTimes())
                     ->required()
-                    ->label('وقت البدء'), // "Start Time"
-                Forms\Components\TimePicker::make('end_time')
+                    ->label('وقت البداية'), // "Start Time"
+                Forms\Components\TextInput::make('duration')
+                    ->numeric()
                     ->required()
-                    ->label('وقت الانتهاء'), // "End Time"
+                    ->label('مدة المحاضرة'), // "End Time"
                 Forms\Components\Select::make('day_of_week')
                     ->required()
                     ->live()
@@ -120,7 +164,6 @@ class LectureResource extends Resource
                     ->label('القاعة'), // "Class Room"
                 Tables\Columns\TextColumn::make('group.name')
                     ->label('المجموعة'), // "Group"
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -133,11 +176,36 @@ class LectureResource extends Resource
                     ->label('تاريخ التحديث'), // "Updated At"
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\Select::make('Major')
+                            ->options(Major::class)
+                            ->label('التخصص')
+                            ->live(),
+                        Forms\Components\Select::make('semester_id')
+                            ->options(fn(Forms\Get $get) => Semester::where(
+                                'major',
+                                $get('Major')
+                            )->pluck('name', 'id'))
+                            ->Label('الفصل الدراسي')
+                            ->live(),
+                        Forms\Components\Select::make('subject_id')
+                            ->options(
+                                fn(Forms\Get $get) => Subject::where(
+                                    'semester_id',
+                                    $get('semester_id')
+                                )->pluck('name', 'id')
+                            )
+                            ->label('المادة الدراسية')
+                            ->live(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['subject_id']) && $data['subject_id'] !== null) {
+                            $query->where('subject_id', $data['subject_id']);
+                        }
+                        return $query;
+                    })
             ])
-            // ->headerActions([
-            //     Tables\Actions\CreateAction::make(),
-            // ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -165,29 +233,5 @@ class LectureResource extends Resource
         ];
     }
 
-    public static function getAvailableClassRooms($start_time, $end_time, $day_of_week)
-    {
-        if ($start_time == null || $end_time == null || $day_of_week == null) {
-            return [];
-        }
-
-        $lecturesInTimeRange = Lecture::where('day_of_week', $day_of_week)
-            ->where('start_time', '<=', $start_time)
-            ->where('end_time', '>', $start_time)
-            ->orWhere(function ($query) use ($end_time) {
-                $query->where('start_time', '>', $end_time)
-                    ->where('end_time', '<=', $end_time);
-            })
-            ->get();
-
-
-        $availableClassrooms = ClassRoom::whereNotIn(
-            'id',
-            $lecturesInTimeRange->pluck('class_room_id')
-        )
-            ->pluck('name', 'id');
-
-        // dd($availableClassrooms);
-        return $availableClassrooms;
-    }
+   
 }
