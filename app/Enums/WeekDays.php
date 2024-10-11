@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum WeekDays: int
+use Filament\Support\Contracts\HasLabel;
+
+enum WeekDays: int implements HasLabel
 {
     case SATURDAY = 1;
     case SUNDAY = 2;

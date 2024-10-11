@@ -40,16 +40,20 @@ class LectureResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TimePicker::make('start_time')
-                    ->required(),
+                    ->required()
+                    ->label('وقت البدء'), // "Start Time"
                 Forms\Components\TimePicker::make('end_time')
-                    ->required(),
+                    ->required()
+                    ->label('وقت الانتهاء'), // "End Time"
                 Forms\Components\Select::make('day_of_week')
                     ->required()
                     ->live()
-                    ->options(WeekDays::class),
+                    ->options(WeekDays::class)
+                    ->label('يوم الأسبوع'), // "Day of the Week"
                 Forms\Components\Select::make('subject_id')
                     ->relationship('subject', 'name')
-                    ->required(),
+                    ->required()
+                    ->label('المادة'), // "Subject"
                 Forms\Components\Select::make('class_room_id')
                     ->relationship('classRoom', 'name')
                     ->options(function (Forms\Get $get) {
@@ -70,22 +74,20 @@ class LectureResource extends Resource
                             })
                             ->get();
 
-
-                        $availableClassrooms = ClassRoom::whereNotIn(
+                        return ClassRoom::whereNotIn(
                             'id',
                             $lecturesInTimeRange->pluck('class_room_id')
                         )->pluck('name', 'id')->toArray();
-
-                        // dd($availableClassrooms);
-                        return $availableClassrooms;
                     })
-                    ->required(),
+                    ->required()
+                    ->label('الصف الدراسي'), // "Class Room"
                 Forms\Components\Select::make('group_id')
                     ->relationship('group', 'name')
                     ->options(Group::all()->pluck('name', 'id'))
-                    ->required(),
+                    ->required()
+                    ->label('المجموعة'), // "Group"
                 Forms\Components\Select::make('teacher_id')
-                    ->label('الأستاذ')
+                    ->label('الأستاذ') // "Teacher"
                     ->options(fn(Forms\Get $get) => $get('start_time'))
                     ->required(),
             ]);
@@ -95,34 +97,40 @@ class LectureResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('day_of_week')
+                    ->formatStateUsing(fn($state) => WeekDays::from($state)->toArabic())
+                    ->label('يوم '), // "Day of the Week"
                 Tables\Columns\TextColumn::make('start_time')
                     ->time()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('وقت البدء'), // "Start Time"
                 Tables\Columns\TextColumn::make('end_time')
                     ->time()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('day_of_week')
-                    ->formatStateUsing(fn($state) => WeekDays::from($state)->toArabic()),
-                Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('classRoom.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('group.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('وقت الانتهاء'), // "End Time"
                 Tables\Columns\TextColumn::make('teacher.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->searchable()
+                    ->label('الأستاذ'), // "Teacher"
+
+                Tables\Columns\TextColumn::make('subject.name')
+                    ->searchable()
+                    ->label('المادة'), // "Subject"
+                Tables\Columns\TextColumn::make('classRoom.name')
+                    ->searchable()
+                    ->label('القاعة'), // "Class Room"
+                Tables\Columns\TextColumn::make('group.name')
+                    ->label('المجموعة'), // "Group"
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('تاريخ الإنشاء'), // "Created At"
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('تاريخ التحديث'), // "Updated At"
             ])
             ->filters([
                 //
@@ -131,7 +139,8 @@ class LectureResource extends Resource
             //     Tables\Actions\CreateAction::make(),
             // ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
