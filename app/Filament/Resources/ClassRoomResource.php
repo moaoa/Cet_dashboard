@@ -35,6 +35,7 @@ class ClassRoomResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
+                    ->unique()
                     ->maxLength(255),
             ]);
     }

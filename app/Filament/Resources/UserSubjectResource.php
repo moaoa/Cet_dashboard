@@ -6,12 +6,14 @@ use App\Enums\Major;
 use App\Filament\Exports\UserSubjectExporter;
 use App\Filament\Resources\UserSubjectResource\Pages;
 use App\Filament\Resources\UserSubjectResource\RelationManagers;
+use App\Models\Group;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\User;
 use App\Models\UserSubject;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\Filter;
@@ -24,30 +26,33 @@ class UserSubjectResource extends Resource
     protected static ?string $model = UserSubject::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
-    protected static ?string $navigationLabel = 'ادارة مواد الطالب';
+    protected static ?string $navigationLabel = 'ادارة مجموعات ومواد الطالب';
 
     public static function getModelLabel(): string
     {
-        return 'مواد طالب'; // Directly writing the translation for "User"
+        return 'مواد طالب';
     }
 
     public static function getPluralModelLabel(): string
     {
-        return 'مواد الطلبة '; // Directly writing the translation for "Users"
+        return 'مواد الطلبة ';
     }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
+                Forms\Components\Toggle::make('passed')
+                    ->label('نجح')
+                    ->required(),
                 Forms\Components\Select::make('user_id')
                     ->label('الطالب')
                     ->required()
+                    ->multiple()
                     ->searchable()
                     ->getSearchResultsUsing(fn(string $search): array => User::where('ref_number', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
                     ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->name)
                     ->live(),
-
                 Forms\Components\Select::make('Major')
                     ->options(Major::class)
                     ->label('التخصص')
@@ -59,18 +64,20 @@ class UserSubjectResource extends Resource
                     )->pluck('name', 'id'))
                     ->label('الفصل الدراسي')
                     ->live(),
-                Forms\Components\Select::make('subject_id')
-                    ->options(fn(Forms\Get $get) => Subject::where('semester_id', $get('Semster'))->pluck('name', 'id'))
-                    // ->relationship('subject', 'name')
-                    ->label('المادة')
+                Forms\Components\Select::make('group')
+                    ->options(fn(Forms\Get $get) => Group::where('semester_id', $get('Semster'))->pluck('name', 'id'))
+                    ->label('المجموعة')
                     ->live()
                     ->required(),
-                Forms\Components\Toggle::make('passed')
-                    ->label('نجح') // Translated label for "Passed"
+                Forms\Components\Select::make('subject_id')
+                    ->options(fn(Forms\Get $get) => Subject::where('semester_id', $get('Semster'))->pluck('name', 'id'))
+                    ->label('المادة')
+                    ->live()
+                    ->multiple()
                     ->required(),
+
             ]);
     }
-
     public static function table(Table $table): Table
     {
         return $table
@@ -88,6 +95,13 @@ class UserSubjectResource extends Resource
                 Tables\Columns\IconColumn::make('passed')
                     ->boolean()
                     ->label('نجح'), // Translated label for "Passed"
+                Tables\Columns\TextColumn::make('groups.name') // Or use 'groups.id' if you want to show the group ID
+                    ->label('المجموعة') // Translated label for "Group"
+                    ->getStateUsing(function ($record) {
+                        // Fetch group names for the user and subject combination
+                        $groupNames = $record->user->groups->pluck('name')->toArray();
+                        return implode(', ', $groupNames); // Combine multiple group names if any
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -158,7 +172,7 @@ class UserSubjectResource extends Resource
         return [
             'index' => Pages\ListUserSubjects::route('/'),
             'create' => Pages\CreateUserSubject::route('/create'),
-            'edit' => Pages\EditUserSubject::route('/{record}/edit'),
+            // 'edit' => Pages\EditUserSubject::route('/{record}/edit'),
         ];
     }
 }
