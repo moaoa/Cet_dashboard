@@ -69,6 +69,6 @@ class Teacher extends Authenticatable
 
     public function groups(): BelongsToMany
     {
-        return $this->belongsToMany(Group::class);
+        return $this->belongsToMany(Group::class, 'teacher_groups');
     }
 }

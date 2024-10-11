@@ -186,18 +186,6 @@ class HomeworkController extends Controller
         $groupId = $validated['group_id'];
         $subjectId = $validated['subject_id'];
 
-        // $items = Homework::where('subject_id', $subjectId)
-        //     ->whereHas('groups', function ($query) use ($groupId) {
-        //         $query->where('group_id', $groupId);
-        //     })
-        //     ->with([
-        //         'comments.commentable' => function ($query) {
-        //             $query->orderBy('created_at', 'desc');
-        //         },
-        //         // 'studentAttachments'
-        //     ])
-        //     ->get();
-
         $items = DB::table('homework')
             ->join('homework_groups', 'homework_groups.homework_id', '=', 'homework.id')
             ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
@@ -297,22 +285,27 @@ class HomeworkController extends Controller
         OneSignalNotifier::init();
         $message = ' تم إضافة تعليق جديد للواجب ' . $homework->name;
 
-        $groupItem = DB::table('homework_groups')
-            ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
-            ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
-            ->where('homework_groups.homework_id', (int) $homework_id)
-            ->where('groups.teacher_id', $teacher->id)
-            ->select('homework_groups.group_id')
-            ->first();
+        $group_ids = DB::table('homework_groups')
+            ->where('homework_id', (int) $homework_id)
+            ->pluck('group_id');
 
-        if (!$groupItem)
+        $teacherIsGroupOwner = DB::table('teacher_groups')
+            ->whereIn('group_id', $group_ids)
+            ->exists();
+
+
+        if (!$teacherIsGroupOwner)
             return response()->json(['message' => 'انت لست استاذا لهذا الواجب'], 422);
 
-        $group = Group::with('users')->find($groupItem->group_id);
+        $usersSubscriptions = DB::table('group_user')
+            ->join('users', 'users.id', '=', 'group_user.user_id')
+            ->whereIn('group_user.group_id', $group_ids)
+            ->select('users.device_subscriptions')
+            ->get();
 
         $subscriptions = [];
 
-        $group->users()->get()->each(function ($user) use (&$subscriptions) {
+        $usersSubscriptions->each(function ($user) use (&$subscriptions) {
             $subscriptions = array_merge($subscriptions, json_decode($user->device_subscriptions, true));
         });
 

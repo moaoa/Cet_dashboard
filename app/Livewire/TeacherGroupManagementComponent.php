@@ -7,6 +7,7 @@ use App\Models\Group;
 use App\Models\Semester;
 use App\Models\Subject;
 use App\Models\Teacher;
+use Closure;
 use Filament\Tables\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -17,6 +18,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Table;
 use Filament\Tables\Tables;
 use Filament\Forms;
+use Filament\Notifications\Notification;
 use Livewire\Component;
 
 class TeacherGroupManagementComponent extends Component implements HasTable, HasForms
@@ -32,7 +34,11 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
         return $table
             ->query(Teacher::query())
             ->columns([
-                TextColumn::make('name'),
+                TextColumn::make('name')->searchable(),
+                TextColumn::make('ref_number')
+                    ->sortable()
+                    ->searchable()
+                    ->label('رقم المعرف'),
             ])
             ->actions([
                 Action::make('manage')
@@ -56,12 +62,18 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                             ->required(),
                     ])
                     ->action(function (Teacher $teacher, array $data) {
-                        $teacher->groups()->attach($data['group']);
-                        $teacher->subjects()->attach($data['subject']);
+                        $teacher->groups()->syncWithoutDetaching($data['group']);
+                        $teacher->subjects()->syncWithoutDetaching($data['subject']);
                         $subject = Subject::find($data['subject']);
-                        $subject->groups()->attach($data['group']);
+                        $subject->groups()->syncWithoutDetaching($data['group']);
+
                         $teacher->save();
                         $subject->save();
+
+                        Notification::make()
+                            ->title('تم إضافة المجموعة بنجاح')
+                            ->success()
+                            ->send();
                     })
             ]);
     }
