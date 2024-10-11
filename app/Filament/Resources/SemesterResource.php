@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Filament\Resources;
+// namespace App\Filament\Resources;
 
+use App\Enums\Major;
 use App\Filament\Resources\SemesterResource\Pages;
 use App\Filament\Resources\SemesterResource\RelationManagers;
 use App\Models\Semester;
@@ -50,12 +51,11 @@ class SemesterResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('order')
-                    ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('major')
-                    ->numeric()
+                    ->formatStateUsing(fn($state) => Major::getArabicName($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -71,6 +71,7 @@ class SemesterResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

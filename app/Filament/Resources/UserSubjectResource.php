@@ -2,13 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\Major;
+use App\Filament\Exports\UserSubjectExporter;
 use App\Filament\Resources\UserSubjectResource\Pages;
 use App\Filament\Resources\UserSubjectResource\RelationManagers;
+use App\Models\Semester;
+use App\Models\Subject;
+use App\Models\User;
 use App\Models\UserSubject;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -35,12 +41,29 @@ class UserSubjectResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->label('الطالب') // Translated label for "User"
-                    ->required(),
+                    ->label('الطالب')
+                    ->required()
+                    ->searchable()
+                    ->getSearchResultsUsing(fn(string $search): array => User::where('ref_number', 'like', "%{$search}%")->limit(50)->pluck('name', 'id')->toArray())
+                    ->getOptionLabelUsing(fn($value): ?string => User::find($value)?->name)
+                    ->live(),
+
+                Forms\Components\Select::make('Major')
+                    ->options(Major::class)
+                    ->label('التخصص')
+                    ->live(),
+                Forms\Components\Select::make('Semster')
+                    ->options(fn(Forms\Get $get) => Semester::where(
+                        'major',
+                        $get('Major')
+                    )->pluck('name', 'id'))
+                    ->label('الفصل الدراسي')
+                    ->live(),
                 Forms\Components\Select::make('subject_id')
-                    ->relationship('subject', 'name')
-                    ->label('المادة') // Translated label for "Subject"
+                    ->options(fn(Forms\Get $get) => Subject::where('semester_id', $get('Semster'))->pluck('name', 'id'))
+                    // ->relationship('subject', 'name')
+                    ->label('المادة')
+                    ->live()
                     ->required(),
                 Forms\Components\Toggle::make('passed')
                     ->label('نجح') // Translated label for "Passed"
@@ -52,14 +75,15 @@ class UserSubjectResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('user.ref_number')
+                    ->sortable()
+                    ->searchable()
+                    ->label('رقم القيد'),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
                     ->sortable()
                     ->searchable()
                     ->label('الطالب'), // Translated label for "User"
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable()
                     ->label('المادة'), // Translated label for "Subject"
                 Tables\Columns\IconColumn::make('passed')
                     ->boolean()
@@ -76,12 +100,44 @@ class UserSubjectResource extends Resource
                     ->label('تاريخ التحديث'), // Translated label for "Updated At"
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\Select::make('Major')
+                            ->options(Major::class)
+                            ->label('التخصص')
+                            ->live(),
+                        Forms\Components\Select::make('semester_id')
+                            ->options(fn(Forms\Get $get) => Semester::where(
+                                'major',
+                                $get('Major')
+                            )->pluck('name', 'id'))
+                            ->Label('الفصل الدراسي')
+                            ->live(),
+                        Forms\Components\Select::make('subject_id')
+                            ->options(
+                                fn(Forms\Get $get) => Subject::where(
+                                    'semester_id',
+                                    $get('semester_id')
+                                )->pluck('name', 'id')
+                            )
+                            ->label('المادة الدراسية')
+                            ->live(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['subject_id']) && $data['subject_id'] !== null) {
+                            $query->where('subject_id', $data['subject_id']);
+                        }
+                        return $query;
+                    })
+            ])
+            ->headerActions([
+                Tables\Actions\ExportAction::make()
+                    ->exporter(UserSubjectExporter::class),
+                // Tables\Actions\AttachAction::make()
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

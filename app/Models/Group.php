@@ -40,7 +40,7 @@ class Group extends Model
 
     public function teacher(): BelongsToMany
     {
-        return $this->belongsToMany(Teacher::class);
+        return $this->belongsToMany(Teacher::class, 'teacher_groups');
     }
 
     public function quizzes(): BelongsToMany

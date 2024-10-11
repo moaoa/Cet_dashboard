@@ -11,6 +11,9 @@ class studentSeeders extends Seeder
 
     public function run(): void
     {
+
+        $password = Hash::make('password');
+
         $names = [
             'علي مصطفى الفورتي',
             'عبدالله عبد الباسط ابوزيد',
@@ -54,35 +57,39 @@ class studentSeeders extends Seeder
         $counter = 2;
         $phone = 4986954;
         $ref_number = 181130;
+
         User::create([
             'name' => 'أحمد محمد اقريش',
             'ref_number' => $ref_number,
             'email' => 'graish333@gmail.com',
             'phone_number' => '092' . $phone,
-            'password' =>  Hash::make('password'),
+            'password' =>  $password,
             'device_subscriptions' => '[]',
 
         ]);
         User::create([
             'name' => 'معاذ عمر بن طاهر',
-            'ref_number' => ++$ref_number ,
+            'ref_number' => ++$ref_number,
             'email' => 'moaadbn3@gmail.com',
             'phone_number' => '092' . $phone + 1,
-            'password' =>  Hash::make('password'),
+            'password' =>  $password,
             'device_subscriptions' => '[]',
         ]);
+
+        $students = [];
         foreach ($names as $name) {
             $phone++;
             $counter++;
             $ref_number++;
-            User::create([
+            $students[] = [
                 'name' => $name,
-                'ref_number' => $ref_number ,
+                'ref_number' => $ref_number,
                 'email' => 'student' . $counter . '@email.com',
                 'phone_number' => '092' . $phone,
-                'password' =>  Hash::make('password'),
+                'password' =>  $password,
                 'device_subscriptions' => '[]',
-            ]);
+            ];
         }
+        User::insert($students);
     }
 }
