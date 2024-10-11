@@ -56,10 +56,11 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                             ->required(),
                     ])
                     ->action(function (Teacher $teacher, array $data) {
-                        $teacher->groups()->attach($data['group']);
-                        $teacher->subjects()->attach($data['subject']);
+                        $teacher->groups()->syncWithoutDetaching($data['group']);
+                        $teacher->subjects()->syncWithoutDetaching($data['subject']);
                         $subject = Subject::find($data['subject']);
-                        $subject->groups()->attach($data['group']);
+                        $subject->groups()->syncWithoutDetaching($data['group']);
+
                         $teacher->save();
                         $subject->save();
                     })
