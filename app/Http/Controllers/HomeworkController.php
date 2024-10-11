@@ -96,12 +96,11 @@ class HomeworkController extends Controller
 
         OneSignalNotifier::init();
 
-        $homework->groups->each(function ($group) use ($homework) {
-            OneSignalNotifier::sendNotificationToUsers(
-                json_decode($group->teacher->device_subscriptions),
-                'تمت الاجابة على الواحب في مادة ' . $homework->subject->name
-            );
-        });
+
+        OneSignalNotifier::sendNotificationToUsers(
+            json_decode($homework->teacher->device_subscriptions),
+            'تمت الاجابة على الواحب في مادة ' . $homework->subject->name
+        );
 
         // Return a response with the paths of the uploaded files
         return response()->json([
