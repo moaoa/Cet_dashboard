@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Dyrynda\Database\Support\CascadeSoftDeletes;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lecture extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes, CascadeSoftDeletes;
+
+    protected $cascadeDeletes = ['attendances', 'teacherAbsences'];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -66,5 +72,10 @@ class Lecture extends Model
     public function attendances(): HasMany
     {
         return $this->hasMany(Attendance::class);
+    }
+
+    public function teacherAbsences(): HasMany
+    {
+        return $this->hasMany(TeacherAbsence::class);
     }
 }

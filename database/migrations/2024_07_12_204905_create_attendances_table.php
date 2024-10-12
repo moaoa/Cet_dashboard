@@ -20,8 +20,8 @@ return new class extends Migration
             $table->foreignId('lecture_id')->constrained('lectures');
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
-
-            //$table->unique(['lecture_id', 'user_id']);
+            $table->softDeletes();
+            $table->unique(['lecture_id', 'user_id', 'date']);
         });
     }
 

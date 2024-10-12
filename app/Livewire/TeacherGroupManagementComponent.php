@@ -45,7 +45,7 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
             ->actions([
                 Action::make('manage')
                     ->label("إدارة")
-                    ->modalHeading(fn (Model $record)=> '' . $record->name)
+                    ->modalHeading(fn(Model $record) => '' . $record->name)
                     ->form([
                         Select::make('major')
                             ->options(Major::class)
@@ -71,12 +71,14 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                             ->join('teachers', 'teachers.id', '=', 'subject_teacher.teacher_id')
                             ->join('groups', 'groups.id', '=', 'teacher_groups.group_id')
                             ->where('subject_teacher.subject_id', $data['subject'])
-                            ->where('groups.id',$data['group'])
+                            ->where('groups.id', $data['group'])
+                            ->whereNull('teachers.deleted_at')
+                            ->select('teachers.id', 'teachers.name')
                             ->get();
 
                         $teacherAlreadyTeachingSubjectInCurrentGroup = $teachersTeachingSubjectInCurrentGroup
                             ->contains(function ($item) use ($teacher) {
-                                return $item->id == $teacher->id ;
+                                return $item->id == $teacher->id;
                             });
 
                         if ($teacherAlreadyTeachingSubjectInCurrentGroup) {
@@ -95,7 +97,7 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                         if ($otherTeacher) {
                             $subject_name = Subject::find($data['subject'])->name;
                             $group_name = Group::find($data['group'])->name;
-                            $teacher_name = Teacher::find($otherTeacher->id)->name;
+                            $teacher_name = $otherTeacher->name;
 
                             Notification::make()
                                 ->title(

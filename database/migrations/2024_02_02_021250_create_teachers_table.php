@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->rememberToken();
             $table->json('device_subscriptions');
+            $table->softDeletes();
         });
     }
 
