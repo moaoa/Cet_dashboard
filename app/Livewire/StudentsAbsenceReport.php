@@ -40,8 +40,12 @@ class StudentsAbsenceReport extends Component
             ->join('subjects', 'subjects.id', '=', 'lectures.subject_id')
             ->join('group_user', 'group_user.user_id', '=', 'users.id')
             ->join('groups', 'groups.id', '=', 'group_user.group_id')
-            ->where('subjects.id', $this->selectedSubject)
-            ->when($this->selectedGroup != null, function ($query) {
+            ->where(function ($query) {
+                if ($this->selectedSubject !== null) {
+                    $query->where('subjects.id', $this->selectedSubject);
+                }
+            })
+            ->when($this->selectedGroup !== null, function ($query) {
                 return $query->where('group_user.group_id', $this->selectedGroup);
             })
             ->select(
