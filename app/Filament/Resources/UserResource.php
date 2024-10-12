@@ -43,7 +43,7 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('password')
-                    ->password()
+                    // ->password()
                     ->label('كلمة المرور') // "Password"
                     ->required()
                     ->maxLength(255),
@@ -65,9 +65,9 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('ref_number')
-                ->label('رقم القيد') // "Reference Number"
-                ->searchable()
-                ->sortable(),
+                    ->label('رقم القيد') // "Reference Number"
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('اسم الطالب') // "Student Name"
                     ->searchable(),
@@ -103,7 +103,7 @@ class UserResource extends Resource
             ]);
     }
 
-   
+
 
     public static function getRelations(): array
     {

@@ -48,7 +48,7 @@ class TeacherResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('password')
                     ->label('كلمة المرور') // "Password"
-                    ->password()
+                    // ->password()
                     ->dehydrateStateUsing(fn($state) => Hash::make($state))
                     ->required()
                     ->maxLength(255),
