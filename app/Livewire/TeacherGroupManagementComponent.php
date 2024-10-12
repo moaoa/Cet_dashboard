@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Tables;
 use Filament\Forms;
 use Filament\Notifications\Notification;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TeacherGroupManagementComponent extends Component implements HasTable, HasForms
@@ -62,6 +63,46 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                             ->required(),
                     ])
                     ->action(function (Teacher $teacher, array $data) {
+                        $teachersTeachingSubjectInCurrentGroup = DB::table('teacher_groups')
+                            ->join('subject_teacher', 'subject_teacher.teacher_id', '=', 'teacher_groups.teacher_id')
+                            ->join('group_subject', 'group_subject.subject_id', '=', 'subject_teacher.subject_id')
+                            ->join('teachers', 'teachers.id', '=', 'subject_teacher.teacher_id')
+                            ->join('groups', 'groups.id', '=', 'teacher_groups.group_id')
+                            ->where('subject_teacher.subject_id', $data['subject'])
+                            ->get();
+
+                        $teacherAlreadyTeachingSubjectInCurrentGroup = $teachersTeachingSubjectInCurrentGroup
+                            ->contains(function ($item) use ($teacher) {
+                                return $item->id == $teacher->id;
+                            });
+
+                        if ($teacherAlreadyTeachingSubjectInCurrentGroup) {
+                            Notification::make()
+                                ->title('الاستاذ يدرس المادة بالفعل في المجموعة')
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
+                        $otherTeacher = $teachersTeachingSubjectInCurrentGroup
+                            ->where(function ($item) use ($teacher) {
+                                return $item->id != $teacher->id;
+                            })->first();
+
+                        if ($otherTeacher) {
+                            $subject_name = Subject::find($data['subject'])->name;
+                            $group_name = Group::find($data['group'])->name;
+                            $teacher_name = Teacher::find($otherTeacher->id)->name;
+
+                            Notification::make()
+                                ->title(
+                                    'المادة ' . $subject_name . ' تدرس بالفعل في المجموعة ' . $group_name . ' من قبل الاستاذ ' . ' ' . $teacher_name
+                                )
+                                ->danger()
+                                ->send();
+                            return;
+                        }
+
                         $teacher->groups()->syncWithoutDetaching($data['group']);
                         $teacher->subjects()->syncWithoutDetaching($data['subject']);
                         $subject = Subject::find($data['subject']);
