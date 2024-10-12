@@ -20,6 +20,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\DB;
 
 class UserSubjectResource extends Resource
 {
@@ -95,12 +96,17 @@ class UserSubjectResource extends Resource
                 Tables\Columns\IconColumn::make('passed')
                     ->boolean()
                     ->label('نجح'), // Translated label for "Passed"
-                Tables\Columns\TextColumn::make('groups.name') // Or use 'groups.id' if you want to show the group ID
+                Tables\Columns\TextColumn::make('group.name') // Add the group name column
                     ->label('المجموعة') // Translated label for "Group"
                     ->getStateUsing(function ($record) {
-                        // Fetch group names for the user and subject combination
-                        $groupNames = $record->user->groups->pluck('name')->toArray();
-                        return implode(', ', $groupNames); // Combine multiple group names if any
+                        // Assuming $record represents a user subject pivot entry
+                        return DB::table('groups')
+                            ->join('group_user','group_user.group_id', '=', 'groups.id')
+                            ->join('group_subject', 'group_user.group_id', '=', 'group_subject.group_id')
+                            ->join('subjects', 'group_subject.subject_id', '=', 'subjects.id')
+                            ->where('group_user.user_id', $record->user_id) // Filter by the current user
+                            ->where('subjects.id', $record->subject_id) // Filter by the current subject
+                            ->value('groups.name'); // Assuming you have a 'groups' table with a 'name' column
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

@@ -110,12 +110,12 @@ class UserResource extends Resource
         return 1;
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            RelationManagers\GroupsRelationManager::class,
-        ];
-    }
+    // public static function getRelations(): array
+    // {
+    //     return [
+    //         RelationManagers\GroupsRelationManager::class,
+    //     ];
+    // }
 
     public static function getPages(): array
     {

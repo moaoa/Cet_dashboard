@@ -26,7 +26,7 @@ class GroupResource extends Resource
     {
         return 'مجموعة'; // Directly writing the translation for "User"
     }
-    
+
     public static function getPluralModelLabel(): string
     {
         return 'مجموعات'; // Directly writing the translation for "Users"
@@ -85,7 +85,8 @@ class GroupResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
