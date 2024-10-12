@@ -29,7 +29,7 @@
 
             <label for="lecture-select" class="block font-medium text-gray-700 ">
                 اختر مادة
-                <select id="lecture-select" wire:model="selectedSubject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <select id="lecture-select" wire:model.live="selectedSubject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر مادة</option>
                     @foreach ($subjects as $subject)
                     <option value="{{ $subject['value'] }}">{{ $subject['title'] }}</option>
@@ -41,7 +41,7 @@
                 اختر المجموعة
                 <select
                     id="lecture-select"
-                    wire:model="selectedSubject"
+                    wire:model.live="selectedGroup"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر المجموعة</option>
                     @foreach ($groups as $group)
@@ -74,9 +74,10 @@
                     <th class="border px-4 py-2 text-center">الحالة</th>
                     <th class="border px-4 py-2 text-center">رقم القيد</th>
                     <th class="border px-4 py-2 text-center">الطالب</th>
+                    <th class="border px-4 py-2 text-center">المجموعة</th>
                     <th class="border px-4 py-2">المادة</th>
                     <th class="border px-4 py-2">الغياب</th>
-                    <th class="border px-2 py-2">نسبة الغياب</th>
+                    <th class="border px-2 py-2"> غياب الاستاذ</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,8 +86,10 @@
                     <td class="border px-4 py-2 text-center">{{ $item->total_absences >=2 ? 'fucked':'good' }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->ref_number }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->name }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->group_name }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->subject_name }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->total_absences }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->total_teacher_absences }}</td>
                 </tr>
                 @endforeach
             </tbody>
