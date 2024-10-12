@@ -105,7 +105,7 @@ class SubjectResource extends Resource
                     ->form([
                         Forms\Components\Select::make('Major')
                             ->options(Major::class)
-                            ->label('التخصص')
+                            ->label('القسم')
                             ->live(),
                         Forms\Components\Select::make('semester_id')
                             ->options(fn(Forms\Get $get) => Semester::where(

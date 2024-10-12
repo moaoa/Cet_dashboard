@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    //NEEDS SOFT DELETION
     /**
      * Run the migrations.
      */
@@ -14,8 +15,8 @@ return new class extends Migration
         Schema::create('homework_user_answers', function (Blueprint $table) {
             $table->id();
             $table->json('attachments');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('homework_id')->constrained('homework');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('homework_id')->constrained('homework')->onDelete('cascade');
             $table->timestamps();
         });
     }

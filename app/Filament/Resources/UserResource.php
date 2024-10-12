@@ -103,17 +103,14 @@ class UserResource extends Resource
             ]);
     }
 
-    public static function getNavigationSort(): ?int
-    {
-        return 1;
-    }
+   
 
-    // public static function getRelations(): array
-    // {
-    //     return [
-    //         RelationManagers\GroupsRelationManager::class,
-    //     ];
-    // }
+    public static function getRelations(): array
+    {
+        return [
+            RelationManagers\GroupsRelationManager::class,
+        ];
+    }
 
     public static function getPages(): array
     {
