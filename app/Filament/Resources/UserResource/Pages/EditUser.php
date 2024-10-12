@@ -32,8 +32,7 @@ class EditUser extends EditRecord
                 ->danger()
                 ->send();
             return $isEmailExists;
-        }
-        if ($isIdExists) {
+        } else if ($isIdExists) {
             Notification::make()
                 ->title('رقم القيد موجود بالفعل')
                 ->danger()
