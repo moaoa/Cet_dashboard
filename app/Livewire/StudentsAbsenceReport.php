@@ -40,10 +40,6 @@ class StudentsAbsenceReport extends Component
             ->join('subjects', 'subjects.id', '=', 'lectures.subject_id')
             ->join('group_user', 'group_user.user_id', '=', 'users.id')
             ->join('groups', 'groups.id', '=', 'group_user.group_id')
-            ->leftJoin('teacher_absences', function ($join) {
-                $join->on('teacher_absences.lecture_id', '=', 'lectures.id')
-                    ->where('lectures.subject_id', '=', $this->selectedSubject);
-            })
             ->where('subjects.id', $this->selectedSubject)
             ->when($this->selectedGroup != null, function ($query) {
                 return $query->where('group_user.group_id', $this->selectedGroup);
@@ -54,9 +50,6 @@ class StudentsAbsenceReport extends Component
                 'groups.name as group_name',
                 'subjects.name as subject_name',
                 DB::raw('SUM(CASE WHEN attendances.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_absences'),
-                DB::raw(
-                    'SUM(CASE WHEN teacher_absences.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_teacher_absences'
-                )
             )
             ->groupBy('users.name', 'subjects.name', 'users.ref_number', 'group_name')
             ->get();
