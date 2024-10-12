@@ -90,7 +90,7 @@ class GroupsRelationManager extends RelationManager
                                 return $semester ==  $currentGroupSem;
                             });
 
-                        if($studentAlreadyInGroupInSelectedSemester) {
+                        if ($studentAlreadyInGroupInSelectedSemester) {
                             Notification::make()
                                 ->title('الطالب مسجل في مجموعة دراسية في هذا الفصل الدراسي')
                                 ->danger()
@@ -109,6 +109,7 @@ class GroupsRelationManager extends RelationManager
                     ->form([
                         Forms\Components\Select::make('Major')
                             ->options(Major::class)
+                            ->required()
                             ->label('القسم')
                             ->live(),
                         Forms\Components\Select::make('Semester')
@@ -121,6 +122,7 @@ class GroupsRelationManager extends RelationManager
                             ->label('الفصل'),
                         Forms\Components\Select::make('groups')
                             ->label('المجموعة')
+                            ->required()
                             ->options(
                                 fn(Forms\Get $get) => Group::where('semester_id', $get('Semester'))->pluck('name', 'id')
                             )

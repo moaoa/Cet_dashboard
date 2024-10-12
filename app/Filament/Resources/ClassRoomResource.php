@@ -35,6 +35,23 @@ class ClassRoomResource extends Resource
     {
         return $form
             ->schema([
+
+                Forms\Components\Select::make('room')
+                    ->label('نوع القاعة')
+                    ->options([
+                        'القاعة' => 'القاعة',
+                        'معمل الشبكات' => 'معمل الشبكات',
+                        'معمل الكهربائية' => 'معمل الكهربائية',
+                        'معمل الألكترونية' => 'معمل الألكترونية',
+                        'معمل الانجليزي' => 'معمل الانجليزي',
+                        'معمل الرقمية' => 'معمل الرقمية',
+                        'المكتبة' => 'المكتبة',
+                        'المسرح' => 'المسرح',
+                    ])
+                    ->required()
+                    ->reactive(),
+
+
                 Forms\Components\TextInput::make('Number_room')
                     ->label('رقم القاعة')
                     ->rules('numeric')
@@ -42,24 +59,14 @@ class ClassRoomResource extends Resource
                     ->required(function (callable $get) {
                         // Make it required only if 'معمل' or 'القاعة' is selected
                         $selectedRoom = $get('room');
-                        return in_array($selectedRoom, ['معمل', 'القاعة']);
+                        return in_array($selectedRoom, ['القاعة', 'معمل الشبكات', 'معمل الكهربائية', 'معمل الألكترونية', 'معمل الانجليزي', 'معمل الرقمية']);
                     })
                     ->disabled(function (callable $get) {
                         // Disable the input if the selected room is not 'معمل' or 'القاعة'
                         $selectedRoom = $get('room');
-                        return !in_array($selectedRoom, ['معمل', 'القاعة']);
+                        return !in_array($selectedRoom, ['القاعة', 'معمل الشبكات', 'معمل الكهربائية', 'معمل الألكترونية', 'معمل الانجليزي', 'معمل الرقمية']);
                     }),
-
-                Forms\Components\Select::make('room')
-                    ->label('نوع القاعة')
-                    ->options([
-                        'القاعة' => 'القاعة',
-                        'معمل' => 'معمل',
-                        'المكتبة' => 'المكتبة',
-                        'المسرح' => 'المسرح',
-                    ])
-                    ->required()
-                    ->reactive(),  // Make it reactive to enable interaction
+                // Make it reactive to enable interaction
             ]);
     }
 

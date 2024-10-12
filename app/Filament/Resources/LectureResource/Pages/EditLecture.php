@@ -5,6 +5,7 @@ namespace App\Filament\Resources\LectureResource\Pages;
 use App\Filament\Resources\LectureResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 
 class EditLecture extends EditRecord
 {
@@ -12,8 +13,14 @@ class EditLecture extends EditRecord
 
     protected function getHeaderActions(): array
     {
+
+
         return [
             Actions\DeleteAction::make(),
         ];
     }
+    // protected function handleRecordUpdate(Model $record, array $data): Model
+    // {
+    //     dd($record);
+    // }
 }
