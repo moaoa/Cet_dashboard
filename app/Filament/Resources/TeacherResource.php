@@ -41,7 +41,7 @@ class TeacherResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('ref_number')
-                    ->label('الرقم المرجعي') // "Reference Number"
+                    ->label('رقم التوظيف') // "Reference Number"
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('password')
@@ -66,13 +66,13 @@ class TeacherResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('ref_number')
+                ->label('رقم التوظيف') // "Reference Number"
+                ->sortable()
+                ->searchable(), // Making the reference number searchable
                 Tables\Columns\TextColumn::make('name')
                     ->label('اسم الأستاذ') // "Teacher Name"
                     ->searchable(), // Making the name searchable
-                Tables\Columns\TextColumn::make('ref_number')
-                    ->label('رقم التوظيف') // "Reference Number"
-                    ->sortable()
-                    ->searchable(), // Making the reference number searchable
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الإلكتروني') // "Email"
                     ->searchable(),

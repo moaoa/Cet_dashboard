@@ -15,8 +15,8 @@ class CreateUser extends CreateRecord
     protected function handleRecordCreation(array $data): User
     {
         $data['device_subscriptions'] = json_encode(['']);
-        $ID = $data['ref_number'];
-        $isIdExists = User::where('ref_number', $ID)->first();
+        // $ID = $data['ref_number'];
+        // $isIdExists = User::where('ref_number', $ID)->first();
         $isEmailExists = User::where('email', $data['email'])->first();
         if ($isEmailExists) {
             Notification::make()
@@ -25,19 +25,22 @@ class CreateUser extends CreateRecord
                 ->send();
             return $isEmailExists;
         }
-        if ($isIdExists) {
-            Notification::make()
-                ->title('الاسم  موجود بالفعل')
-                ->danger()
-                ->send();
-            return $isIdExists;
-        } else {
+        // if ($isIdExists) {
+        //     Notification::make()
+        //         ->title('الاسم  موجود بالفعل')
+        //         ->danger()
+        //         ->send();
+        //     return $isIdExists;
+        else {
             Notification::make()
                 ->title('تم اضافة الطالب بنجاح')
                 ->success()
                 ->send();
 
-            $newUser = User::create($data);
+            $count = User::count();
+            $editedData = $data;
+            $editedData['ref_number'] = 181130 + $count;
+            $newUser = User::create($editedData);
             return $newUser;
         }
     }
