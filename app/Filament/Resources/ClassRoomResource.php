@@ -20,7 +20,7 @@ class ClassRoomResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'ادارة القاعات';
     protected static ?string $navigationGroup = 'عام';
-    
+
     public static function getModelLabel(): string
     {
         return 'قاعة'; // Directly writing the translation for "User"
@@ -34,17 +34,35 @@ class ClassRoomResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Number_room')->label('رقم القاعة')
-                    ->required()
+                Forms\Components\TextInput::make('Number_room')
+                    ->label('رقم القاعة')
                     ->rules('numeric')
-                    ->maxLength(2000),
-                Forms\Components\Select::make("room")->label('نوع القاعة')->options([
-                    'قاعة' => 'قاعة',
-                    'معمل' => 'معمل',
-                ])->required(),
+                    ->maxLength(2000)
+                    ->required(function (callable $get) {
+                        // Make it required only if 'معمل' or 'القاعة' is selected
+                        $selectedRoom = $get('room');
+                        return in_array($selectedRoom, ['معمل', 'القاعة']);
+                    })
+                    ->disabled(function (callable $get) {
+                        // Disable the input if the selected room is not 'معمل' or 'القاعة'
+                        $selectedRoom = $get('room');
+                        return !in_array($selectedRoom, ['معمل', 'القاعة']);
+                    }),
 
+                Forms\Components\Select::make('room')
+                    ->label('نوع القاعة')
+                    ->options([
+                        'القاعة' => 'القاعة',
+                        'معمل' => 'معمل',
+                        'المكتبة' => 'المكتبة',
+                        'المسرح' => 'المسرح',
+                    ])
+                    ->required()
+                    ->reactive(),  // Make it reactive to enable interaction
             ]);
     }
+
+
 
     public static function table(Table $table): Table
     {
