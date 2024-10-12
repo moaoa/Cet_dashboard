@@ -23,7 +23,7 @@ class Lecture extends Model
         'subject_id',
         'class_room_id',
         'group_id',
-        'user_id',
+        'teacher_id',
         'deleted_at',
     ];
 
@@ -40,7 +40,7 @@ class Lecture extends Model
         'subject_id' => 'integer',
         'class_room_id' => 'integer',
         'group_id' => 'integer',
-        'user_id' => 'integer',
+        'teacher_id' => 'integer',
     ];
 
     public function subject(): BelongsTo
