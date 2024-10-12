@@ -29,7 +29,7 @@ class LectureResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-table-cells';
     protected static ?string $navigationLabel = 'ادارة المحاضرات';
     protected static ?string $navigationGroup = 'عام';
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 4;
 
     
     public static function getModelLabel(): string

@@ -20,6 +20,7 @@ class ClassRoomResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'ادارة القاعات';
     protected static ?string $navigationGroup = 'عام';
+    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {
