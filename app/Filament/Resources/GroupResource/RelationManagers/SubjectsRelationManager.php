@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\GroupResource\RelationManagers;
 
+use App\Models\Subject;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -35,7 +37,25 @@ class SubjectsRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()->label('ربط مادة'),
+                Tables\Actions\Action::make('associate')
+                    ->label('ربط مادة')
+                    ->modalHeading('المواد')
+                    ->modalWidth('xl')
+                    ->action(function (array $data) {
+                        $record = $this->getOwnerRecord();
+                        $record->subjects()->syncWithoutDetaching($data['subject']);
+                    })
+                    ->modalHeading('إضافة مجموعة')
+                    ->form([
+                        Forms\Components\Select::make('subject')
+                            ->options(Subject::where(
+                                'semester_id',
+                                $this->ownerRecord->semester_id
+                            )->pluck('name', 'id'))
+                            ->live()
+                            ->required()
+                            ->label('المواد'),
+                    ]),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make()->label('حذف المادة من المجموعة'),
