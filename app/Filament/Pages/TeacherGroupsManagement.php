@@ -11,6 +11,8 @@ class TeacherGroupsManagement extends Page
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
     protected static ?string $navigationLabel = 'ادارة مواد ومجموعات الاستاذ';
     protected static ?string $navigationGroup = 'الاستاذ';
+    protected static ?int $navigationSort = 10;
+
     public function getTitle(): string
     {
         return ('ادارة مواد ومجموعات الاستاذ');
