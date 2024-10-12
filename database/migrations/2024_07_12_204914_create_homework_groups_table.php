@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('homework_groups', function (Blueprint $table) {
             $table->id();
             $table->dateTime('due_time')->nullable();
-            $table->foreignId('homework_id')->constrained('homework');
-            $table->foreignId('group_id')->constrained('groups');
+            $table->foreignId('homework_id')->constrained('homework')->onDelete('cascade');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->timestamps();
         });
     }

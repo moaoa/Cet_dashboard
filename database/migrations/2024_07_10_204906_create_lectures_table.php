@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    //SOFT DELETION
     /**
      * Run the migrations.
      */
@@ -19,7 +20,7 @@ return new class extends Migration
             $table->foreignId('subject_id')->constrained('subjects');
             $table->date('deleted_at')->nullable();
             $table->foreignId('class_room_id')->constrained('class_rooms');
-            $table->foreignId('group_id')->constrained('groups');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('teacher_id')->constrained('teachers');
             $table->timestamps();
         });

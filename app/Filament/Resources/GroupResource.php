@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Enums\Major;
 use App\Filament\Resources\GroupResource\Pages;
 use App\Filament\Resources\GroupResource\RelationManagers;
+use App\Filament\Resources\GroupResource\RelationManagers\SubjectsRelationManager;
 use App\Models\Group;
 use App\Models\Semester;
 use Filament\Forms;
@@ -99,7 +100,6 @@ class GroupResource extends Resource
                                 if ($data['semester_id'] == null) return $query;
                                 $query->where('semester_id', $data['semester_id']);
                             });
-                            
                     })
             ])
             ->actions([
@@ -117,7 +117,7 @@ class GroupResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\SubjectsRelationManager::class,
         ];
     }
 

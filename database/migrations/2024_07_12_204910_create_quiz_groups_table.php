@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamp('end_time');
             $table->timestamp('start_time');
-            $table->foreignId('group_id')->constrained('groups');
+            $table->foreignId('group_id')->constrained('groups')->onDelete('cascade');
             $table->foreignId('quiz_id')->constrained('quizzes');
             $table->timestamps();
         });
