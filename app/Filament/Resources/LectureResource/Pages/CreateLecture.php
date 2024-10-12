@@ -51,7 +51,13 @@ class CreateLecture extends CreateRecord
         $startTime = new DateTime($data['start_time']);
 
         $endTime = addHoursToTime($data['start_time'], $data['duration']);
-
+        if ($endTime->format('H:i') > '18:00') {
+            Notification::make()
+                ->title('المدة المحاضرة تجاوز الحد الأقصى للوقت المسموح به')
+                ->danger()
+                ->send();
+            return  Lecture::where('id', 1)->first();
+        }
 
         if (isTeacherAvailable($data['teacher_id'], $startTime, $endTime, $data['day_of_week'])) {
             Notification::make()
@@ -59,7 +65,7 @@ class CreateLecture extends CreateRecord
                 ->danger()
                 ->send();
 
-            return  Lecture::where('id',1)->first() ;
+            return  Lecture::where('id', 1)->first();
         }
         $newLec = Lecture::create([
             'start_time' => $startTime,
