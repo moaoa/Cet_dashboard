@@ -22,6 +22,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
     protected static ?string $navigationLabel = 'ادارة الطلبة';
+    protected static ?string $navigationGroup = 'الطالب';
+    protected static ?int $navigationSort = 1;
 
     public static function getModelLabel(): string
     {

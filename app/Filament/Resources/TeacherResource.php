@@ -21,6 +21,7 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationLabel = 'ادارة الاستاذ';
+    protected static ?string $navigationGroup = 'الاستاذ';
 
     public static function getModelLabel(): string
     {

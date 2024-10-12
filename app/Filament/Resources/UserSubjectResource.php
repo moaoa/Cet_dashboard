@@ -28,6 +28,8 @@ class UserSubjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-arrow-path-rounded-square';
     protected static ?string $navigationLabel = 'ادارة مجموعات ومواد الطالب';
+    protected static ?string $navigationGroup = 'الطالب';
+    protected static ?int $navigationSort = 2;
 
     public static function getModelLabel(): string
     {

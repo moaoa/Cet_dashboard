@@ -22,7 +22,8 @@ class SubjectResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-pencil-square';
     protected static ?string $navigationLabel = 'ادارة المواد الدراسية';
-
+    protected static ?string $navigationGroup = 'عام';
+    
     public static function getModelLabel(): string
     {
         return 'مادة'; // Directly writing the translation for "User"

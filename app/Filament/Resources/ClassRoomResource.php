@@ -19,7 +19,8 @@ class ClassRoomResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'ادارة القاعات';
-
+    protected static ?string $navigationGroup = 'عام';
+    
     public static function getModelLabel(): string
     {
         return 'قاعة'; // Directly writing the translation for "User"

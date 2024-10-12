@@ -26,6 +26,8 @@ class AttendanceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
     protected static ?string $navigationLabel = 'حضور وغياب الطلبة';
+    protected static ?string $navigationGroup = 'الطالب';
+    protected static ?int $navigationSort = 3;
 
     public static function getModelLabel(): string
     {

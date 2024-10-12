@@ -27,7 +27,7 @@ class TeacherAbsenceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-shield-exclamation';
     protected static ?string $navigationLabel = 'غياب الاستاذ';
-
+    protected static ?string $navigationGroup = 'الاستاذ';
 
     public static function getModelLabel(): string
     {
