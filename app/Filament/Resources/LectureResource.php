@@ -42,11 +42,6 @@ class LectureResource extends Resource
         return 'محاضرات'; // Directly writing the translation for "Users"
     }
 
-    public static function getStartTimes()
-    {
-        return [];
-    }
-
     public static function getAvailableClassRooms($start_time, $end_time, $day_of_week)
     {
         $lecturesInTimeRange = Lecture::where('day_of_week', $day_of_week)
@@ -84,9 +79,9 @@ class LectureResource extends Resource
                         '17:00' =>     '17:00',
                         '18:00' =>     '18:00',
                         '19:00' =>     '19:00',
-                    ]) // Start time from your getStartTimes method
+                    ]) 
                     ->required()
-                    ->label('وقت البداية'), // "Start Time"
+                    ->label('وقت البداية'), 
 
                 Forms\Components\TextInput::make('duration')
                     ->numeric()
@@ -177,21 +172,6 @@ class LectureResource extends Resource
                     ->label('الأستاذ')
                     ->required()
                     ->reactive(),
-
-                // Hidden end_time field, calculated based on the start_time and duration
-                Forms\Components\Hidden::make('end_time')
-                    ->default(function (Forms\Get $get) {
-                        $start_time = $get('start_time');
-                        $duration = (int) $get('duration'); // Duration in hours
-
-
-                        // Parse the start time and add the duration (in hours)
-
-                        $end_time = Carbon::parse($start_time)->addMinutes($duration)->format('H:i');
-
-                        return $end_time; // Return in the correct format
-
-                    }),
             ]);
     }
 
