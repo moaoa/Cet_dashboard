@@ -4,6 +4,8 @@ namespace App\Filament\Resources\LectureResource\Pages;
 
 use App\Filament\Resources\LectureResource;
 use App\Models\Lecture;
+use App\Models\User;
+use DateTime;
 use Filament\Actions;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
@@ -15,12 +17,53 @@ class CreateLecture extends CreateRecord
 {
     protected static string $resource = LectureResource::class;
 
-    protected function handleRecordCreation(array $data): Model
-    {
 
-        $record = Lecture::create([
-            'start_time' => $data['start_time'],
-            'end_time' => $data['end_time'],
+
+    protected function handleRecordCreation(array $data): Lecture
+    {
+        function isTeacherAvailable($teacherId, $startTime, $endTime, $dayOfWeek)
+        {
+            $conflictingLectures = Lecture::where('teacher_id', $teacherId)
+                ->where('day_of_week', $dayOfWeek)
+                ->where(function ($query) use ($startTime, $endTime) {
+                    $query->where(function ($q) use ($startTime, $endTime) {
+                        $q->where('start_time', '<', $endTime)
+                            ->where('end_time', '>', $startTime);
+                    })->orWhere(function ($q) use ($startTime, $endTime) {
+                        $q->where('start_time', '>=', $startTime)
+                            ->where('end_time', '<=', $endTime);
+                    });
+                })
+                ->exists();
+
+            return $conflictingLectures;
+        }
+
+        function addHoursToTime($timeString, $hoursToAdd)
+        {
+            $time = new DateTime($timeString);
+
+            $time->modify("+$hoursToAdd hours");
+
+            return $time;
+        }
+
+        $startTime = new DateTime($data['start_time']);
+
+        $endTime = addHoursToTime($data['start_time'], $data['duration']);
+
+
+        if (isTeacherAvailable($data['teacher_id'], $startTime, $endTime, $data['day_of_week'])) {
+            Notification::make()
+                ->title('الاستاذ يدرس محاضرة في نفس الوقت')
+                ->danger()
+                ->send();
+
+            return  Lecture::where('id',1)->first() ;
+        }
+        $newLec = Lecture::create([
+            'start_time' => $startTime,
+            'end_time' => $endTime,
             'day_of_week' => $data['day_of_week'],
             'subject_id' => $data['subject_id'],
             'class_room_id' => $data['class_room_id'],
@@ -31,9 +74,8 @@ class CreateLecture extends CreateRecord
             ->title('تم إنشاء المحاضرة بنجاح')
             ->success()
             ->send();
-        dd($record->toArray());
 
-        return $record;
+        return $newLec;
     }
     protected function getCreatedNotification(): ?Notification
     {
