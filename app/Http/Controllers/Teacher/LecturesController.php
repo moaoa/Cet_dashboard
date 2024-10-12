@@ -29,7 +29,8 @@ class LecturesController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'group_id' => 'required|exists:groups,id',
+            'group_ids' => 'required|array',
+            'group_ids.*' => 'exists:groups,id',
             'subject_id' => 'required|exists:subjects,id',
             'day_of_week' => ['required', Rule::enum(WeekDays::class)],
             'duration' => 'required|integer|min:1',
@@ -54,20 +55,23 @@ class LecturesController extends Controller
             return response()->json(['message' => 'لا يوجد محاضرات بعد الساعة 6'], 422);
         }
 
-        $lecture = new Lecture();
-        $lecture->group_id = $request->input('group_id');
-        $lecture->teacher_id = $request->user()->id;
-        $lecture->subject_id = $request->input('subject_id');
-        $lecture->start_time = $startTime;
-        $lecture->end_time = $endTime;
-        $lecture->day_of_week = $request->input('day_of_week');
-        $lecture->class_room_id = $request->input('class_room_id');
+        foreach ($request->input('group_ids') as $groupId) {
+            $lecture = new Lecture();
+            $lecture->group_id = $groupId;
+            $lecture->teacher_id = $request->user()->id;
+            $lecture->subject_id = $request->input('subject_id');
+            $lecture->start_time = $startTime;
+            $lecture->end_time = $endTime;
+            $lecture->day_of_week = $request->input('day_of_week');
+            $lecture->class_room_id = $request->input('class_room_id');
 
-        if ($request->input('one_time_lecture')) {
-            $lecture->deleted_at = Carbon::parse($request->input('lecture_date'))->setHour(23)->setMinute(0);
+            if ($request->input('one_time_lecture')) {
+                $lecture->deleted_at = Carbon::parse($request->input('lecture_date'))->setHour(23)->setMinute(0);
+            }
+
+            $lecture->save();
         }
 
-        $lecture->save();
 
         $subject = Subject::find($request->input('subject_id'));
         $weekDay = WeekDays::from($request->input('day_of_week'));
