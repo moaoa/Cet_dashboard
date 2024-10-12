@@ -67,9 +67,9 @@ class TeacherResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('ref_number')
-                ->label('رقم التوظيف') // "Reference Number"
-                ->sortable()
-                ->searchable(), // Making the reference number searchable
+                    ->label('رقم التوظيف') // "Reference Number"
+                    ->sortable()
+                    ->searchable(), // Making the reference number searchable
                 Tables\Columns\TextColumn::make('name')
                     ->label('اسم الأستاذ') // "Teacher Name"
                     ->searchable(), // Making the name searchable
@@ -108,7 +108,8 @@ class TeacherResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\GroupsRelationManager::class,
+            RelationManagers\SubjectsRelationManager::class,
         ];
     }
 
