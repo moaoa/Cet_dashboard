@@ -21,10 +21,9 @@ class EditClassRoom extends EditRecord
             $numberRoom = '';
         }
         $nameRoom = $data['room'];
-        $combinedName = $nameRoom . ' ' . $numberRoom;
-        //$existingClassRoom = ClassRoom::where('name', $combinedName)->first();
+        $trimmedString = str_replace(' ', '', $nameRoom);
+        $combinedName = $trimmedString . ' ' . $numberRoom;
         $existingClassRoom = ClassRoom::where('name', $combinedName)->where('id', '!=', $record->id)->first();
-        // dd($existingClassRoom->name);
 
         if (!$existingClassRoom) {
             $record->name = $combinedName;

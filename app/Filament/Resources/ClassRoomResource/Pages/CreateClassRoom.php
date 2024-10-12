@@ -22,7 +22,8 @@ class CreateClassRoom extends CreateRecord
             $numberRoom = '';
         }
         $nameRoom = $data['room'];
-        $combinedName = $nameRoom . ' ' . $numberRoom;
+        $trimmedString = str_replace(' ', '', $nameRoom);
+        $combinedName = $trimmedString . ' ' . $numberRoom;
         $existingClassRoom = ClassRoom::where('name', $combinedName)->first();
         if (!$existingClassRoom) {
             $newClassRoom = ClassRoom::create([
