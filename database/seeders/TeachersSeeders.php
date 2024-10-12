@@ -12,7 +12,7 @@ class TeachersSeeders extends Seeder
     public function run(): void
     {
 
-        $password = Hash::make('password');
+        $password = 'password';
 
         $teachers = [
             'م.عبد الحميد الواعر',
