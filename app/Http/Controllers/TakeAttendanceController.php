@@ -10,9 +10,12 @@ use App\Models\Lecture;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Services\OneSignalNotifier;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
+use App\Enums\WeekDays;
+
 
 class TakeAttendanceController extends Controller
 {
@@ -32,7 +35,7 @@ class TakeAttendanceController extends Controller
             'attendance.*.user_id' => 'required|exists:users,id',
             'attendance.*.status' => ['required', Rule::enum(AttendanceStatus::class)],
             'attendance.*.note' => 'nullable|string|max:255',
-            'date' => 'required|date'
+
         ], [
             'attendance.required' => 'يجب تسجيل حضور لكل الطلاب',
             'attendance.*.user_id.required' => 'The user ID is required.',
@@ -59,6 +62,24 @@ class TakeAttendanceController extends Controller
 
         if ($numberOfStudents != count($request->input('attendance'))) {
             return response()->json(['message' => 'يجب تسجيل حضور لكل الطلاب'], 422);
+        }
+
+        $today = Carbon::now();
+        $today->startOfWeek(Carbon::SATURDAY);
+
+        $dayOfWeekInteger = $today->dayOfWeek;
+        $dayOfWeekInteger = $dayOfWeekInteger - 2;
+
+        if ($dayOfWeekInteger != $lecture->day_of_week) {
+            return response()->json(['message' => 'لا يمكن تسجيل الحضور اليوم لهذه المحاضرة'], 422);
+        }
+
+        $attendanceAlreadyTaken = Attendance::whereDate('date', Carbon::now())
+            ->where('lecture_id', $lecture->id)
+            ->exists();
+
+        if ($attendanceAlreadyTaken) {
+            return response()->json(['message' => 'تم تسجيل حضور لهذا المحاضرة بالفعل'], 422);
         }
 
         // Store the attendance data

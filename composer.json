@@ -9,6 +9,7 @@
         "andreaselia/laravel-api-to-postman": "^2.0",
         "berkayk/onesignal-laravel": "^2.1",
         "dedoc/scramble": "^0.11.11",
+        "dyrynda/laravel-cascade-soft-deletes": "^4.4",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
         "guzzlehttp/guzzle": "^7.9",

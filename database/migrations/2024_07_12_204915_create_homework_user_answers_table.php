@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    //NEEDS SOFT DELETION
     /**
      * Run the migrations.
      */
