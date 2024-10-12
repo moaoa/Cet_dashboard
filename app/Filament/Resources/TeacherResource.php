@@ -41,7 +41,7 @@ class TeacherResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('ref_number')
-                    ->label('الرقم المرجعي') // "Reference Number"
+                    ->label('رقم التوظيف') // "Reference Number"
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('password')
@@ -109,7 +109,8 @@ class TeacherResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\GroupsRelationManager::class,
+            RelationManagers\SubjectsRelationManager::class,
         ];
     }
 

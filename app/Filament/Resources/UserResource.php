@@ -40,10 +40,10 @@ class UserResource extends Resource
                     ->label('اسم الطالب') // "Student Name"
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('ref_number')
-                    ->label('رقم القيد') // "Reference Number"
-                    ->required()
-                    ->numeric(),
+                // Forms\Components\TextInput::make('ref_number')
+                //     ->label('رقم القيد') // "Reference Number"
+                //     ->required()
+                //     ->numeric(),
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->label('كلمة المرور') // "Password"
@@ -66,13 +66,13 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('ref_number')
+                ->label('رقم القيد') // "Reference Number"
+                ->searchable()
+                ->sortable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('اسم الطالب') // "Student Name"
                     ->searchable(),
-                Tables\Columns\TextColumn::make('ref_number')
-                    ->label('رقم القيد') // "Reference Number"
-                    ->searchable()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الإلكتروني') // "Email"
                     ->searchable(),

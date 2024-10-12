@@ -11,6 +11,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -79,9 +80,11 @@ class SubjectResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('semester.name')
                     ->label('الفصل الدراسي')
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('semester.major')
                     ->label('القسم')
+                    ->searchable()
                     ->formatStateUsing(fn($state) => Major::getArabicName($state))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -96,7 +99,35 @@ class SubjectResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Filter::make('created_at')
+                    ->form([
+                        Forms\Components\Select::make('Major')
+                            ->options(Major::class)
+                            ->label('التخصص')
+                            ->live(),
+                        Forms\Components\Select::make('semester_id')
+                            ->options(fn(Forms\Get $get) => Semester::where(
+                                'major',
+                                $get('Major')
+                            )->pluck('name', 'id'))
+                            ->Label('الفصل الدراسي')
+                            ->live(),
+                        // Forms\Components\Select::make('subject_id')
+                        //     ->options(
+                        //         fn(Forms\Get $get) => Subject::where(
+                        //             'semester_id',
+                        //             $get('semester_id')
+                        //         )->pluck('name', 'id')
+                        //     )
+                        //     ->label('المادة الدراسية')
+                        //     ->live(),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if (isset($data['semester_id']) && $data['semester_id'] !== null) {
+                            $query->where('semester_id', $data['semester_id']);
+                        }
+                        return $query;
+                    })
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
