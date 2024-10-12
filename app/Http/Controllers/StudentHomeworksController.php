@@ -38,6 +38,7 @@ class StudentHomeworksController extends Controller
         $items = DB::table('homework_groups')
             ->join('groups', 'groups.id', '=', 'homework_groups.group_id')
             ->join('homework', 'homework.id', '=', 'homework_groups.homework_id')
+            ->join('teachers','teachers.id','=','homework.teacher_id')
             ->leftJoin('homework_user_answers', function ($join) use ($student) {
                 $join->on('homework_user_answers.homework_id', '=', 'homework.id')
                     ->where('homework_user_answers.user_id', '=', $student->id);
@@ -47,6 +48,7 @@ class StudentHomeworksController extends Controller
             ->select(
                 'homework.id',
                 'homework.name',
+                'teachers.name as teacher_name',
                 'homework.description',
                 'homework.attachments',
                 'homework_user_answers.attachments as student_attachments',
@@ -71,6 +73,7 @@ class StudentHomeworksController extends Controller
             return [
                 'id' => $item->id,
                 'name' => $item->name,
+                'teacher_name'=>$item->teacher_name,
                 'description' => $item->description,
                 'attachments' => $item->attachments ? json_decode($item->attachments) : null,
                 'student_attachments' => $item->attachments ? json_decode($item->student_attachments) : null,
