@@ -16,7 +16,11 @@ class CreateClassRoom extends CreateRecord
     protected static string $resource = ClassRoomResource::class;
     protected  function handleRecordCreation(array $data): ClassRoom
     {
-        $numberRoom = $data['Number_room'];
+        if ($data['room'] == 'معمل' || $data['room'] == 'القاعة') {
+            $numberRoom = $data['Number_room'];
+        } else {
+            $numberRoom = '';
+        }
         $nameRoom = $data['room'];
         $combinedName = $nameRoom . ' ' . $numberRoom;
         $existingClassRoom = ClassRoom::where('name', $combinedName)->first();

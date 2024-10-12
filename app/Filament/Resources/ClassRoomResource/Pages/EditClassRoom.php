@@ -15,7 +15,11 @@ class EditClassRoom extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): ClassRoom
     {
         //dd($record->id);
-        $numberRoom = $data['Number_room'];
+        if ($data['room'] == 'معمل' || $data['room'] == 'القاعة') {
+            $numberRoom = $data['Number_room'];
+        } else {
+            $numberRoom = '';
+        }
         $nameRoom = $data['room'];
         $combinedName = $nameRoom . ' ' . $numberRoom;
         //$existingClassRoom = ClassRoom::where('name', $combinedName)->first();
