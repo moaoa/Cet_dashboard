@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\AttendanceStatus;
+use App\Enums\Major;
 use App\Filament\Resources\AttendanceResource\Pages;
 use App\Filament\Resources\AttendanceResource\RelationManagers;
 use App\Models\Attendance;
@@ -26,6 +27,8 @@ class AttendanceResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
     protected static ?string $navigationLabel = 'حضور وغياب الطلبة';
+    protected static ?string $navigationGroup = 'الطالب';
+    protected static ?int $navigationSort = 8;
 
     public static function getModelLabel(): string
     {
@@ -61,23 +64,30 @@ class AttendanceResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('status')
-                    ->formatStateUsing(fn($state) => AttendanceStatus::from($state)->getLabel()),
-                Tables\Columns\TextColumn::make('note'),
                 Tables\Columns\TextColumn::make('date')
                     ->date()
+                    ->label('التاريخ')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.ref_number')
+                    ->searchable()
+                    ->label('رقم القيد')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.name')
+                    ->searchable()
+                    ->label('اسم الطالب')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('lecture.subject.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('المادة')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('lecture.group.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('المجموعة')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('status')
+                    ->label('الحالة')
+                    ->formatStateUsing(fn($state) => AttendanceStatus::from($state)->getLabel()),
                 Tables\Columns\TextColumn::make('lecture.teacher.name')
-                    ->numeric(),
+                    ->label('اسم الاستاذ')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -90,14 +100,21 @@ class AttendanceResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
+                        Forms\Components\Select::make('Major')
+                            ->options(Major::class)
+                            ->label('القسم')
+                            ->live(),
                         Forms\Components\Select::make('semester_id')
-                            ->options(Semester::all()->pluck('name', 'id'))
+                            ->options(fn(Forms\Get $get) => Semester::where('major', $get('Major'))->pluck('name', 'id'))
+                            ->label('الفصل')
                             ->live(),
                         Forms\Components\Select::make('subject_id')
+                            ->label('المادة')
                             ->options(
                                 fn(Forms\Get $get) => Subject::where('semester_id', $get('semester_id'))->pluck('name', 'id')
                             ),
                         Forms\Components\Select::make('group_id')
+                            ->label('المجموعة')
                             ->options(
                                 fn(Forms\Get $get) => DB::table('group_subject')
                                     ->join('groups', 'groups.id', '=', 'group_subject.group_id')
@@ -139,7 +156,7 @@ class AttendanceResource extends Resource
         return [
             'index' => Pages\ListAttendances::route('/'),
             'create' => Pages\CreateAttendance::route('/create'),
-            'edit' => Pages\EditAttendance::route('/{record}/edit'),
+            // 'edit' => Pages\EditAttendance::route('/{record}/edit'),
         ];
     }
 }

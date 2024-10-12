@@ -21,6 +21,8 @@ class TeacherResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user';
     protected static ?string $navigationLabel = 'ادارة الاستاذ';
+    protected static ?string $navigationGroup = 'الاستاذ';
+    protected static ?int $navigationSort = 9;
 
     public static function getModelLabel(): string
     {
@@ -69,10 +71,11 @@ class TeacherResource extends Resource
                 Tables\Columns\TextColumn::make('ref_number')
                     ->label('رقم التوظيف') // "Reference Number"
                     ->sortable()
-                    ->searchable(), // Making the reference number searchable
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->label('اسم الأستاذ') // "Teacher Name"
                     ->searchable(), // Making the name searchable
+                // Making the reference number searchable
                 Tables\Columns\TextColumn::make('email')
                     ->label('البريد الإلكتروني') // "Email"
                     ->searchable(),

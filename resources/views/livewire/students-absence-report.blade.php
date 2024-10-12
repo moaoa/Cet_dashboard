@@ -71,20 +71,22 @@
         <table class="w-full border-collapse">
             <thead>
                 <tr class="border-b">
-                    <th class="border px-4 py-2 text-center">الطالب</th>
+                    <th class="border px-4 py-2 text-center">الحالة</th>
                     <th class="border px-4 py-2 text-center">رقم القيد</th>
-                    <th class="border px-4 py-2">الغياب</th>
+                    <th class="border px-4 py-2 text-center">الطالب</th>
                     <th class="border px-4 py-2">المادة</th>
+                    <th class="border px-4 py-2">الغياب</th>
                     <th class="border px-2 py-2">نسبة الغياب</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($absenceData as $item)
                 <tr>
-                    <td class="border px-4 py-2 text-center">{{ $item->name }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->total_absences >=2 ? 'fucked':'good' }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->ref_number }}</td>
-                    <td class="border px-4 py-2 text-center">{{ $item->total_absences }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->name }}</td>
                     <td class="border px-4 py-2 text-center">{{ $item->subject_name }}</td>
+                    <td class="border px-4 py-2 text-center">{{ $item->total_absences }}</td>
                 </tr>
                 @endforeach
             </tbody>

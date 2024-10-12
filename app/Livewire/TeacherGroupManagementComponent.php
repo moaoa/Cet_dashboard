@@ -19,6 +19,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Tables;
 use Filament\Forms;
 use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -39,11 +40,12 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                 TextColumn::make('ref_number')
                     ->sortable()
                     ->searchable()
-                    ->label('رقم المعرف'),
+                    ->label('رقم التوظيف'),
             ])
             ->actions([
                 Action::make('manage')
-                    ->label('إدارة')
+                    ->label("إدارة")
+                    ->modalHeading(fn (Model $record)=> '' . $record->name)
                     ->form([
                         Select::make('major')
                             ->options(Major::class)
@@ -69,16 +71,17 @@ class TeacherGroupManagementComponent extends Component implements HasTable, Has
                             ->join('teachers', 'teachers.id', '=', 'subject_teacher.teacher_id')
                             ->join('groups', 'groups.id', '=', 'teacher_groups.group_id')
                             ->where('subject_teacher.subject_id', $data['subject'])
+                            ->where('groups.id',$data['group'])
                             ->get();
 
                         $teacherAlreadyTeachingSubjectInCurrentGroup = $teachersTeachingSubjectInCurrentGroup
                             ->contains(function ($item) use ($teacher) {
-                                return $item->id == $teacher->id;
+                                return $item->id == $teacher->id ;
                             });
 
                         if ($teacherAlreadyTeachingSubjectInCurrentGroup) {
                             Notification::make()
-                                ->title('الاستاذ يدرس المادة بالفعل في المجموعة')
+                                ->title('الاستاذ يدرس هذه المادة بالفعل')
                                 ->danger()
                                 ->send();
                             return;

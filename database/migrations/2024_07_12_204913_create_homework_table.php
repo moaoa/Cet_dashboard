@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->longText('description');
             $table->json('attachments');
-            $table->foreignId('teacher_id')->constrained('teachers');
-            $table->foreignId('subject_id')->constrained('subjects');
+            $table->foreignId('teacher_id')->constrained('teachers')->onDelete('cascade');
+            $table->foreignId('subject_id')->constrained('subjects')->onDelete('cascade');
             $table->timestamps();
         });
     }

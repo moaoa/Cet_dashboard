@@ -60,4 +60,8 @@ class Group extends Model
     {
         return $this->belongsTo(Semester::class, 'semester_id');
     }
+    public function subjects(): BelongsToMany
+    {
+        return $this->belongsToMany(Subject::class);
+    }
 }
