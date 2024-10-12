@@ -77,14 +77,15 @@ class LectureResource extends Resource
                         '15:00' =>     '15:00',
                         '16:00' =>     '16:00',
                         '17:00' =>     '17:00',
-                        '18:00' =>     '18:00',
-                        '19:00' =>     '19:00',
-                    ]) 
+
+                    ])
                     ->required()
-                    ->label('وقت البداية'), 
+                    ->label('وقت البداية'),
 
                 Forms\Components\TextInput::make('duration')
                     ->numeric()
+                    ->minLength(1)
+                    ->maxLength(6)
                     ->required()
                     ->label('مدة المحاضرة'), // "Duration"
 
