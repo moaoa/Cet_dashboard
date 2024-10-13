@@ -19,7 +19,11 @@ class GroupsOfSubjectController extends Controller
                 $join->on('teacher_groups.group_id', '=', 'groups.id')
                     ->where('teacher_groups.teacher_id', '=', $teacher->id);
             })
-            ->join('subject_teacher', 'subject_teacher.subject_id', '=', 'group_subject.subject_id')
+            ->join('subject_teacher', function ($join) use ($subject_id, $teacher) {
+                $join->on('subject_teacher.subject_id', '=', 'group_subject.subject_id')
+                    ->where('subject_teacher.subject_id', '=', $subject_id)
+                    ->where('subject_teacher.teacher_id', '=', $teacher->id);
+            })
             ->where('subject_teacher.subject_id', $subject_id)
             ->select('groups.id', 'groups.name')
             ->get();
