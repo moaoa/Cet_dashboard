@@ -67,19 +67,33 @@ class HomeworkResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('العنوان')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('group.name')
-                    ->label('العنوان')
-                    ->searchable(),
+
+                // Display the group names. Assuming 'groups' is a many-to-many relationship
+                Tables\Columns\TextColumn::make('groups.name')
+                    ->label('المجموعات')
+                    ->searchable()
+                    ->getStateUsing(function ($record) {
+                        return $record->groups->pluck('name')->join(', ');
+                    }),
+
                 Tables\Columns\TextColumn::make('teacher.name')
                     ->label('اسم الاستاذ')
                     ->searchable(),
+
                 Tables\Columns\TextColumn::make('subject.name')
                     ->label('اسم المادة')
                     ->searchable(),
+
+                // Display the semester name
+                Tables\Columns\TextColumn::make('subject.semester.name')
+                    ->label('الفصل')
+                    ->searchable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
