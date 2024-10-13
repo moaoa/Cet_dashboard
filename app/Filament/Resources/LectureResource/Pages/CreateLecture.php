@@ -67,15 +67,22 @@ class CreateLecture extends CreateRecord
 
             return  Lecture::where('id', 1)->first();
         }
-        $newLec = Lecture::create([
-            'start_time' => $startTime,
-            'end_time' => $endTime,
-            'day_of_week' => $data['day_of_week'],
-            'subject_id' => $data['subject_id'],
-            'class_room_id' => $data['class_room_id'],
-            'group_id' => $data['group_id'],
-            'teacher_id' => $data['teacher_id'],
-        ]);
+        foreach ($data['group_id'] as $groupId) {
+            $newLec = Lecture::create([
+                'start_time' => $startTime,
+                'end_time' => $endTime,
+                'day_of_week' => $data['day_of_week'],
+                'subject_id' => $data['subject_id'],
+                'class_room_id' => $data['class_room_id'],
+                'group_id' => $groupId,
+                'teacher_id' => $data['teacher_id'],
+            ]);
+
+            // if ($request->input('one_time_lecture')) {
+            //     $lecture->deleted_at = Carbon::parse($request->input('lecture_date'))->setHour(23)->setMinute(0);
+            // }
+        }
+
         Notification::make()
             ->title('تم إنشاء المحاضرة بنجاح')
             ->success()

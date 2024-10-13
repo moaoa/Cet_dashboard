@@ -139,6 +139,7 @@ class LectureResource extends Resource
 
                 Forms\Components\Select::make('group_id')
                     ->relationship('group', 'name')
+                    ->multiple()
                     ->options(function (Forms\Get $get) {
                         $semester_id = $get('semester_id');
 
