@@ -26,6 +26,18 @@ class HomeworkResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'الواجبات الدراسية';
+    protected static ?string $navigationGroup = 'عام';
+    protected static ?int $navigationSort = 4;
+
+    public static function getModelLabel(): string
+    {
+        return 'واجب'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'واجبات'; // Directly writing the translation for "Users"
+    }
 
     public static function form(Form $form): Form
     {
@@ -53,13 +65,14 @@ class HomeworkResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('العنوان')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('teacher.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('اسم الاستاذ')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('اسم المادة')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -73,7 +86,7 @@ class HomeworkResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
