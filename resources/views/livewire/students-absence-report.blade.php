@@ -6,6 +6,7 @@
                 <select
                     id="major-select"
                     wire:model.live="selectedMajor"
+                    style="width: 250px"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر التخصص</option>
                     @foreach ($this->getMajorOptions() as $major)
@@ -19,7 +20,11 @@
                 for="semester-select"
                 class="block font-medium text-gray-700 ">
                 اختر الفصل الدراسي
-                <select id="semester-select" wire:model.live="selectedSemester" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <select
+                    id="semester-select"
+                    wire:model.live="selectedSemester"
+                    style="width: 250px"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر الفصل الدراسي</option>
                     @foreach ($semesters as $semester)
                     <option value="{{ $semester['value'] }}">{{ $semester['title'] }}</option>
@@ -29,7 +34,11 @@
 
             <label for="lecture-select" class="block font-medium text-gray-700 ">
                 اختر مادة
-                <select id="lecture-select" wire:model.live="selectedSubject" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                <select
+                    style="width: 250px"
+                    id="lecture-select"
+                    wire:model.live="selectedSubject"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر مادة</option>
                     @foreach ($subjects as $subject)
                     <option value="{{ $subject['value'] }}">{{ $subject['title'] }}</option>
@@ -41,6 +50,7 @@
                 اختر المجموعة
                 <select
                     id="lecture-select"
+                    style="width: 250px"
                     wire:model.live="selectedGroup"
                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                     <option value="">اختر المجموعة</option>
