@@ -22,7 +22,7 @@ class CreateSubject extends CreateRecord
 
         if ($existingSubject) {
             Notification::make()
-                ->title('المادة بهذا الاسم والفصل موجودة بالفعل')
+                ->title('المادة بهذا الاسم موجودة بالفعل')
                 ->danger()
                 ->send();
             return $existingSubject;
