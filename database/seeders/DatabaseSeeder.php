@@ -35,14 +35,14 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call([
             // ClassroomsSeeder::class,
-            // studentSeeders::class,
-            // TeachersSeeders::class,
-            // SemestersSeeders::class,
-            // SubjectsSeeder::class,
+            studentSeeders::class,
+            TeachersSeeders::class,
+            SemestersSeeders::class,
+            SubjectsSeeder::class,
             // SubjectTeacherSeeder::class,
-            // // GroupsSeeder::class,
-            // // GroupsStudentsSeeder::class,
-            // // GroupsSubjectsSeeder::class,
+            // GroupsSeeder::class,
+            // GroupsStudentsSeeder::class,
+            // GroupsSubjectsSeeder::class,
             // StudentsSubjectsSeeder::class
         ]);
     }
