@@ -64,15 +64,15 @@ class TakeAttendanceController extends Controller
             return response()->json(['message' => 'يجب تسجيل حضور لكل الطلاب'], 422);
         }
 
-        $today = Carbon::now();
-        $today->startOfWeek(Carbon::SATURDAY);
+        // $today = Carbon::now();
+        // $today->startOfWeek(Carbon::SATURDAY);
 
-        $dayOfWeekInteger = $today->dayOfWeek;
-        $dayOfWeekInteger = $dayOfWeekInteger - 2;
+        // $dayOfWeekInteger = $today->dayOfWeek;
+        // $dayOfWeekInteger = $dayOfWeekInteger - 2;
 
-        if ($dayOfWeekInteger != $lecture->day_of_week) {
-            return response()->json(['message' => 'لا يمكن تسجيل الحضور اليوم لهذه المحاضرة'], 422);
-        }
+        // if ($dayOfWeekInteger != $lecture->day_of_week) {
+        //     return response()->json(['message' => 'لا يمكن تسجيل الحضور اليوم لهذه المحاضرة'], 422);
+        // }
 
         $attendanceAlreadyTaken = Attendance::whereDate('date', Carbon::now())
             ->where('lecture_id', $lecture->id)

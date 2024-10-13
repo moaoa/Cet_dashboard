@@ -55,6 +55,26 @@ class LecturesController extends Controller
             return response()->json(['message' => 'لا يوجد محاضرات بعد الساعة 6'], 422);
         }
 
+        $teacherId = $request->user()->id;
+        $dayOfWeek = $request->input('day_of_week');
+
+        $conflictingLectures = Lecture::where('teacher_id', $teacherId)
+            ->where('day_of_week', $dayOfWeek)
+            ->where(function ($query) use ($startTime, $endTime) {
+                $query->where(function ($q) use ($startTime, $endTime) {
+                    $q->where('start_time', '<', $endTime)
+                        ->where('end_time', '>', $startTime);
+                })->orWhere(function ($q) use ($startTime, $endTime) {
+                    $q->where('start_time', '>=', $startTime)
+                        ->where('end_time', '<=', $endTime);
+                });
+            })
+            ->exists();
+
+        if ($conflictingLectures) {
+            return response()->json(['message' => ' لديك تعارض في هذا الوقت مع المحاضرات المسجلة بالفعل'], 422);
+        }
+
         foreach ($request->input('group_ids') as $groupId) {
             $lecture = new Lecture();
             $lecture->group_id = $groupId;
