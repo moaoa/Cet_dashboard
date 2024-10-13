@@ -24,7 +24,6 @@ class GroupsOfSubjectController extends Controller
                     ->where('subject_teacher.subject_id', '=', $subject_id)
                     ->where('subject_teacher.teacher_id', '=', $teacher->id);
             })
-            ->where('subject_teacher.subject_id', $subject_id)
             ->select('groups.id', 'groups.name')
             ->get();
 
