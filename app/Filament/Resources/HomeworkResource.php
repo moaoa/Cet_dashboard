@@ -67,6 +67,9 @@ class HomeworkResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->label('العنوان')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('group.name')
+                    ->label('العنوان')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('teacher.name')
                     ->label('اسم الاستاذ')
                     ->searchable(),
