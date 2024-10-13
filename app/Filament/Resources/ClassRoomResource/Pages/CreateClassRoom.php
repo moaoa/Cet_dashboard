@@ -16,7 +16,7 @@ class CreateClassRoom extends CreateRecord
     protected static string $resource = ClassRoomResource::class;
     protected  function handleRecordCreation(array $data): ClassRoom
     {
-        if ($data['room'] == 'مكتبة' || $data['room'] == 'المسرح') {
+        if ($data['room'] == 'المكتبة' || $data['room'] == 'المسرح') {
             $numberRoom = '';
         } else {
             $numberRoom = $data['Number_room'];
