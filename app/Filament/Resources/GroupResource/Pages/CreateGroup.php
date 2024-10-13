@@ -30,7 +30,7 @@ class CreateGroup extends CreateRecord
                 ->danger()
                 ->send();
 
-            return  Group::where('name', 1);  // You can return null or any other response you see fit
+            return  $existingGroup;  // You can return null or any other response you see fit
         }
 
         // Group does not exist, so proceed to create it
