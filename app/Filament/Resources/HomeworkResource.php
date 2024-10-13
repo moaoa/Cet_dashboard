@@ -26,6 +26,18 @@ class HomeworkResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'الواجبات الدراسية';
+    protected static ?string $navigationGroup = 'عام';
+    protected static ?int $navigationSort = 4;
+
+    public static function getModelLabel(): string
+    {
+        return 'واجب'; // Directly writing the translation for "User"
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'واجبات'; // Directly writing the translation for "Users"
+    }
 
     public static function form(Form $form): Form
     {
@@ -52,18 +64,29 @@ class HomeworkResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('teacher.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('اسم الاستاذ')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('subject.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('اسم المادة')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('subject.semester.name')
+                    ->label('الفصل')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('groups.name')
+                    ->label('المجموعة')
+                    ->searchable()
+                    ->getStateUsing(function ($record) {
+                        return $record->groups->pluck('name')->join(', ');
+                    }),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('العنوان')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
@@ -73,7 +96,7 @@ class HomeworkResource extends Resource
                 //
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -93,12 +116,12 @@ class HomeworkResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('name'),
-                TextEntry::make('teacher.name'),
-                TextEntry::make('subject.name'),
-                TextEntry::make('created_at'),
-                TextEntry::make('updated_at'),
-                AttachmentsEntry::make('attachments'),
+                TextEntry::make('name')->label('العنوان'),
+                TextEntry::make('teacher.name')->label('اسم الاستاذ'),
+                TextEntry::make('subject.name')->label('اسم المادة'),
+                TextEntry::make('created_at')->label('تاريخ النشر'),
+                // TextEntry::make('updated_at')->label(''),
+                AttachmentsEntry::make('attachments')->label('الملحقات'),
             ]);
     }
     public static function getPages(): array
