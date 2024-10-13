@@ -67,7 +67,13 @@ class StudentsAbsenceReport extends Component
             return Excel::download(
                 new ExcelExport(
                     $this->absenceData,
-                    ['الطالب', 'رقم القيد', 'المادة', 'الغياب']
+                    [
+                        'رقم القيد',
+                        'الطالب',
+                        'المجموعة',
+                        'المادة',
+                        'الغياب'
+                    ]
                 ),
                 'absence_report.xlsx'
             );
