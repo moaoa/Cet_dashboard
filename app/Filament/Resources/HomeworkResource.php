@@ -106,12 +106,12 @@ class HomeworkResource extends Resource
     {
         return $infolist
             ->schema([
-                TextEntry::make('name'),
-                TextEntry::make('teacher.name'),
-                TextEntry::make('subject.name'),
-                TextEntry::make('created_at'),
-                TextEntry::make('updated_at'),
-                AttachmentsEntry::make('attachments'),
+                TextEntry::make('name')->label('العنوان'),
+                TextEntry::make('teacher.name')->label('اسم الاستاذ'),
+                TextEntry::make('subject.name')->label('اسم المادة'),
+                TextEntry::make('created_at')->label('تاريخ النشر'),
+                // TextEntry::make('updated_at')->label(''),
+                AttachmentsEntry::make('attachments')->label('الملحقات'),
             ]);
     }
     public static function getPages(): array

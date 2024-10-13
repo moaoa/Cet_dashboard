@@ -34,12 +34,12 @@ class CommentsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('id')
             ->columns([
-                Tables\Columns\TextColumn::make('id'),
-                Tables\Columns\TextColumn::make('content'),
+                // Tables\Columns\TextColumn::make('id'),
+                Tables\Columns\TextColumn::make('content')->label('المحتوى'),
                 Tables\Columns\TextColumn::make('commentable_type')->label('النوع')
                     ->formatStateUsing(fn($state) => $state == 'App\Models\User' ? 'طالب' : 'استاذ'),
                 Tables\Columns\TextColumn::make('commentable.name')->label('صاحب التعليق'),
-                Tables\Columns\TextColumn::make('created_at'),
+                Tables\Columns\TextColumn::make('created_at')->label('تاريخ النشر'),
             ])
             ->filters([
                 //
