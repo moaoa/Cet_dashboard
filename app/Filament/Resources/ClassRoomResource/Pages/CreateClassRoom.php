@@ -16,7 +16,7 @@ class CreateClassRoom extends CreateRecord
     protected static string $resource = ClassRoomResource::class;
     protected  function handleRecordCreation(array $data): ClassRoom
     {
-        if ($data['room'] == 'مكتبة' || $data['room'] == 'المسرح') {
+        if ($data['room'] == 'المكتبة' || $data['room'] == 'المسرح') {
             $numberRoom = '';
         } else {
             $numberRoom = $data['Number_room'];
@@ -46,8 +46,8 @@ class CreateClassRoom extends CreateRecord
     {
         return null; // Disable the default notification
     }
-    // protected function getRedirectUrl(): string
-    // {
-    //     return $this->getResource()::getUrl('create'); // Redirect to the create page again
-    // }
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('create'); // Redirect to the create page again
+    }
 }
