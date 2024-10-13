@@ -49,8 +49,8 @@ class StudentsAbsenceReport extends Component
                 return $query->where('group_user.group_id', $this->selectedGroup);
             })
             ->select(
-                'users.name',
                 'users.ref_number',
+                'users.name',
                 'groups.name as group_name',
                 'subjects.name as subject_name',
                 DB::raw('SUM(CASE WHEN attendances.status ='  . AttendanceStatus::Absent->value . ' THEN 1 ELSE 0 END) as total_absences'),
