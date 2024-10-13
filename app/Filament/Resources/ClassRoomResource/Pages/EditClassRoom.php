@@ -15,10 +15,10 @@ class EditClassRoom extends EditRecord
     protected function handleRecordUpdate(Model $record, array $data): ClassRoom
     {
         //dd($record->id);
-        if ($data['room'] == 'معمل' || $data['room'] == 'القاعة') {
-            $numberRoom = $data['Number_room'];
-        } else {
+        if ($data['room'] == 'المكتبة' || $data['room'] == 'المسرح') {
             $numberRoom = '';
+        } else {
+            $numberRoom = $data['Number_room'];
         }
         $nameRoom = $data['room'];
         $trimmedString = str_replace(' ', '', $nameRoom);

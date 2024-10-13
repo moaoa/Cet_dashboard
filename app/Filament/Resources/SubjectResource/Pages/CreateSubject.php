@@ -16,17 +16,16 @@ class CreateSubject extends CreateRecord
     {
         $name = $data['name'];
         $semester_id = $data['semester_id'];
-        $existingSubject = Subject::where('name', $name)
-            ->where('semester_id', $semester_id)
-            ->first();
+
+        $existingSubject = Subject::where('name', $name)->first();
+
 
         if ($existingSubject) {
             Notification::make()
-                ->title('المادة بهذا الاسم والفصل موجودة بالفعل')
+                ->title('المادة بهذا الاسم موجودة بالفعل')
                 ->danger()
                 ->send();
-
-            return  Subject::where('name', 1);  // You can return null or any other response you see fit
+            return $existingSubject;
         }
 
         // Subject does not exist, so proceed to create it
