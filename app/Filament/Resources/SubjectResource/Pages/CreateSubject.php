@@ -17,7 +17,9 @@ class CreateSubject extends CreateRecord
         $name = $data['name'];
         $semester_id = $data['semester_id'];
 
-        $existingSubject = Subject::where('name', $name)->first();
+        $existingSubject = Subject::where('name', $name)
+            ->where('semester_id', $semester_id)
+            ->first();
 
 
         if ($existingSubject) {
