@@ -15,6 +15,13 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use Filament\Notifications\Notification;
+use App\Services\OneSignalNotifier;
+use App\Mail\CallUserEmail;
+use Illuminate\Support\Facades\Mail;
+
+
 
 class UserResource extends Resource
 {
@@ -94,7 +101,29 @@ class UserResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Action::make('manage')
+                    ->label("استدعاء")
+                    ->modalHeading(fn(Model $record) => 'إستدعاء للطالب :' . $record->name)
+                    ->form([
+                        Forms\Components\TextInput::make('description')
+                            ->required()
+                            ->label('النص'),
+                    ])
+                    ->action(function (User $student, array $data) {
+                        OneSignalNotifier::init();
 
+                        OneSignalNotifier::sendNotificationToUsers(
+                            json_decode($student->device_subscriptions),
+                            $data['description']
+                        );
+
+                        Mail::to($student->email)->send(new CallUserEmail($data['description']));
+
+                        Notification::make()
+                            ->title('تم ارسال الاستدعاء')
+                            ->success()
+                            ->send();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
