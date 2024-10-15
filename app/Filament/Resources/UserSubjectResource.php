@@ -47,6 +47,7 @@ class UserSubjectResource extends Resource
             ->schema([
                 Forms\Components\Toggle::make('passed')
                     ->label('نجح')
+                    ->disabled()
                     ->required(),
                 Forms\Components\Select::make('user_id')
                     ->label('الطالب')
@@ -103,7 +104,7 @@ class UserSubjectResource extends Resource
                     ->getStateUsing(function ($record) {
                         // Assuming $record represents a user subject pivot entry
                         return DB::table('groups')
-                            ->join('group_user','group_user.group_id', '=', 'groups.id')
+                            ->join('group_user', 'group_user.group_id', '=', 'groups.id')
                             ->join('group_subject', 'group_user.group_id', '=', 'group_subject.group_id')
                             ->join('subjects', 'group_subject.subject_id', '=', 'subjects.id')
                             ->where('group_user.user_id', $record->user_id) // Filter by the current user
